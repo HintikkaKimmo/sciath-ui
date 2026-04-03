@@ -1,0 +1,49 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.5.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: detect-private-key
+
+  # Commitizen: enforce conventional commit messages
+  - repo: https://github.com/commitizen-tools/commitizen
+    rev: v4.4.1
+    hooks:
+      - id: commitizen
+        stages: [commit-msg]
+
+  # Gitleaks: Prevent Secret Leakage
+  - repo: https://github.com/gitleaks/gitleaks
+    rev: v8.18.2
+    hooks:
+      - id: gitleaks
+
+  # Local hooks (runs within the Node.js project)
+  - repo: local
+    hooks:
+      # ESLint: TypeScript/React linter
+      - id: eslint
+        name: eslint
+        entry: npx eslint
+        language: system
+        types_or: [ts, tsx]
+        pass_filenames: true
+
+      # TypeScript: type checker (no emit)
+      - id: tsc
+        name: tsc
+        entry: npx tsc --noEmit
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      # Next.js: production build must succeed
+      - id: next-build
+        name: next-build
+        entry: npm run build
+        language: system
+        pass_filenames: false
+        always_run: true
