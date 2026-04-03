@@ -30,5 +30,5 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "b_1tJCk9nRmNB-1775249014612", "b_NDxuf5Bepaa-1775251820159"]
 }
