@@ -27,4 +27,5 @@ All notable changes to the Sciath UI will be documented in this file.
 - **TanStack Query hooks** — `useProjects`, `useScans`, `useScanStatus` (with polling), `useAssessments`, `useBulkUpdateAssessments`, `useReports`, `useActivity`, `usePolicies` and mutation hooks with cache invalidation
 - **Shared UI states** — `ErrorState`, `EmptyState`, `TableSkeleton`, `CardGridSkeleton`, `DetailSkeleton` components for loading/error/empty data patterns
 - **OpenAPI snapshot** — exported `openapi.json` from backend for offline type generation
+- **DESIGN.md** — comprehensive design system reference updated for current stack (OKLCH tokens, Instrument Sans/Serif, shadcn Base Nova, terracotta palette)
 - **Pre-commit hooks** — trailing whitespace, gitleaks, eslint, tsc, next build
