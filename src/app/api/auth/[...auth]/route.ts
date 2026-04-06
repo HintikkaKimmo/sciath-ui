@@ -24,6 +24,25 @@ async function handleMe() {
   return NextResponse.json({ user: session.user });
 }
 
+// POST /api/auth/pkce — generate PKCE pair, store verifier in session
+async function handlePkce() {
+  const { generateCodeVerifier, generateCodeChallenge } = await import(
+    "@/lib/pkce"
+  );
+  const codeVerifier = generateCodeVerifier();
+  const codeChallenge = generateCodeChallenge(codeVerifier);
+
+  const cookieStore = await cookies();
+  const session = await getIronSession<SessionData>(
+    cookieStore,
+    sessionOptions
+  );
+  session.codeVerifier = codeVerifier;
+  await session.save();
+
+  return NextResponse.json({ code_challenge: codeChallenge });
+}
+
 // POST /api/auth/logout — revoke tokens and destroy session
 async function handleLogout() {
   const cookieStore = await cookies();
@@ -114,6 +133,8 @@ export async function POST(
   const action = auth[0];
 
   switch (action) {
+    case "pkce":
+      return handlePkce();
     case "logout":
       return handleLogout();
     case "refresh":

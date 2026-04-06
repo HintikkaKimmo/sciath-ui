@@ -31,12 +31,13 @@ All notable changes to the Sciath UI will be documented in this file.
 - **OAuth callback page** — server-side callback for DOT authorization code + PKCE flow, exchanges code for tokens server-to-server
 - **PKCE helper** — `generateCodeVerifier()` and `generateCodeChallenge()` for OAuth2 PKCE S256
 - **Vitest test suite** — session secret validation, PKCE generation, test infrastructure
+- **PKCE API route** — `POST /api/auth/pkce` generates code_verifier (stored in iron-session) and returns code_challenge for frontend-initiated PKCE
 
 ### Changed
 
 - **Session secret hardening** — `getSessionSecret()` throws in production if `SESSION_SECRET` not set
 - **Proxy token refresh** — saves rotated refresh token (fixes forced-logout bug), proactive refresh 30s before expiry, single refresh gate with failure broadcast, try/catch for network errors
 - **Auth route cleanup** — removed dead `handleCallback()`, logout now revokes tokens on backend via DOT
-- **Login page** — updated OAuth redirects for DOT authorization code flow, added error state display
+- **Login page** — PKCE generated client-side before redirect, login buttons now async (fetch code_challenge, then redirect to allauth)
 - **Middleware auth bypass** — explicit `NEXT_PUBLIC_AUTH_BYPASS` env var instead of implicit `NODE_ENV` check
 - **Pre-commit hooks** — trailing whitespace, gitleaks, eslint, tsc, next build
