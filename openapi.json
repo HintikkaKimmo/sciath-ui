@@ -1,0 +1,7182 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Sciath API",
+    "version": "1.0.0",
+    "description": "CRA compliance automation API for vulnerability management and filtering."
+  },
+  "paths": {
+    "/api/core/v1/customers/{customer_id}/": {
+      "get": {
+        "operationId": "api_routers_customers_get_customer",
+        "summary": "Get Customer",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "customer_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Customer Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomerSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/projects/": {
+      "get": {
+        "operationId": "api_routers_projects_list_projects",
+        "summary": "List Projects",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "customer_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Customer Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "build_system",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Build System"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "soc_vendor",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Soc Vendor"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedProjects"
+                }
+              }
+            }
+          }
+        },
+        "description": "List projects with pagination and filtering.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_projects_create_project",
+        "summary": "Create Project",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/projects/{project_id}/": {
+      "get": {
+        "operationId": "api_routers_projects_get_project",
+        "summary": "Get Project",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Project Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_routers_projects_update_project",
+        "summary": "Update Project",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Project Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProjectSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProjectUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_projects_delete_project",
+        "summary": "Delete Project",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "project_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Project Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/scans/": {
+      "get": {
+        "operationId": "api_routers_scans_crud_list_scans",
+        "summary": "List Scans",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "project_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Project Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedScans"
+                }
+              }
+            }
+          }
+        },
+        "description": "List scans with pagination and filtering.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_scans_crud_create_scan",
+        "summary": "Create Scan",
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Idempotency-Key",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Idempotency-Key"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanSchema"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new scan.\n\nSupports idempotency via Idempotency-Key header to prevent duplicates\nwhen CI/CD pipelines retry on network failures.",
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/scans/resolve/": {
+      "get": {
+        "operationId": "api_routers_scans_crud_resolve_scan",
+        "summary": "Resolve Scan",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "prefix",
+            "schema": {
+              "title": "Prefix",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanSchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Resolve a short scan ID prefix to a full scan.\n\nReturns the scan if exactly one match. 404 if none. 409 if ambiguous.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/scans/{scan_id}/": {
+      "get": {
+        "operationId": "api_routers_scans_crud_get_scan",
+        "summary": "Get Scan",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_routers_scans_crud_update_scan",
+        "summary": "Update Scan",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_scans_crud_delete_scan",
+        "summary": "Delete Scan",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/components/": {
+      "get": {
+        "operationId": "api_routers_components_list_components",
+        "summary": "List Components",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "scan_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Scan Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "name",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Name"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "component_type",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Component Type"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "identity_needs_review",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Identity Needs Review"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedComponents"
+                }
+              }
+            }
+          }
+        },
+        "description": "List components with pagination and filtering.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_components_create_component",
+        "summary": "Create Component",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComponentSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComponentCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/components/{component_id}/": {
+      "get": {
+        "operationId": "api_routers_components_get_component",
+        "summary": "Get Component",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "component_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Component Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComponentSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_routers_components_update_component",
+        "summary": "Update Component",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "component_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Component Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComponentSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ComponentUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_components_delete_component",
+        "summary": "Delete Component",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "component_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Component Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/vulnerabilities/": {
+      "get": {
+        "operationId": "api_routers_vulnerabilities_list_vulnerabilities",
+        "summary": "List Vulnerabilities",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "scan_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Scan Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "component_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Component Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "vuln_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Vuln Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "is_kev",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Kev"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "min_cvss",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Min Cvss"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedVulnerabilities"
+                }
+              }
+            }
+          }
+        },
+        "description": "List vulnerabilities with pagination and filtering.\n\nA single scan can have 2000+ vulnerabilities, so pagination is essential.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_vulnerabilities_create_vulnerability",
+        "summary": "Create Vulnerability",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VulnerabilitySchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VulnerabilityCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/vulnerabilities/{vuln_id}/": {
+      "get": {
+        "operationId": "api_routers_vulnerabilities_get_vulnerability",
+        "summary": "Get Vulnerability",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vuln_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Vuln Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VulnerabilitySchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_routers_vulnerabilities_update_vulnerability",
+        "summary": "Update Vulnerability",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vuln_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Vuln Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/VulnerabilitySchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VulnerabilityUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_vulnerabilities_delete_vulnerability",
+        "summary": "Delete Vulnerability",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "vuln_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Vuln Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/kconfigs/": {
+      "get": {
+        "operationId": "api_routers_kconfigs_list_kconfigs",
+        "summary": "List Kconfigs",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "scan_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Scan Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "symbol",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Symbol"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "value_type",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Value Type"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedKconfigs"
+                }
+              }
+            }
+          }
+        },
+        "description": "List parsed Kconfig entries with pagination and filtering.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_kconfigs_create_kconfig",
+        "summary": "Create Kconfig",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParsedKconfigSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParsedKconfigCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/kconfigs/{kconfig_id}/": {
+      "get": {
+        "operationId": "api_routers_kconfigs_get_kconfig",
+        "summary": "Get Kconfig",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "kconfig_id",
+            "schema": {
+              "title": "Kconfig Id",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParsedKconfigSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_kconfigs_delete_kconfig",
+        "summary": "Delete Kconfig",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "kconfig_id",
+            "schema": {
+              "title": "Kconfig Id",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/dtb-nodes/": {
+      "get": {
+        "operationId": "api_routers_dtb_nodes_list_dtb_nodes",
+        "summary": "List Dtb Nodes",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "scan_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Scan Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "peripheral_type",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Peripheral Type"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedDTBNodes"
+                }
+              }
+            }
+          }
+        },
+        "description": "List parsed DTB nodes with pagination and filtering.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_dtb_nodes_create_dtb_node",
+        "summary": "Create Dtb Node",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParsedDTBNodeSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ParsedDTBNodeCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/dtb-nodes/{node_id}/": {
+      "get": {
+        "operationId": "api_routers_dtb_nodes_get_dtb_node",
+        "summary": "Get Dtb Node",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "node_id",
+            "schema": {
+              "title": "Node Id",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ParsedDTBNodeSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_dtb_nodes_delete_dtb_node",
+        "summary": "Delete Dtb Node",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "node_id",
+            "schema": {
+              "title": "Node Id",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/activity/": {
+      "get": {
+        "operationId": "api_routers_activity_list_activity",
+        "summary": "List Activity",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "resource_type",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Resource Type"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "resource_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Resource Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "user_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "User Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "default": 50,
+              "title": "Limit",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedActivityLogs"
+                }
+              }
+            }
+          }
+        },
+        "description": "List activity log entries for the authenticated customer.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/assessments/v1/assessments/bulk/": {
+      "post": {
+        "operationId": "api_routers_assessments_bulk_assess",
+        "summary": "Bulk Assess",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BulkAssessmentResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Bulk create or update assessments for a scan.\n\nThis is the primary endpoint for the automated triage engine.\nWhen a single Kconfig rule invalidates 50 CVEs, use this endpoint\ninstead of 50 individual POST requests.\n\nBehavior:\n- If an assessment already exists for (scan_id, vulnerability_id), it's updated\n- If no assessment exists, a new one is created\n- All operations happen in a single transaction\n- Audit entries are created for each assessment\n\nErrors:\n- 404 if scan_id doesn't exist or belongs to another customer\n- 422 if any status value is invalid or a vulnerability_id doesn't exist",
+        "tags": [
+          "Assessments v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BulkAssessmentRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/assessments/v1/assessments/": {
+      "get": {
+        "operationId": "api_routers_assessments_list_assessments",
+        "summary": "List Assessments",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "scan_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Scan Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "status",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Status"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "review_status",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Review Status"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "filter_layer",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Filter Layer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "is_carried_forward",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Carried Forward"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedAssessments"
+                }
+              }
+            }
+          }
+        },
+        "description": "List assessments with pagination and filtering.\n\nCommon queries:\n- ?scan_id=X&status=not_affected - All suppressed CVEs for a scan\n- ?scan_id=X&review_status=auto_pending - Assessments needing human review\n- ?scan_id=X&filter_layer=kconfig - Assessments made by Kconfig filtering",
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_assessments_create_assessment",
+        "summary": "Create Assessment",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssessmentSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/assessments/v1/assessments/{assessment_id}/": {
+      "get": {
+        "operationId": "api_routers_assessments_get_assessment",
+        "summary": "Get Assessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Assessment Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssessmentSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_routers_assessments_update_assessment",
+        "summary": "Update Assessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Assessment Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssessmentSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AssessmentUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_assessments_delete_assessment",
+        "summary": "Delete Assessment",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "assessment_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Assessment Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/assessments/v1/audit-entries/": {
+      "get": {
+        "operationId": "api_routers_assessments_list_audit_entries",
+        "summary": "List Audit Entries",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "assessment_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Assessment Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "action",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "actor",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Actor"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedAuditEntries"
+                }
+              }
+            }
+          }
+        },
+        "description": "List audit entries with pagination and filtering.",
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/assessments/v1/audit-entries/{entry_id}/": {
+      "get": {
+        "operationId": "api_routers_assessments_get_audit_entry",
+        "summary": "Get Audit Entry",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "entry_id",
+            "schema": {
+              "title": "Entry Id",
+              "type": "integer"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AssessmentAuditEntrySchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/assessments/v1/reports/": {
+      "get": {
+        "operationId": "api_routers_assessments_list_reports",
+        "summary": "List Reports",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "scan_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Scan Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Format"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedReports"
+                }
+              }
+            }
+          }
+        },
+        "description": "List reports with pagination and filtering.",
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_assessments_create_report",
+        "summary": "Create Report",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/assessments/v1/reports/{report_id}/": {
+      "get": {
+        "operationId": "api_routers_assessments_get_report",
+        "summary": "Get Report",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "report_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Report Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_routers_assessments_update_report",
+        "summary": "Update Report",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "report_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Report Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ReportUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_assessments_delete_report",
+        "summary": "Delete Report",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "report_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Report Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "tags": [
+          "Assessments v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/auth/v1/device/code": {
+      "post": {
+        "operationId": "api_routers_auth_request_device_code",
+        "summary": "Request Device Code",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DeviceCodeResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Start CLI authentication. Returns a code for the user to enter in their browser.",
+        "tags": [
+          "Auth v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceCodeRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/auth/v1/device/token": {
+      "get": {
+        "operationId": "api_routers_auth_poll_device_token",
+        "summary": "Poll Device Token",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "poll_code",
+            "schema": {
+              "title": "Poll Code",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Poll for CLI authentication result. Returns OAuth2 tokens once authorized.",
+        "tags": [
+          "Auth v1"
+        ]
+      }
+    },
+    "/api/auth/v1/token/refresh": {
+      "post": {
+        "operationId": "api_routers_auth_refresh_token",
+        "summary": "Refresh Token",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Exchange a refresh token for a new access token + rotated refresh token.\n\nRate limited to 60 req/min (same as global API limit).",
+        "tags": [
+          "Auth v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RefreshRequest"
+              }
+            }
+          },
+          "required": true
+        }
+      }
+    },
+    "/api/scans/v1/{scan_id}/analyse/": {
+      "post": {
+        "operationId": "api_routers_scans_trigger_analysis",
+        "summary": "Trigger Analysis",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "carry_forward",
+            "schema": {
+              "default": true,
+              "title": "Carry Forward",
+              "type": "boolean"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnalyseResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Dispatch the matching pipeline for a scan (async, non-blocking).\n\nReturns immediately with status='queued'. The DBOS worker process\n(run via `python manage.py run_dbos_worker`) picks up the workflow\nand runs SBOM parse \u2192 CVE match \u2192 Kconfig/DTB filter \u2192 Assessment creation.\n\nPoll /{scan_id}/status/ to track progress:\n  - analysing:  pipeline running\n  - triage:     complete, awaiting human review\n  - failed:     pipeline error \u2014 check error_message in status response\n\ncarry_forward options:\n  - true (default): reuse explicitly-reviewed assessments from the most\n    recent completed scan where component name+version is unchanged.\n    Respects zero-false-negative gate: only human-reviewed assessments\n    with status=not_affected are carried; auto_pending are never carried.\n  - false: run full matching from scratch.",
+        "tags": [
+          "Scans v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/scans/v1/{scan_id}/status/": {
+      "get": {
+        "operationId": "api_routers_scans_get_scan_status",
+        "summary": "Get Scan Status",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScanStatusResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Poll scan status and analysis statistics.\n\nUsed by the CLI to display progress after triggering analysis.\nReturns error_message when status == 'failed'.",
+        "tags": [
+          "Scans v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/scans/v1/{scan_id}/cra-readiness/": {
+      "get": {
+        "operationId": "api_routers_scans_get_cra_readiness",
+        "summary": "Get Cra Readiness",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CRAReadinessResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "CRA readiness verdict for a scan.\n\nReturns a single verdict (shippable / not_ready / incomplete / pending)\nwith a checklist of CRA article-mapped items, compliance percentage,\nblockers, and warnings. Never fails \u2014 always returns a verdict.",
+        "tags": [
+          "Scans v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/reports/v1/scans/{scan_id}/generate/": {
+      "post": {
+        "operationId": "api_routers_reports_generate_report",
+        "summary": "Generate Report",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Generate a compliance report for a scan.\n\nSupported formats:\n  - article13  \u2014 Article 13 Technical File (PDF)\n  - vex_cdx    \u2014 CycloneDX VEX (JSON)\n  - vex_csaf   \u2014 CSAF VEX (JSON)\n\nGeneration is synchronous for P1. The response is returned only after the\nreport is fully generated. For P2-005 (DBOS async), this will return 202\nimmediately with a report ID to poll.",
+        "tags": [
+          "Reports v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/GenerateRequest"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/reports/v1/{report_id}/": {
+      "get": {
+        "operationId": "api_routers_reports_get_report",
+        "summary": "Get Report",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "report_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Report Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ReportResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get metadata and status for a previously generated report.",
+        "tags": [
+          "Reports v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/reports/v1/{report_id}/download/": {
+      "get": {
+        "operationId": "api_routers_reports_download_report",
+        "summary": "Download Report",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "report_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Report Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Download a report.\n\nPDF on S3: returns JSON with a presigned URL (client downloads from S3 directly).\nPDF on disk: streams bytes through Django.\nJSON formats: returns JSON bytes inline.\n\n- 202 if report is still generating (with Retry-After header)\n- 409 if report generation failed",
+        "tags": [
+          "Reports v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/reports/v1/scans/{scan_id}/export/": {
+      "get": {
+        "operationId": "api_routers_reports_export_scan",
+        "summary": "Export Scan",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "format",
+            "schema": {
+              "default": "vex_cdx",
+              "title": "Format",
+              "type": "string"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "check_schema",
+            "schema": {
+              "default": false,
+              "title": "Check Schema",
+              "type": "boolean"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Direct export \u2014 returns JSON immediately, no Report record created.\n\nSuitable for CI pipelines that need a machine-readable artifact fast.\nSupported formats: vex_cdx, sbom_cdx, sbom_vex_cdx, sarif.\n\nIf check_schema=true, CycloneDX output is validated against the 1.5 JSON schema;\na 422 is returned if validation fails (useful for CI quality gates).",
+        "tags": [
+          "Reports v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/reports/v1/scans/{scan_id}/evidence-pack/": {
+      "get": {
+        "operationId": "api_routers_reports_download_evidence_pack",
+        "summary": "Download Evidence Pack",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "scan_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Scan Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Download a CRA Evidence Pack ZIP for a scan.\n\nOne-click bundle of all compliance artifacts: SBOM, VEX, Article 13 PDF,\nsuppression rationale CSV, CRA readiness, scan metadata, and README.\n\nGraceful degradation: if any artifact fails, the ZIP is assembled without\nit and a note is added to the README.",
+        "tags": [
+          "Reports v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/policies/v1/filter-policies/": {
+      "get": {
+        "operationId": "api_routers_policies_list_policies",
+        "summary": "List Policies",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "search",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Search"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response",
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "description": "List filter policies for the authenticated customer.",
+        "tags": [
+          "Policies v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_policies_create_policy",
+        "summary": "Create Policy",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFilterPolicySchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a new filter policy. Validates content_raw against custom filter schema.",
+        "tags": [
+          "Policies v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFilterPolicyCreateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/policies/v1/filter-policies/{policy_id}/": {
+      "get": {
+        "operationId": "api_routers_policies_get_policy",
+        "summary": "Get Policy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policy_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Policy Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFilterPolicySchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Get a single filter policy by ID.",
+        "tags": [
+          "Policies v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "put": {
+        "operationId": "api_routers_policies_update_policy",
+        "summary": "Update Policy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policy_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Policy Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFilterPolicySchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Update a filter policy. Bumps version and logs history atomically.",
+        "tags": [
+          "Policies v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CustomFilterPolicyUpdateSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "delete": {
+        "operationId": "api_routers_policies_delete_policy",
+        "summary": "Delete Policy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policy_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Policy Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Delete a filter policy. Blocked if any scan references it (PROTECT).",
+        "tags": [
+          "Policies v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/policies/v1/filter-policies/{policy_id}/history/": {
+      "get": {
+        "operationId": "api_routers_policies_policy_history",
+        "summary": "Policy History",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policy_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Policy Id",
+              "type": "string"
+            },
+            "required": true
+          },
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response",
+                  "type": "object"
+                }
+              }
+            }
+          }
+        },
+        "description": "List version history for a policy.",
+        "tags": [
+          "Policies v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/policies/v1/filter-policies/from-vex/": {
+      "post": {
+        "operationId": "api_routers_policies_import_from_vex",
+        "summary": "Import From Vex",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CustomFilterPolicySchema"
+                }
+              }
+            }
+          }
+        },
+        "description": "Create a policy from a CycloneDX VEX document.\n\nExtracts not_affected entries as suppression rules.\nDefault confidence: MEDIUM. Use trust_vendor=true for HIGH (requires admin).",
+        "tags": [
+          "Policies v1"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/VEXImportSchema"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "CustomerSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "country": {
+            "title": "Country",
+            "type": "string"
+          },
+          "contact_name": {
+            "title": "Contact Name",
+            "type": "string"
+          },
+          "contact_email": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contact Email"
+          },
+          "notes": {
+            "title": "Notes",
+            "type": "string"
+          },
+          "plan_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Plan Id"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "country",
+          "contact_name",
+          "notes",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CustomerSchema",
+        "type": "object"
+      },
+      "PaginatedProjects": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ProjectSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedProjects",
+        "type": "object"
+      },
+      "ProjectSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "customer_id": {
+            "format": "uuid",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "name": {
+            "examples": [
+              "rpi4-gateway"
+            ],
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "examples": [
+              "Raspberry Pi 4 IoT gateway firmware"
+            ],
+            "title": "Description",
+            "type": "string"
+          },
+          "build_system": {
+            "examples": [
+              "yocto",
+              "buildroot",
+              "openwrt"
+            ],
+            "title": "Build System",
+            "type": "string"
+          },
+          "soc_vendor": {
+            "examples": [
+              "NXP",
+              "Broadcom"
+            ],
+            "title": "Soc Vendor",
+            "type": "string"
+          },
+          "soc_family": {
+            "examples": [
+              "i.MX6",
+              "BCM2711"
+            ],
+            "title": "Soc Family",
+            "type": "string"
+          },
+          "architecture": {
+            "examples": [
+              "arm64",
+              "arm"
+            ],
+            "title": "Architecture",
+            "type": "string"
+          },
+          "support_period_end": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Support Period End"
+          },
+          "ce_marking_target": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ce Marking Target"
+          },
+          "network_profile": {
+            "title": "Network Profile",
+            "type": "string"
+          },
+          "has_user_interface": {
+            "title": "Has User Interface",
+            "type": "boolean"
+          },
+          "has_physical_debug": {
+            "title": "Has Physical Debug",
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "customer_id",
+          "name",
+          "description",
+          "build_system",
+          "soc_vendor",
+          "soc_family",
+          "architecture",
+          "network_profile",
+          "has_user_interface",
+          "has_physical_debug",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ProjectSchema",
+        "type": "object"
+      },
+      "ProjectCreateSchema": {
+        "examples": [
+          {
+            "architecture": "arm64",
+            "build_system": "yocto",
+            "name": "rpi4-gateway",
+            "network_profile": "lan",
+            "soc_vendor": "Broadcom"
+          }
+        ],
+        "properties": {
+          "customer_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Customer Id"
+          },
+          "name": {
+            "examples": [
+              "rpi4-gateway"
+            ],
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "maxLength": 2000,
+            "title": "Description",
+            "type": "string"
+          },
+          "build_system": {
+            "default": "yocto",
+            "enum": [
+              "yocto",
+              "buildroot",
+              "openwrt",
+              "custom",
+              "android"
+            ],
+            "examples": [
+              "yocto",
+              "buildroot"
+            ],
+            "title": "Build System",
+            "type": "string"
+          },
+          "soc_vendor": {
+            "default": "",
+            "examples": [
+              "Broadcom",
+              "NXP",
+              "TI",
+              "STMicro"
+            ],
+            "title": "Soc Vendor",
+            "type": "string"
+          },
+          "soc_family": {
+            "default": "",
+            "examples": [
+              "BCM2711",
+              "i.MX8",
+              "AM62x"
+            ],
+            "title": "Soc Family",
+            "type": "string"
+          },
+          "architecture": {
+            "default": "",
+            "examples": [
+              "arm64",
+              "armv7",
+              "x86_64",
+              "riscv64"
+            ],
+            "title": "Architecture",
+            "type": "string"
+          },
+          "support_period_end": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Support Period End"
+          },
+          "ce_marking_target": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ce Marking Target"
+          },
+          "network_profile": {
+            "default": "unknown",
+            "enum": [
+              "internet",
+              "lan",
+              "airgap",
+              "unknown"
+            ],
+            "examples": [
+              "internet",
+              "lan",
+              "airgap"
+            ],
+            "title": "Network Profile",
+            "type": "string"
+          },
+          "has_user_interface": {
+            "default": true,
+            "title": "Has User Interface",
+            "type": "boolean"
+          },
+          "has_physical_debug": {
+            "default": true,
+            "title": "Has Physical Debug",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name"
+        ],
+        "title": "ProjectCreateSchema",
+        "type": "object"
+      },
+      "ProjectUpdateSchema": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "build_system": {
+            "anyOf": [
+              {
+                "enum": [
+                  "yocto",
+                  "buildroot",
+                  "openwrt",
+                  "custom",
+                  "android"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Build System"
+          },
+          "soc_vendor": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Soc Vendor"
+          },
+          "soc_family": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Soc Family"
+          },
+          "architecture": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Architecture"
+          },
+          "support_period_end": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Support Period End"
+          },
+          "ce_marking_target": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ce Marking Target"
+          },
+          "network_profile": {
+            "anyOf": [
+              {
+                "enum": [
+                  "internet",
+                  "lan",
+                  "airgap",
+                  "unknown"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Network Profile"
+          },
+          "has_user_interface": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has User Interface"
+          },
+          "has_physical_debug": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Physical Debug"
+          }
+        },
+        "title": "ProjectUpdateSchema",
+        "type": "object"
+      },
+      "PaginatedScans": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ScanSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedScans",
+        "type": "object"
+      },
+      "ScanSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "project_id": {
+            "format": "uuid",
+            "title": "Project Id",
+            "type": "string"
+          },
+          "version_label": {
+            "title": "Version Label",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "sbom_raw": {
+            "title": "Sbom Raw",
+            "type": "string"
+          },
+          "sbom_format": {
+            "title": "Sbom Format",
+            "type": "string"
+          },
+          "kconfig_raw": {
+            "title": "Kconfig Raw",
+            "type": "string"
+          },
+          "dtb_raw": {
+            "title": "Dtb Raw",
+            "type": "string"
+          },
+          "yocto_machine": {
+            "title": "Yocto Machine",
+            "type": "string"
+          },
+          "yocto_distro": {
+            "title": "Yocto Distro",
+            "type": "string"
+          },
+          "kernel_version": {
+            "title": "Kernel Version",
+            "type": "string"
+          },
+          "sbom_hash": {
+            "title": "Sbom Hash",
+            "type": "string"
+          },
+          "kconfig_hash": {
+            "title": "Kconfig Hash",
+            "type": "string"
+          },
+          "dtb_hash": {
+            "title": "Dtb Hash",
+            "type": "string"
+          },
+          "total_components": {
+            "title": "Total Components",
+            "type": "integer"
+          },
+          "total_vulnerabilities": {
+            "title": "Total Vulnerabilities",
+            "type": "integer"
+          },
+          "suppressed_count": {
+            "title": "Suppressed Count",
+            "type": "integer"
+          },
+          "remaining_count": {
+            "title": "Remaining Count",
+            "type": "integer"
+          },
+          "extracted_kconfigs": {
+            "additionalProperties": {
+              "type": "string"
+            },
+            "default": {},
+            "title": "Extracted Kconfigs",
+            "type": "object"
+          },
+          "extracted_hardware_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Extracted Hardware Ids",
+            "type": "array"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "analysed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysed At"
+          },
+          "completed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Completed At"
+          }
+        },
+        "required": [
+          "id",
+          "project_id",
+          "version_label",
+          "status",
+          "sbom_raw",
+          "sbom_format",
+          "kconfig_raw",
+          "dtb_raw",
+          "yocto_machine",
+          "yocto_distro",
+          "kernel_version",
+          "sbom_hash",
+          "kconfig_hash",
+          "dtb_hash",
+          "total_components",
+          "total_vulnerabilities",
+          "suppressed_count",
+          "remaining_count",
+          "created_at"
+        ],
+        "title": "ScanSchema",
+        "type": "object"
+      },
+      "ScanCreateSchema": {
+        "properties": {
+          "project_id": {
+            "format": "uuid",
+            "title": "Project Id",
+            "type": "string"
+          },
+          "version_label": {
+            "examples": [
+              "v1.0.0",
+              "kirkstone-2024.03"
+            ],
+            "title": "Version Label",
+            "type": "string"
+          },
+          "status": {
+            "default": "draft",
+            "enum": [
+              "draft",
+              "analysing",
+              "triage",
+              "complete",
+              "superseded",
+              "failed"
+            ],
+            "title": "Status",
+            "type": "string"
+          },
+          "sbom_raw": {
+            "default": "",
+            "title": "Sbom Raw",
+            "type": "string"
+          },
+          "sbom_format": {
+            "default": "",
+            "enum": [
+              "cyclonedx",
+              "spdx",
+              "yocto_manifest",
+              "buildroot_legal",
+              "emba",
+              "csv",
+              ""
+            ],
+            "examples": [
+              "cyclonedx",
+              "spdx"
+            ],
+            "title": "Sbom Format",
+            "type": "string"
+          },
+          "kconfig_raw": {
+            "default": "",
+            "title": "Kconfig Raw",
+            "type": "string"
+          },
+          "dtb_raw": {
+            "default": "",
+            "title": "Dtb Raw",
+            "type": "string"
+          },
+          "depgraph_raw": {
+            "default": "",
+            "title": "Depgraph Raw",
+            "type": "string"
+          },
+          "custom_filter_raw": {
+            "default": "",
+            "title": "Custom Filter Raw",
+            "type": "string"
+          },
+          "policy_name": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Policy Name"
+          },
+          "yocto_machine": {
+            "default": "",
+            "title": "Yocto Machine",
+            "type": "string"
+          },
+          "yocto_distro": {
+            "default": "",
+            "title": "Yocto Distro",
+            "type": "string"
+          },
+          "kernel_version": {
+            "default": "",
+            "title": "Kernel Version",
+            "type": "string"
+          }
+        },
+        "required": [
+          "project_id",
+          "version_label"
+        ],
+        "title": "ScanCreateSchema",
+        "type": "object"
+      },
+      "ScanUpdateSchema": {
+        "properties": {
+          "version_label": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version Label"
+          },
+          "status": {
+            "anyOf": [
+              {
+                "enum": [
+                  "draft",
+                  "analysing",
+                  "triage",
+                  "complete",
+                  "superseded",
+                  "failed"
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "sbom_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sbom Raw"
+          },
+          "sbom_format": {
+            "anyOf": [
+              {
+                "enum": [
+                  "cyclonedx",
+                  "spdx",
+                  "yocto_manifest",
+                  "buildroot_legal",
+                  "emba",
+                  "csv",
+                  ""
+                ],
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sbom Format"
+          },
+          "kconfig_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kconfig Raw"
+          },
+          "dtb_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dtb Raw"
+          },
+          "depgraph_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Depgraph Raw"
+          },
+          "custom_filter_raw": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Custom Filter Raw"
+          },
+          "yocto_machine": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Yocto Machine"
+          },
+          "yocto_distro": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Yocto Distro"
+          },
+          "kernel_version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Kernel Version"
+          }
+        },
+        "title": "ScanUpdateSchema",
+        "type": "object"
+      },
+      "ComponentSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "name_raw": {
+            "title": "Name Raw",
+            "type": "string"
+          },
+          "version_raw": {
+            "title": "Version Raw",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          },
+          "cpe": {
+            "title": "Cpe",
+            "type": "string"
+          },
+          "purl": {
+            "title": "Purl",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "component_type": {
+            "title": "Component Type",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "number"
+          },
+          "license_spdx": {
+            "title": "License Spdx",
+            "type": "string"
+          },
+          "file_path": {
+            "title": "File Path",
+            "type": "string"
+          },
+          "file_hash_sha256": {
+            "title": "File Hash Sha256",
+            "type": "string"
+          },
+          "covered_by_package_manager": {
+            "title": "Covered By Package Manager",
+            "type": "boolean"
+          },
+          "identity_needs_review": {
+            "title": "Identity Needs Review",
+            "type": "boolean"
+          },
+          "identity_match_method": {
+            "title": "Identity Match Method",
+            "type": "string"
+          },
+          "identity_similarity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity Similarity"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "name_raw",
+          "version_raw",
+          "name",
+          "version",
+          "cpe",
+          "purl",
+          "source",
+          "component_type",
+          "confidence",
+          "license_spdx",
+          "file_path",
+          "file_hash_sha256",
+          "covered_by_package_manager",
+          "identity_needs_review",
+          "identity_match_method",
+          "created_at"
+        ],
+        "title": "ComponentSchema",
+        "type": "object"
+      },
+      "PaginatedComponents": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ComponentSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedComponents",
+        "type": "object"
+      },
+      "ComponentCreateSchema": {
+        "properties": {
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "name_raw": {
+            "title": "Name Raw",
+            "type": "string"
+          },
+          "version_raw": {
+            "title": "Version Raw",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "string"
+          },
+          "cpe": {
+            "default": "",
+            "title": "Cpe",
+            "type": "string"
+          },
+          "purl": {
+            "default": "",
+            "title": "Purl",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "component_type": {
+            "default": "library",
+            "title": "Component Type",
+            "type": "string"
+          },
+          "confidence": {
+            "default": 0.5,
+            "title": "Confidence",
+            "type": "number"
+          },
+          "license_spdx": {
+            "default": "",
+            "title": "License Spdx",
+            "type": "string"
+          },
+          "file_path": {
+            "default": "",
+            "title": "File Path",
+            "type": "string"
+          },
+          "file_hash_sha256": {
+            "default": "",
+            "title": "File Hash Sha256",
+            "type": "string"
+          },
+          "covered_by_package_manager": {
+            "default": false,
+            "title": "Covered By Package Manager",
+            "type": "boolean"
+          },
+          "identity_needs_review": {
+            "default": false,
+            "title": "Identity Needs Review",
+            "type": "boolean"
+          },
+          "identity_match_method": {
+            "default": "unknown",
+            "title": "Identity Match Method",
+            "type": "string"
+          },
+          "identity_similarity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity Similarity"
+          }
+        },
+        "required": [
+          "scan_id",
+          "name_raw",
+          "version_raw",
+          "name",
+          "version",
+          "source"
+        ],
+        "title": "ComponentCreateSchema",
+        "type": "object"
+      },
+      "ComponentUpdateSchema": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "version": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Version"
+          },
+          "cpe": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cpe"
+          },
+          "purl": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Purl"
+          },
+          "component_type": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Component Type"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "license_spdx": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "License Spdx"
+          },
+          "identity_needs_review": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity Needs Review"
+          },
+          "identity_match_method": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity Match Method"
+          },
+          "identity_similarity": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Identity Similarity"
+          }
+        },
+        "title": "ComponentUpdateSchema",
+        "type": "object"
+      },
+      "PaginatedVulnerabilities": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/VulnerabilitySchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedVulnerabilities",
+        "type": "object"
+      },
+      "VulnerabilitySchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "component_id": {
+            "format": "uuid",
+            "title": "Component Id",
+            "type": "string"
+          },
+          "vuln_id": {
+            "examples": [
+              "CVE-2024-12345"
+            ],
+            "title": "Vuln Id",
+            "type": "string"
+          },
+          "source": {
+            "examples": [
+              "nvd",
+              "osv",
+              "cisa_kev"
+            ],
+            "title": "Source",
+            "type": "string"
+          },
+          "cvss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "examples": [
+              7.8,
+              9.8
+            ],
+            "title": "Cvss Score"
+          },
+          "cvss_vector": {
+            "examples": [
+              "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:H/I:H/A:H"
+            ],
+            "title": "Cvss Vector",
+            "type": "string"
+          },
+          "epss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epss Score"
+          },
+          "cwe_ids": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Cwe Ids",
+            "type": "array"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "references": {
+            "items": {
+              "type": "string"
+            },
+            "title": "References",
+            "type": "array"
+          },
+          "affected_version_start": {
+            "title": "Affected Version Start",
+            "type": "string"
+          },
+          "affected_version_end": {
+            "title": "Affected Version End",
+            "type": "string"
+          },
+          "is_kev": {
+            "title": "Is Kev",
+            "type": "boolean"
+          },
+          "has_public_exploit": {
+            "title": "Has Public Exploit",
+            "type": "boolean"
+          },
+          "enriched_cve_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enriched Cve Id"
+          },
+          "sarif_file": {
+            "title": "Sarif File",
+            "type": "string"
+          },
+          "sarif_line": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sarif Line"
+          },
+          "sarif_rule_id": {
+            "title": "Sarif Rule Id",
+            "type": "string"
+          },
+          "matched_sources": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Matched Sources",
+            "type": "array"
+          },
+          "confidence_tier": {
+            "default": "",
+            "title": "Confidence Tier",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "component_id",
+          "vuln_id",
+          "source",
+          "cvss_vector",
+          "cwe_ids",
+          "description",
+          "references",
+          "affected_version_start",
+          "affected_version_end",
+          "is_kev",
+          "has_public_exploit",
+          "sarif_file",
+          "sarif_rule_id",
+          "created_at"
+        ],
+        "title": "VulnerabilitySchema",
+        "type": "object"
+      },
+      "VulnerabilityCreateSchema": {
+        "properties": {
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "component_id": {
+            "format": "uuid",
+            "title": "Component Id",
+            "type": "string"
+          },
+          "vuln_id": {
+            "title": "Vuln Id",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "cvss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cvss Score"
+          },
+          "cvss_vector": {
+            "default": "",
+            "title": "Cvss Vector",
+            "type": "string"
+          },
+          "epss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epss Score"
+          },
+          "cwe_ids": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Cwe Ids",
+            "type": "array"
+          },
+          "description": {
+            "default": "",
+            "title": "Description",
+            "type": "string"
+          },
+          "references": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "References",
+            "type": "array"
+          },
+          "affected_version_start": {
+            "default": "",
+            "title": "Affected Version Start",
+            "type": "string"
+          },
+          "affected_version_end": {
+            "default": "",
+            "title": "Affected Version End",
+            "type": "string"
+          },
+          "is_kev": {
+            "default": false,
+            "title": "Is Kev",
+            "type": "boolean"
+          },
+          "has_public_exploit": {
+            "default": false,
+            "title": "Has Public Exploit",
+            "type": "boolean"
+          },
+          "enriched_cve_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enriched Cve Id"
+          },
+          "sarif_file": {
+            "default": "",
+            "title": "Sarif File",
+            "type": "string"
+          },
+          "sarif_line": {
+            "anyOf": [
+              {
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sarif Line"
+          },
+          "sarif_rule_id": {
+            "default": "",
+            "title": "Sarif Rule Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scan_id",
+          "component_id",
+          "vuln_id",
+          "source"
+        ],
+        "title": "VulnerabilityCreateSchema",
+        "type": "object"
+      },
+      "VulnerabilityUpdateSchema": {
+        "properties": {
+          "cvss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cvss Score"
+          },
+          "cvss_vector": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cvss Vector"
+          },
+          "epss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epss Score"
+          },
+          "cwe_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cwe Ids"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "references": {
+            "anyOf": [
+              {
+                "items": {
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "References"
+          },
+          "is_kev": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Is Kev"
+          },
+          "has_public_exploit": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Has Public Exploit"
+          },
+          "enriched_cve_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Enriched Cve Id"
+          }
+        },
+        "title": "VulnerabilityUpdateSchema",
+        "type": "object"
+      },
+      "PaginatedKconfigs": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ParsedKconfigSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedKconfigs",
+        "type": "object"
+      },
+      "ParsedKconfigSchema": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "symbol": {
+            "title": "Symbol",
+            "type": "string"
+          },
+          "value_type": {
+            "title": "Value Type",
+            "type": "string"
+          },
+          "value_raw": {
+            "title": "Value Raw",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "symbol",
+          "value_type",
+          "value_raw"
+        ],
+        "title": "ParsedKconfigSchema",
+        "type": "object"
+      },
+      "ParsedKconfigCreateSchema": {
+        "properties": {
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "symbol": {
+            "title": "Symbol",
+            "type": "string"
+          },
+          "value_type": {
+            "title": "Value Type",
+            "type": "string"
+          },
+          "value_raw": {
+            "default": "",
+            "title": "Value Raw",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scan_id",
+          "symbol",
+          "value_type"
+        ],
+        "title": "ParsedKconfigCreateSchema",
+        "type": "object"
+      },
+      "PaginatedDTBNodes": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ParsedDTBNodeSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedDTBNodes",
+        "type": "object"
+      },
+      "ParsedDTBNodeSchema": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "compatible": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Compatible",
+            "type": "array"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "peripheral_type": {
+            "title": "Peripheral Type",
+            "type": "string"
+          },
+          "reg_address": {
+            "title": "Reg Address",
+            "type": "string"
+          },
+          "interrupts": {
+            "items": {},
+            "title": "Interrupts",
+            "type": "array"
+          },
+          "properties_raw": {
+            "additionalProperties": true,
+            "title": "Properties Raw",
+            "type": "object"
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "path",
+          "compatible",
+          "status",
+          "peripheral_type",
+          "reg_address",
+          "interrupts",
+          "properties_raw"
+        ],
+        "title": "ParsedDTBNodeSchema",
+        "type": "object"
+      },
+      "ParsedDTBNodeCreateSchema": {
+        "properties": {
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "path": {
+            "title": "Path",
+            "type": "string"
+          },
+          "compatible": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Compatible",
+            "type": "array"
+          },
+          "status": {
+            "default": "unknown",
+            "title": "Status",
+            "type": "string"
+          },
+          "peripheral_type": {
+            "default": "other",
+            "title": "Peripheral Type",
+            "type": "string"
+          },
+          "reg_address": {
+            "default": "",
+            "title": "Reg Address",
+            "type": "string"
+          },
+          "interrupts": {
+            "default": [],
+            "items": {},
+            "title": "Interrupts",
+            "type": "array"
+          },
+          "properties_raw": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Properties Raw",
+            "type": "object"
+          }
+        },
+        "required": [
+          "scan_id",
+          "path"
+        ],
+        "title": "ParsedDTBNodeCreateSchema",
+        "type": "object"
+      },
+      "ActivityLogSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "user_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "User Id"
+          },
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "resource_type": {
+            "title": "Resource Type",
+            "type": "string"
+          },
+          "resource_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Resource Id"
+          },
+          "resource_label": {
+            "title": "Resource Label",
+            "type": "string"
+          },
+          "details": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Details",
+            "type": "object"
+          },
+          "ip_address": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Ip Address"
+          },
+          "auth_method": {
+            "default": "",
+            "title": "Auth Method",
+            "type": "string"
+          },
+          "dbos_workflow_id": {
+            "default": "",
+            "title": "Dbos Workflow Id",
+            "type": "string"
+          },
+          "request_id": {
+            "default": "",
+            "title": "Request Id",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "action",
+          "resource_type",
+          "resource_label",
+          "created_at"
+        ],
+        "title": "ActivityLogSchema",
+        "type": "object"
+      },
+      "PaginatedActivityLogs": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ActivityLogSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedActivityLogs",
+        "type": "object"
+      },
+      "BulkAssessmentResponse": {
+        "description": "Response from bulk assessment operation.",
+        "properties": {
+          "processed": {
+            "description": "Number of assessments processed",
+            "title": "Processed",
+            "type": "integer"
+          },
+          "created": {
+            "description": "Number of new assessments created",
+            "title": "Created",
+            "type": "integer"
+          },
+          "updated": {
+            "description": "Number of existing assessments updated",
+            "title": "Updated",
+            "type": "integer"
+          },
+          "results": {
+            "items": {
+              "$ref": "#/components/schemas/BulkAssessmentResult"
+            },
+            "title": "Results",
+            "type": "array"
+          }
+        },
+        "required": [
+          "processed",
+          "created",
+          "updated",
+          "results"
+        ],
+        "title": "BulkAssessmentResponse",
+        "type": "object"
+      },
+      "BulkAssessmentResult": {
+        "description": "Result of a single assessment in bulk operation.",
+        "properties": {
+          "vulnerability_id": {
+            "format": "uuid",
+            "title": "Vulnerability Id",
+            "type": "string"
+          },
+          "assessment_id": {
+            "format": "uuid",
+            "title": "Assessment Id",
+            "type": "string"
+          },
+          "created": {
+            "description": "True if created, False if updated existing",
+            "title": "Created",
+            "type": "boolean"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          }
+        },
+        "required": [
+          "vulnerability_id",
+          "assessment_id",
+          "created",
+          "status"
+        ],
+        "title": "BulkAssessmentResult",
+        "type": "object"
+      },
+      "BulkAssessmentItem": {
+        "description": "Single item in a bulk assessment update.",
+        "properties": {
+          "vulnerability_id": {
+            "description": "The vulnerability to assess",
+            "format": "uuid",
+            "title": "Vulnerability Id",
+            "type": "string"
+          },
+          "status": {
+            "description": "VEX status: not_affected, affected, fixed, under_investigation",
+            "title": "Status",
+            "type": "string"
+          },
+          "justification_category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justification Category"
+          },
+          "justification_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justification Text"
+          },
+          "filter_layer": {
+            "default": "none",
+            "title": "Filter Layer",
+            "type": "string"
+          },
+          "applied_rule_ids": {
+            "default": [],
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Applied Rule Ids",
+            "type": "array"
+          },
+          "confidence": {
+            "default": "medium",
+            "title": "Confidence",
+            "type": "string"
+          }
+        },
+        "required": [
+          "vulnerability_id",
+          "status"
+        ],
+        "title": "BulkAssessmentItem",
+        "type": "object"
+      },
+      "BulkAssessmentRequest": {
+        "description": "Bulk assessment request for automated triage.\n\nUse this when a single rule invalidates multiple CVEs.\nAll assessments in a bulk request share the same scan.",
+        "properties": {
+          "scan_id": {
+            "description": "Target scan for all assessments",
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "assessed_by": {
+            "description": "Who/what is making these assessments (e.g., 'sciath_engine')",
+            "title": "Assessed By",
+            "type": "string"
+          },
+          "assessments": {
+            "description": "List of assessments to create/update",
+            "items": {
+              "$ref": "#/components/schemas/BulkAssessmentItem"
+            },
+            "maxItems": 500,
+            "minItems": 1,
+            "title": "Assessments",
+            "type": "array"
+          }
+        },
+        "required": [
+          "scan_id",
+          "assessed_by",
+          "assessments"
+        ],
+        "title": "BulkAssessmentRequest",
+        "type": "object"
+      },
+      "AssessmentListItemSchema": {
+        "description": "Assessment with nested vulnerability summary for list endpoints.",
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "vulnerability_id": {
+            "format": "uuid",
+            "title": "Vulnerability Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "oscal_result_json": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Oscal Result Json",
+            "type": "object"
+          },
+          "justification_category": {
+            "title": "Justification Category",
+            "type": "string"
+          },
+          "justification_text": {
+            "title": "Justification Text",
+            "type": "string"
+          },
+          "suppression_rationale": {
+            "default": "",
+            "title": "Suppression Rationale",
+            "type": "string"
+          },
+          "survival_rationale": {
+            "default": "",
+            "title": "Survival Rationale",
+            "type": "string"
+          },
+          "filter_layer": {
+            "title": "Filter Layer",
+            "type": "string"
+          },
+          "applied_filter_layers": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Applied Filter Layers",
+            "type": "array"
+          },
+          "applied_rule_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Applied Rule Ids",
+            "type": "array"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "string"
+          },
+          "review_status": {
+            "title": "Review Status",
+            "type": "string"
+          },
+          "assessed_by": {
+            "title": "Assessed By",
+            "type": "string"
+          },
+          "reviewed_by": {
+            "title": "Reviewed By",
+            "type": "string"
+          },
+          "reviewed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewed At"
+          },
+          "is_carried_forward": {
+            "title": "Is Carried Forward",
+            "type": "boolean"
+          },
+          "carried_from_scan_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carried From Scan Id"
+          },
+          "carried_from_assessment_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carried From Assessment Id"
+          },
+          "carry_forward_reason": {
+            "title": "Carry Forward Reason",
+            "type": "string"
+          },
+          "remediation_action": {
+            "title": "Remediation Action",
+            "type": "string"
+          },
+          "remediation_target_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remediation Target Date"
+          },
+          "contextual_cvss": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contextual Cvss"
+          },
+          "contextual_notes": {
+            "title": "Contextual Notes",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          },
+          "vulnerability": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/VulnerabilitySummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "vulnerability_id",
+          "status",
+          "justification_category",
+          "justification_text",
+          "filter_layer",
+          "applied_rule_ids",
+          "confidence",
+          "review_status",
+          "assessed_by",
+          "reviewed_by",
+          "is_carried_forward",
+          "carry_forward_reason",
+          "remediation_action",
+          "contextual_notes",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AssessmentListItemSchema",
+        "type": "object"
+      },
+      "ComponentSummary": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name"
+        ],
+        "title": "ComponentSummary",
+        "type": "object"
+      },
+      "PaginatedAssessments": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AssessmentListItemSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedAssessments",
+        "type": "object"
+      },
+      "VulnerabilitySummary": {
+        "properties": {
+          "vuln_id": {
+            "title": "Vuln Id",
+            "type": "string"
+          },
+          "cvss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cvss Score"
+          },
+          "epss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epss Score"
+          },
+          "is_kev": {
+            "default": false,
+            "title": "Is Kev",
+            "type": "boolean"
+          },
+          "matched_sources": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Matched Sources",
+            "type": "array"
+          },
+          "confidence_tier": {
+            "default": "",
+            "title": "Confidence Tier",
+            "type": "string"
+          },
+          "component": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/ComponentSummary"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          }
+        },
+        "required": [
+          "vuln_id"
+        ],
+        "title": "VulnerabilitySummary",
+        "type": "object"
+      },
+      "AssessmentSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "vulnerability_id": {
+            "format": "uuid",
+            "title": "Vulnerability Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "oscal_result_json": {
+            "additionalProperties": true,
+            "default": {},
+            "title": "Oscal Result Json",
+            "type": "object"
+          },
+          "justification_category": {
+            "title": "Justification Category",
+            "type": "string"
+          },
+          "justification_text": {
+            "title": "Justification Text",
+            "type": "string"
+          },
+          "suppression_rationale": {
+            "default": "",
+            "title": "Suppression Rationale",
+            "type": "string"
+          },
+          "survival_rationale": {
+            "default": "",
+            "title": "Survival Rationale",
+            "type": "string"
+          },
+          "filter_layer": {
+            "title": "Filter Layer",
+            "type": "string"
+          },
+          "applied_filter_layers": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Applied Filter Layers",
+            "type": "array"
+          },
+          "applied_rule_ids": {
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Applied Rule Ids",
+            "type": "array"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "string"
+          },
+          "review_status": {
+            "title": "Review Status",
+            "type": "string"
+          },
+          "assessed_by": {
+            "title": "Assessed By",
+            "type": "string"
+          },
+          "reviewed_by": {
+            "title": "Reviewed By",
+            "type": "string"
+          },
+          "reviewed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewed At"
+          },
+          "is_carried_forward": {
+            "title": "Is Carried Forward",
+            "type": "boolean"
+          },
+          "carried_from_scan_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carried From Scan Id"
+          },
+          "carried_from_assessment_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carried From Assessment Id"
+          },
+          "carry_forward_reason": {
+            "title": "Carry Forward Reason",
+            "type": "string"
+          },
+          "remediation_action": {
+            "title": "Remediation Action",
+            "type": "string"
+          },
+          "remediation_target_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remediation Target Date"
+          },
+          "contextual_cvss": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contextual Cvss"
+          },
+          "contextual_notes": {
+            "title": "Contextual Notes",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "vulnerability_id",
+          "status",
+          "justification_category",
+          "justification_text",
+          "filter_layer",
+          "applied_rule_ids",
+          "confidence",
+          "review_status",
+          "assessed_by",
+          "reviewed_by",
+          "is_carried_forward",
+          "carry_forward_reason",
+          "remediation_action",
+          "contextual_notes",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "AssessmentSchema",
+        "type": "object"
+      },
+      "AssessmentCreateSchema": {
+        "properties": {
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "vulnerability_id": {
+            "format": "uuid",
+            "title": "Vulnerability Id",
+            "type": "string"
+          },
+          "status": {
+            "default": "under_investigation",
+            "title": "Status",
+            "type": "string"
+          },
+          "justification_category": {
+            "default": "",
+            "title": "Justification Category",
+            "type": "string"
+          },
+          "justification_text": {
+            "default": "",
+            "title": "Justification Text",
+            "type": "string"
+          },
+          "filter_layer": {
+            "default": "none",
+            "title": "Filter Layer",
+            "type": "string"
+          },
+          "applied_rule_ids": {
+            "default": [],
+            "items": {
+              "format": "uuid",
+              "type": "string"
+            },
+            "title": "Applied Rule Ids",
+            "type": "array"
+          },
+          "confidence": {
+            "default": "medium",
+            "title": "Confidence",
+            "type": "string"
+          },
+          "review_status": {
+            "default": "auto_pending",
+            "title": "Review Status",
+            "type": "string"
+          },
+          "assessed_by": {
+            "default": "",
+            "title": "Assessed By",
+            "type": "string"
+          },
+          "is_carried_forward": {
+            "default": false,
+            "title": "Is Carried Forward",
+            "type": "boolean"
+          },
+          "carried_from_scan_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carried From Scan Id"
+          },
+          "carried_from_assessment_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Carried From Assessment Id"
+          },
+          "carry_forward_reason": {
+            "default": "",
+            "title": "Carry Forward Reason",
+            "type": "string"
+          },
+          "remediation_action": {
+            "default": "",
+            "title": "Remediation Action",
+            "type": "string"
+          },
+          "remediation_target_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remediation Target Date"
+          },
+          "contextual_cvss": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contextual Cvss"
+          },
+          "contextual_notes": {
+            "default": "",
+            "title": "Contextual Notes",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scan_id",
+          "vulnerability_id"
+        ],
+        "title": "AssessmentCreateSchema",
+        "type": "object"
+      },
+      "AssessmentUpdateSchema": {
+        "properties": {
+          "status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Status"
+          },
+          "justification_category": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justification Category"
+          },
+          "justification_text": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Justification Text"
+          },
+          "filter_layer": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Filter Layer"
+          },
+          "applied_rule_ids": {
+            "anyOf": [
+              {
+                "items": {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                "type": "array"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Applied Rule Ids"
+          },
+          "confidence": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Confidence"
+          },
+          "review_status": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Review Status"
+          },
+          "assessed_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessed By"
+          },
+          "reviewed_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Reviewed By"
+          },
+          "remediation_action": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remediation Action"
+          },
+          "remediation_target_date": {
+            "anyOf": [
+              {
+                "format": "date",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Remediation Target Date"
+          },
+          "contextual_cvss": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contextual Cvss"
+          },
+          "contextual_notes": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Contextual Notes"
+          }
+        },
+        "title": "AssessmentUpdateSchema",
+        "type": "object"
+      },
+      "AssessmentAuditEntrySchema": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "integer"
+          },
+          "assessment_id": {
+            "format": "uuid",
+            "title": "Assessment Id",
+            "type": "string"
+          },
+          "action": {
+            "title": "Action",
+            "type": "string"
+          },
+          "actor": {
+            "title": "Actor",
+            "type": "string"
+          },
+          "old_status": {
+            "title": "Old Status",
+            "type": "string"
+          },
+          "new_status": {
+            "title": "New Status",
+            "type": "string"
+          },
+          "old_confidence": {
+            "title": "Old Confidence",
+            "type": "string"
+          },
+          "new_confidence": {
+            "title": "New Confidence",
+            "type": "string"
+          },
+          "notes": {
+            "title": "Notes",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "assessment_id",
+          "action",
+          "actor",
+          "old_status",
+          "new_status",
+          "old_confidence",
+          "new_confidence",
+          "notes",
+          "created_at"
+        ],
+        "title": "AssessmentAuditEntrySchema",
+        "type": "object"
+      },
+      "PaginatedAuditEntries": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/AssessmentAuditEntrySchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedAuditEntries",
+        "type": "object"
+      },
+      "PaginatedReports": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ReportSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedReports",
+        "type": "object"
+      },
+      "ReportSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "format": {
+            "title": "Format",
+            "type": "string"
+          },
+          "content_json": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Json"
+          },
+          "storage_key": {
+            "title": "Storage Key",
+            "type": "string"
+          },
+          "total_vulnerabilities": {
+            "title": "Total Vulnerabilities",
+            "type": "integer"
+          },
+          "suppressed_count": {
+            "title": "Suppressed Count",
+            "type": "integer"
+          },
+          "affected_count": {
+            "title": "Affected Count",
+            "type": "integer"
+          },
+          "under_investigation_count": {
+            "title": "Under Investigation Count",
+            "type": "integer"
+          },
+          "signature_algorithm": {
+            "title": "Signature Algorithm",
+            "type": "string"
+          },
+          "signature_hash": {
+            "title": "Signature Hash",
+            "type": "string"
+          },
+          "signature_value": {
+            "title": "Signature Value",
+            "type": "string"
+          },
+          "signed_by": {
+            "title": "Signed By",
+            "type": "string"
+          },
+          "signed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signed At"
+          },
+          "assessment_snapshot_hash": {
+            "title": "Assessment Snapshot Hash",
+            "type": "string"
+          },
+          "generated_by": {
+            "title": "Generated By",
+            "type": "string"
+          },
+          "generated_at": {
+            "format": "date-time",
+            "title": "Generated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "format",
+          "storage_key",
+          "total_vulnerabilities",
+          "suppressed_count",
+          "affected_count",
+          "under_investigation_count",
+          "signature_algorithm",
+          "signature_hash",
+          "signature_value",
+          "signed_by",
+          "assessment_snapshot_hash",
+          "generated_by",
+          "generated_at"
+        ],
+        "title": "ReportSchema",
+        "type": "object"
+      },
+      "ReportCreateSchema": {
+        "properties": {
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "format": {
+            "title": "Format",
+            "type": "string"
+          },
+          "content_json": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Json"
+          },
+          "storage_key": {
+            "default": "",
+            "title": "Storage Key",
+            "type": "string"
+          },
+          "total_vulnerabilities": {
+            "default": 0,
+            "title": "Total Vulnerabilities",
+            "type": "integer"
+          },
+          "suppressed_count": {
+            "default": 0,
+            "title": "Suppressed Count",
+            "type": "integer"
+          },
+          "affected_count": {
+            "default": 0,
+            "title": "Affected Count",
+            "type": "integer"
+          },
+          "under_investigation_count": {
+            "default": 0,
+            "title": "Under Investigation Count",
+            "type": "integer"
+          },
+          "generated_by": {
+            "default": "sciath_engine",
+            "title": "Generated By",
+            "type": "string"
+          }
+        },
+        "required": [
+          "scan_id",
+          "format"
+        ],
+        "title": "ReportCreateSchema",
+        "type": "object"
+      },
+      "ReportUpdateSchema": {
+        "properties": {
+          "content_json": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Json"
+          },
+          "storage_key": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Storage Key"
+          },
+          "signature_algorithm": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signature Algorithm"
+          },
+          "signature_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signature Hash"
+          },
+          "signature_value": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signature Value"
+          },
+          "signed_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signed By"
+          },
+          "signed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Signed At"
+          },
+          "assessment_snapshot_hash": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Assessment Snapshot Hash"
+          }
+        },
+        "title": "ReportUpdateSchema",
+        "type": "object"
+      },
+      "DeviceCodeResponse": {
+        "properties": {
+          "device_code": {
+            "title": "Device Code",
+            "type": "string"
+          },
+          "verification_uri": {
+            "title": "Verification Uri",
+            "type": "string"
+          },
+          "poll_code": {
+            "title": "Poll Code",
+            "type": "string"
+          },
+          "expires_in": {
+            "title": "Expires In",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "device_code",
+          "verification_uri",
+          "poll_code",
+          "expires_in"
+        ],
+        "title": "DeviceCodeResponse",
+        "type": "object"
+      },
+      "DeviceCodeRequest": {
+        "properties": {
+          "client_name": {
+            "default": "Sciath CLI",
+            "title": "Client Name",
+            "type": "string"
+          }
+        },
+        "title": "DeviceCodeRequest",
+        "type": "object"
+      },
+      "RefreshRequest": {
+        "properties": {
+          "refresh_token": {
+            "title": "Refresh Token",
+            "type": "string"
+          }
+        },
+        "required": [
+          "refresh_token"
+        ],
+        "title": "RefreshRequest",
+        "type": "object"
+      },
+      "AnalyseResponse": {
+        "description": "Returned immediately after dispatch.\n\nstatus:   \"queued\" \u2014 workflow persisted to DB, worker will pick it up.\njob_id:   DBOS workflow ID \u2014 not currently used by the CLI but available\n          for direct workflow status queries if needed.",
+        "properties": {
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "job_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Job Id"
+          }
+        },
+        "required": [
+          "status"
+        ],
+        "title": "AnalyseResponse",
+        "type": "object"
+      },
+      "FunnelLayerSchema": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "remaining": {
+            "title": "Remaining",
+            "type": "integer"
+          },
+          "suppressed": {
+            "title": "Suppressed",
+            "type": "integer"
+          },
+          "label": {
+            "title": "Label",
+            "type": "string"
+          }
+        },
+        "required": [
+          "name",
+          "remaining",
+          "suppressed",
+          "label"
+        ],
+        "title": "FunnelLayerSchema",
+        "type": "object"
+      },
+      "ScanStatusResponse": {
+        "description": "Poll response for CLI progress display.\n\nerror_message is populated when status == 'failed'.\nsuppression_funnel is populated after analysis completes.",
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "version_label": {
+            "title": "Version Label",
+            "type": "string"
+          },
+          "total_components": {
+            "title": "Total Components",
+            "type": "integer"
+          },
+          "total_vulnerabilities": {
+            "title": "Total Vulnerabilities",
+            "type": "integer"
+          },
+          "suppressed_count": {
+            "title": "Suppressed Count",
+            "type": "integer"
+          },
+          "remaining_count": {
+            "title": "Remaining Count",
+            "type": "integer"
+          },
+          "sbom_quality_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Sbom Quality Score"
+          },
+          "suppression_funnel": {
+            "anyOf": [
+              {
+                "$ref": "#/components/schemas/SuppressionFunnelSchema"
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "analysed_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Analysed At"
+          },
+          "error_message": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Error Message"
+          },
+          "dbos_workflow_id": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Dbos Workflow Id"
+          }
+        },
+        "required": [
+          "id",
+          "status",
+          "version_label",
+          "total_components",
+          "total_vulnerabilities",
+          "suppressed_count",
+          "remaining_count"
+        ],
+        "title": "ScanStatusResponse",
+        "type": "object"
+      },
+      "SuppressionFunnelSchema": {
+        "properties": {
+          "raw": {
+            "title": "Raw",
+            "type": "integer"
+          },
+          "layers": {
+            "items": {
+              "$ref": "#/components/schemas/FunnelLayerSchema"
+            },
+            "title": "Layers",
+            "type": "array"
+          },
+          "action_required": {
+            "title": "Action Required",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "raw",
+          "layers",
+          "action_required"
+        ],
+        "title": "SuppressionFunnelSchema",
+        "type": "object"
+      },
+      "CRAChecklistItemSchema": {
+        "properties": {
+          "requirement": {
+            "title": "Requirement",
+            "type": "string"
+          },
+          "article": {
+            "title": "Article",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "detail": {
+            "default": "",
+            "title": "Detail",
+            "type": "string"
+          },
+          "is_blocker": {
+            "default": false,
+            "title": "Is Blocker",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "requirement",
+          "article",
+          "status"
+        ],
+        "title": "CRAChecklistItemSchema",
+        "type": "object"
+      },
+      "CRAReadinessResponse": {
+        "description": "CRA readiness verdict for a scan.",
+        "properties": {
+          "verdict": {
+            "title": "Verdict",
+            "type": "string"
+          },
+          "percentage": {
+            "title": "Percentage",
+            "type": "number"
+          },
+          "checklist": {
+            "items": {
+              "$ref": "#/components/schemas/CRAChecklistItemSchema"
+            },
+            "title": "Checklist",
+            "type": "array"
+          },
+          "blockers": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Blockers",
+            "type": "array"
+          },
+          "warnings": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Warnings",
+            "type": "array"
+          }
+        },
+        "required": [
+          "verdict",
+          "percentage",
+          "checklist",
+          "blockers",
+          "warnings"
+        ],
+        "title": "CRAReadinessResponse",
+        "type": "object"
+      },
+      "ReportResponse": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "scan_id": {
+            "format": "uuid",
+            "title": "Scan Id",
+            "type": "string"
+          },
+          "format": {
+            "title": "Format",
+            "type": "string"
+          },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
+          "total_vulnerabilities": {
+            "title": "Total Vulnerabilities",
+            "type": "integer"
+          },
+          "suppressed_count": {
+            "title": "Suppressed Count",
+            "type": "integer"
+          },
+          "affected_count": {
+            "title": "Affected Count",
+            "type": "integer"
+          },
+          "under_investigation_count": {
+            "title": "Under Investigation Count",
+            "type": "integer"
+          },
+          "assessment_snapshot_hash": {
+            "title": "Assessment Snapshot Hash",
+            "type": "string"
+          },
+          "generated_at": {
+            "title": "Generated At",
+            "type": "string"
+          },
+          "error_message": {
+            "default": "",
+            "title": "Error Message",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "scan_id",
+          "format",
+          "status",
+          "total_vulnerabilities",
+          "suppressed_count",
+          "affected_count",
+          "under_investigation_count",
+          "assessment_snapshot_hash",
+          "generated_at"
+        ],
+        "title": "ReportResponse",
+        "type": "object"
+      },
+      "GenerateRequest": {
+        "properties": {
+          "format": {
+            "title": "Format",
+            "type": "string"
+          }
+        },
+        "required": [
+          "format"
+        ],
+        "title": "GenerateRequest",
+        "type": "object"
+      },
+      "CustomFilterPolicySchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "customer_id": {
+            "format": "uuid",
+            "title": "Customer Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "content_raw": {
+            "additionalProperties": true,
+            "title": "Content Raw",
+            "type": "object"
+          },
+          "content_hash": {
+            "title": "Content Hash",
+            "type": "string"
+          },
+          "version": {
+            "title": "Version",
+            "type": "integer"
+          },
+          "rule_count": {
+            "title": "Rule Count",
+            "type": "integer"
+          },
+          "created_by_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By Id"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "customer_id",
+          "name",
+          "description",
+          "content_raw",
+          "content_hash",
+          "version",
+          "rule_count",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "CustomFilterPolicySchema",
+        "type": "object"
+      },
+      "CustomFilterPolicyCreateSchema": {
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "title": "Description",
+            "type": "string"
+          },
+          "content_raw": {
+            "additionalProperties": true,
+            "title": "Content Raw",
+            "type": "object"
+          }
+        },
+        "required": [
+          "name",
+          "content_raw"
+        ],
+        "title": "CustomFilterPolicyCreateSchema",
+        "type": "object"
+      },
+      "CustomFilterPolicyUpdateSchema": {
+        "properties": {
+          "name": {
+            "anyOf": [
+              {
+                "maxLength": 200,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Name"
+          },
+          "description": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Description"
+          },
+          "content_raw": {
+            "anyOf": [
+              {
+                "additionalProperties": true,
+                "type": "object"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Content Raw"
+          }
+        },
+        "title": "CustomFilterPolicyUpdateSchema",
+        "type": "object"
+      },
+      "VEXImportSchema": {
+        "properties": {
+          "name": {
+            "maxLength": 200,
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "default": "",
+            "title": "Description",
+            "type": "string"
+          },
+          "vex_content": {
+            "additionalProperties": true,
+            "title": "Vex Content",
+            "type": "object"
+          },
+          "trust_vendor": {
+            "default": false,
+            "title": "Trust Vendor",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "name",
+          "vex_content"
+        ],
+        "title": "VEXImportSchema",
+        "type": "object"
+      }
+    },
+    "securitySchemes": {
+      "DualAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-API-Key"
+      }
+    }
+  },
+  "servers": []
+}

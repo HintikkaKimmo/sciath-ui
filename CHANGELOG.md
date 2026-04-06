@@ -23,4 +23,8 @@ All notable changes to the Sciath UI will be documented in this file.
 - **Design system** — Instrument Sans/Serif, Geist Mono, oklch warm cream + terracotta palette
 - **API client** with query key factory for TanStack Query cache invalidation
 - **OpenAPI type generation script** (`npm run generate-types`)
+- **Typed service layer** — service modules for projects, scans, assessments, reports, activity, policies wrapping `apiFetch()` with OpenAPI-generated types
+- **TanStack Query hooks** — `useProjects`, `useScans`, `useScanStatus` (with polling), `useAssessments`, `useBulkUpdateAssessments`, `useReports`, `useActivity`, `usePolicies` and mutation hooks with cache invalidation
+- **Shared UI states** — `ErrorState`, `EmptyState`, `TableSkeleton`, `CardGridSkeleton`, `DetailSkeleton` components for loading/error/empty data patterns
+- **OpenAPI snapshot** — exported `openapi.json` from backend for offline type generation
 - **Pre-commit hooks** — trailing whitespace, gitleaks, eslint, tsc, next build
