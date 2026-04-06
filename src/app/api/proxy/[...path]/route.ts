@@ -3,25 +3,73 @@ import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
 import { sessionOptions, SessionData, DJANGO_API_URL } from "@/lib/session";
 
-// Mutex to prevent concurrent token refreshes
-let refreshPromise: Promise<string | null> | null = null;
+// Refresh gate: single shared promise prevents concurrent refreshes.
+// All waiters get the same result (success or failure).
+type RefreshResult =
+  | { ok: true; access: string; refresh?: string }
+  | { ok: false };
 
-async function refreshToken(session: SessionData): Promise<string | null> {
-  if (!session.refreshToken) return null;
+let refreshGate: Promise<RefreshResult> | null = null;
 
-  const res = await fetch(
-    `${DJANGO_API_URL}/api/auth/v1/token/refresh/`,
-    {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ refresh_token: session.refreshToken }),
-    }
+const REFRESH_BUFFER_MS = 30_000; // Proactive refresh 30s before expiry
+
+async function doRefresh(refreshToken: string): Promise<RefreshResult> {
+  try {
+    const res = await fetch(
+      `${DJANGO_API_URL}/api/auth/v1/token/refresh/`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refresh_token: refreshToken }),
+      }
+    );
+
+    if (!res.ok) return { ok: false };
+
+    const data = await res.json();
+    return {
+      ok: true,
+      access: data.access_token,
+      refresh: data.refresh_token,
+    };
+  } catch {
+    // Network error (Django unreachable, DNS failure, etc.)
+    return { ok: false };
+  }
+}
+
+async function ensureFreshToken(
+  session: SessionData
+): Promise<RefreshResult> {
+  if (!session.refreshToken) return { ok: false };
+
+  // If a refresh is already in flight, wait for it
+  if (refreshGate) return refreshGate;
+
+  refreshGate = doRefresh(session.refreshToken).finally(() => {
+    refreshGate = null;
+  });
+  return refreshGate;
+}
+
+function isTokenNearExpiry(session: SessionData): boolean {
+  return !!(
+    session.expiresAt && Date.now() > session.expiresAt - REFRESH_BUFFER_MS
   );
+}
 
-  if (!res.ok) return null;
-
-  const data = await res.json();
-  return data.access_token;
+async function applyRefreshResult(
+  session: SessionData & { save: () => Promise<void> },
+  result: RefreshResult
+): Promise<boolean> {
+  if (!result.ok) return false;
+  session.accessToken = result.access;
+  if (result.refresh) {
+    session.refreshToken = result.refresh;
+  }
+  session.expiresAt = Date.now() + 3600 * 1000;
+  await session.save();
+  return true;
 }
 
 async function proxyRequest(
@@ -73,28 +121,31 @@ async function handleProxy(
     sessionOptions
   );
 
+  // Proactive refresh: if token is near expiry, refresh before making the call
+  if (isTokenNearExpiry(session)) {
+    const result = await ensureFreshToken(session);
+    if (!result.ok) {
+      session.destroy();
+      return NextResponse.json(
+        { error: "Session expired" },
+        { status: 401 }
+      );
+    }
+    await applyRefreshResult(session, result);
+  }
+
   // First attempt
   let res = await proxyRequest(req, fullPath, session.accessToken);
 
-  // If 401, try refreshing the token (with mutex to prevent concurrent refreshes)
+  // If 401, try refreshing the token
   if (res.status === 401 && session.refreshToken) {
-    if (!refreshPromise) {
-      refreshPromise = refreshToken(session).finally(() => {
-        refreshPromise = null;
-      });
-    }
+    const result = await ensureFreshToken(session);
 
-    const newToken = await refreshPromise;
-
-    if (newToken) {
-      // Update session with new token
-      session.accessToken = newToken;
-      await session.save();
-
+    if (result.ok) {
+      await applyRefreshResult(session, result);
       // Replay original request with new token
-      res = await proxyRequest(req, fullPath, newToken);
+      res = await proxyRequest(req, fullPath, session.accessToken);
     } else {
-      // Refresh failed — clear session
       session.destroy();
       return NextResponse.json(
         { error: "Session expired" },

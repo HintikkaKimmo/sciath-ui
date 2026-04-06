@@ -1,57 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
-import { sessionOptions, SessionData, DJANGO_API_URL } from "@/lib/session";
-
-// POST /api/auth/callback — exchange Django session for API tokens
-async function handleCallback(req: NextRequest) {
-  const { code, state } = await req.json();
-
-  // Exchange the authorization code with Django
-  const tokenRes = await fetch(`${DJANGO_API_URL}/api/auth/v1/token/`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ code, state }),
-  });
-
-  if (!tokenRes.ok) {
-    return NextResponse.json(
-      { error: "Authentication failed" },
-      { status: 401 }
-    );
-  }
-
-  const tokenData = await tokenRes.json();
-
-  // Fetch user profile
-  const profileRes = await fetch(`${DJANGO_API_URL}/api/v1/me/`, {
-    headers: { Authorization: `Bearer ${tokenData.access_token}` },
-  });
-
-  const profile = profileRes.ok ? await profileRes.json() : null;
-
-  // Store in encrypted cookie
-  const cookieStore = await cookies();
-  const session = await getIronSession<SessionData>(
-    cookieStore,
-    sessionOptions
-  );
-  session.accessToken = tokenData.access_token;
-  session.refreshToken = tokenData.refresh_token;
-  session.expiresAt = Date.now() + tokenData.expires_in * 1000;
-  if (profile) {
-    session.user = {
-      id: profile.id,
-      email: profile.email,
-      name: profile.name ?? profile.email,
-      role: profile.role,
-      customerId: profile.customer_id,
-    };
-  }
-  await session.save();
-
-  return NextResponse.json({ ok: true, user: session.user });
-}
+import {
+  sessionOptions,
+  SessionData,
+  DJANGO_API_URL,
+  OAUTH_CLIENT_ID,
+  OAUTH_CLIENT_SECRET,
+} from "@/lib/session";
 
 // GET /api/auth/me — return current user from session
 async function handleMe() {
@@ -68,13 +24,32 @@ async function handleMe() {
   return NextResponse.json({ user: session.user });
 }
 
-// POST /api/auth/logout — destroy session
+// POST /api/auth/logout — revoke tokens and destroy session
 async function handleLogout() {
   const cookieStore = await cookies();
   const session = await getIronSession<SessionData>(
     cookieStore,
     sessionOptions
   );
+
+  // Best-effort token revocation on backend
+  if (session.refreshToken) {
+    try {
+      await fetch(`${DJANGO_API_URL}/o/revoke_token/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/x-www-form-urlencoded" },
+        body: new URLSearchParams({
+          token: session.refreshToken,
+          token_type_hint: "refresh_token",
+          client_id: OAUTH_CLIENT_ID,
+          client_secret: OAUTH_CLIENT_SECRET,
+        }),
+      });
+    } catch {
+      // Revocation is best-effort; don't block logout if Django is unreachable
+    }
+  }
+
   session.destroy();
   return NextResponse.json({ ok: true });
 }
@@ -139,8 +114,6 @@ export async function POST(
   const action = auth[0];
 
   switch (action) {
-    case "callback":
-      return handleCallback(req);
     case "logout":
       return handleLogout();
     case "refresh":

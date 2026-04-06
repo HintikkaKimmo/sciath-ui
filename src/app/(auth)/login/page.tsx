@@ -4,6 +4,8 @@ import { Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 
 const DJANGO_URL = process.env.NEXT_PUBLIC_DJANGO_URL ?? "http://localhost:8000";
+const APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "http://localhost:3000";
+const CLIENT_ID = process.env.NEXT_PUBLIC_OAUTH_CLIENT_ID ?? "";
 
 const providers = [
   {
@@ -68,16 +70,41 @@ const providers = [
   },
 ];
 
+/**
+ * Build the OAuth login URL.
+ *
+ * Flow: browser → allauth login → allauth redirects to LOGIN_REDIRECT_URL
+ * → Django constructs DOT /o/authorize/ URL → DOT redirects to /auth/callback
+ *
+ * For now, we go directly to allauth and let Django's LOGIN_REDIRECT_URL
+ * handle the DOT authorize step. The `next` param is passed through
+ * allauth → DOT state → callback.
+ */
+function buildLoginUrl(providerId: string, next: string): string {
+  // allauth will handle OAuth, then redirect to LOGIN_REDIRECT_URL
+  // which should be a Django view that initiates the DOT authorize flow
+  const callbackNext = encodeURIComponent(next);
+  return `${DJANGO_URL}/accounts/${providerId}/login/?process=login&next=${encodeURIComponent(`/auth/ui-bridge/?next=${callbackNext}`)}`;
+}
+
 function LoginForm() {
   const searchParams = useSearchParams();
   const next = searchParams.get("next") ?? "/dashboard";
+  const error = searchParams.get("error");
 
   return (
     <div className="space-y-3">
+      {error && (
+        <div className="rounded-lg border border-destructive/20 bg-destructive/5 px-4 py-3 text-sm text-destructive">
+          {error === "missing_code" && "Login failed: missing authorization code."}
+          {error === "exchange_failed" && "Login failed: could not complete authentication."}
+          {!["missing_code", "exchange_failed"].includes(error) && "Login failed. Please try again."}
+        </div>
+      )}
       {providers.map((provider) => (
         <a
           key={provider.id}
-          href={`${DJANGO_URL}/accounts/${provider.id}/login/?process=login&next=${encodeURIComponent(`/api/auth/callback?next=${next}`)}`}
+          href={buildLoginUrl(provider.id, next)}
           className="flex w-full items-center justify-center gap-3 rounded-lg border border-border bg-card px-4 py-3 text-sm font-medium text-card-foreground transition-colors hover:bg-accent hover:text-accent-foreground"
         >
           {provider.icon}

@@ -4,6 +4,7 @@ export interface SessionData {
   accessToken?: string;
   refreshToken?: string;
   expiresAt?: number;
+  codeVerifier?: string;
   user?: {
     id: string;
     email: string;
@@ -13,11 +14,22 @@ export interface SessionData {
   };
 }
 
+export function getSessionSecret(): string {
+  const secret = process.env.SESSION_SECRET;
+  if (!secret && process.env.NODE_ENV === "production") {
+    throw new Error(
+      "SESSION_SECRET environment variable is required in production. " +
+        "Generate with: openssl rand -hex 32"
+    );
+  }
+  return secret ?? "DEVELOPMENT-ONLY-SECRET-MUST-BE-32-CHARS-LONG!";
+}
+
 export const sessionOptions: SessionOptions = {
   cookieName: "__Secure-sciath-session",
-  password:
-    process.env.SESSION_SECRET ??
-    "DEVELOPMENT-ONLY-SECRET-MUST-BE-32-CHARS-LONG!",
+  // Evaluated at module load. In dev, uses fallback. In prod, SESSION_SECRET
+  // must be set as an env var before the server starts.
+  password: process.env.SESSION_SECRET ?? "DEVELOPMENT-ONLY-SECRET-MUST-BE-32-CHARS-LONG!",
   cookieOptions: {
     secure: process.env.NODE_ENV === "production",
     httpOnly: true,
@@ -28,3 +40,9 @@ export const sessionOptions: SessionOptions = {
 
 export const DJANGO_API_URL =
   process.env.DJANGO_API_URL ?? "http://localhost:8000";
+
+export const OAUTH_CLIENT_ID =
+  process.env.OAUTH_CLIENT_ID ?? "";
+
+export const OAUTH_CLIENT_SECRET =
+  process.env.OAUTH_CLIENT_SECRET ?? "";

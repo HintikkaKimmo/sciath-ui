@@ -23,8 +23,8 @@ export function middleware(req: NextRequest) {
     return NextResponse.next();
   }
 
-  // In development, allow access without auth for QA
-  if (process.env.NODE_ENV === "development") {
+  // Explicit auth bypass for local development
+  if (process.env.NEXT_PUBLIC_AUTH_BYPASS === "true") {
     return NextResponse.next();
   }
 
