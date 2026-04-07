@@ -12,6 +12,7 @@ import {
   LogOut,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useAuth } from "@/hooks/use-auth"
 import { Button } from "@/components/ui/button"
 import {
   Sidebar,
@@ -42,6 +43,10 @@ export function AppSidebar() {
   const pathname = usePathname()
   const { state } = useSidebar()
   const isCollapsed = state === "collapsed"
+  const { user, logout } = useAuth()
+  const initials = user?.name
+    ? user.name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
+    : user?.email?.[0]?.toUpperCase() ?? "?"
 
   return (
     <Sidebar collapsible="icon" className="border-r border-border/50">
@@ -93,13 +98,13 @@ export function AppSidebar() {
         )}>
           <Avatar className="h-8 w-8 shrink-0">
             <AvatarFallback className="bg-secondary text-muted-foreground text-xs font-medium">
-              DU
+              {initials}
             </AvatarFallback>
           </Avatar>
           {!isCollapsed && (
             <div className="flex-1 min-w-0">
-              <p className="text-sm font-medium leading-tight truncate">Dev User</p>
-              <p className="text-xs text-muted-foreground leading-tight truncate">dev@sciath.io</p>
+              <p className="text-sm font-medium leading-tight truncate">{user?.name ?? user?.email ?? "User"}</p>
+              <p className="text-xs text-muted-foreground leading-tight truncate">{user?.email ?? ""}</p>
             </div>
           )}
         </div>
@@ -112,6 +117,7 @@ export function AppSidebar() {
           <Button
             variant="ghost"
             size="sm"
+            onClick={() => logout()}
             className={cn(
               "h-8 text-muted-foreground hover:text-foreground",
               isCollapsed ? "w-8 p-0" : "flex-1 justify-start gap-2"
