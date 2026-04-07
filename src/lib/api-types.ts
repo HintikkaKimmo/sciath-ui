@@ -309,6 +309,176 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/core/v1/me/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Get Current User
+         * @description Return the authenticated user's profile.
+         *
+         *     No scope required — any valid Bearer token can read its own profile.
+         */
+        get: operations["api_routers_users_get_current_user"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/core/v1/team/members/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Members
+         * @description List active team members for the current customer.
+         */
+        get: operations["api_routers_team_list_members"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/core/v1/team/invites/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Invites
+         * @description List pending (non-expired, not accepted) invites.
+         */
+        get: operations["api_routers_team_list_invites"];
+        put?: never;
+        /**
+         * Create Invite
+         * @description Send an email invite to join the customer account.
+         */
+        post: operations["api_routers_team_create_invite"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/core/v1/team/invites/{invite_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Revoke Invite
+         * @description Revoke a pending invite.
+         */
+        delete: operations["api_routers_team_revoke_invite"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/core/v1/team/members/{member_id}/role/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        /**
+         * Change Role
+         * @description Change a team member's role.
+         */
+        put: operations["api_routers_team_change_role"];
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/core/v1/team/members/{member_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Deactivate Member
+         * @description Deactivate a team member (soft-delete).
+         */
+        delete: operations["api_routers_team_deactivate_member"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/core/v1/api-keys/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Api Keys
+         * @description List the current user's API keys (prefix only, never the raw key).
+         */
+        get: operations["api_routers_api_keys_list_api_keys"];
+        put?: never;
+        /**
+         * Generate Api Key
+         * @description Generate a new API key. The raw key is returned ONCE in this response.
+         */
+        post: operations["api_routers_api_keys_generate_api_key"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/core/v1/api-keys/{key_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        get?: never;
+        put?: never;
+        post?: never;
+        /**
+         * Revoke Api Key
+         * @description Revoke an API key (soft-delete). User can only revoke their own keys.
+         */
+        delete: operations["api_routers_api_keys_revoke_api_key"];
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/assessments/v1/assessments/bulk/": {
         parameters: {
             query?: never;
@@ -465,6 +635,417 @@ export interface paths {
         patch?: never;
         trace?: never;
     };
+    "/api/intelligence/v1/subsystems/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Subsystems */
+        get: operations["api_routers_intelligence_list_subsystems"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/subsystems/{subsystem_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Subsystem */
+        get: operations["api_routers_intelligence_get_subsystem"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/kconfig-rules/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Kconfig Rules */
+        get: operations["api_routers_intelligence_list_kconfig_rules"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/kconfig-rules/{rule_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Kconfig Rule */
+        get: operations["api_routers_intelligence_get_kconfig_rule"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/package-config-rules/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Package Config Rules */
+        get: operations["api_routers_intelligence_list_package_config_rules"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/package-config-rules/{rule_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Package Config Rule */
+        get: operations["api_routers_intelligence_get_package_config_rule"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/dtb-rules/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Dtb Rules */
+        get: operations["api_routers_intelligence_list_dtb_rules"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/dtb-rules/{rule_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Dtb Rule */
+        get: operations["api_routers_intelligence_get_dtb_rule"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/patch-mappings/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Patch Mappings */
+        get: operations["api_routers_intelligence_list_patch_mappings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/patch-mappings/{mapping_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Patch Mapping */
+        get: operations["api_routers_intelligence_get_patch_mapping"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/cpe-aliases/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Cpe Aliases */
+        get: operations["api_routers_intelligence_list_cpe_aliases"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/cpe-aliases/{alias_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Cpe Alias */
+        get: operations["api_routers_intelligence_get_cpe_alias"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/name-mappings/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Name Mappings */
+        get: operations["api_routers_intelligence_list_name_mappings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/name-mappings/{mapping_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Name Mapping */
+        get: operations["api_routers_intelligence_get_name_mapping"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/compatible-mappings/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Compatible Mappings */
+        get: operations["api_routers_intelligence_list_compatible_mappings"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/compatible-mappings/{mapping_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Compatible Mapping */
+        get: operations["api_routers_intelligence_get_compatible_mapping"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/policies/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Policies */
+        get: operations["api_routers_intelligence_list_policies"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/policies/{policy_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Policy */
+        get: operations["api_routers_intelligence_get_policy"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/enriched-cves/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * List Enriched Cves
+         * @description List enriched CVEs with filtering for high-value queries.
+         */
+        get: operations["api_routers_intelligence_list_enriched_cves"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/enriched-cves/{cve_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Enriched Cve */
+        get: operations["api_routers_intelligence_get_enriched_cve"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/data-sources/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Data Sources */
+        get: operations["api_routers_intelligence_list_data_sources"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/data-sources/{source}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Data Source */
+        get: operations["api_routers_intelligence_get_data_source"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/keywords/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** List Keywords */
+        get: operations["api_routers_intelligence_list_keywords"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/intelligence/v1/keywords/{keyword_id}/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /** Get Keyword */
+        get: operations["api_routers_intelligence_get_keyword"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
     "/api/auth/v1/device/code": {
         parameters: {
             query?: never;
@@ -521,6 +1102,46 @@ export interface paths {
          *     Rate limited to 60 req/min (same as global API limit).
          */
         post: operations["api_routers_auth_refresh_token"];
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/sync/v1/status/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Sync Status
+         * @description Last sync metadata for all configured data sources.
+         */
+        get: operations["api_routers_sync_sync_status"];
+        put?: never;
+        post?: never;
+        delete?: never;
+        options?: never;
+        head?: never;
+        patch?: never;
+        trace?: never;
+    };
+    "/api/sync/v1/stats/": {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        /**
+         * Sync Stats
+         * @description Counts of EnrichedCVE records by category.
+         */
+        get: operations["api_routers_sync_sync_stats"];
+        put?: never;
+        post?: never;
         delete?: never;
         options?: never;
         head?: never;
@@ -1760,6 +2381,109 @@ export interface components {
             /** Has More */
             has_more: boolean;
         };
+        /** UserProfileResponse */
+        UserProfileResponse: {
+            /** Id */
+            id: string;
+            /** Email */
+            email: string;
+            /** Name */
+            name: string;
+            /** Role */
+            role: string;
+            /** Customer Id */
+            customer_id: string;
+        };
+        /** TeamMemberOut */
+        TeamMemberOut: {
+            /** Id */
+            id: string;
+            /** Email */
+            email: string;
+            /** Name */
+            name: string;
+            /** Role */
+            role: string;
+            /** Is Active */
+            is_active: boolean;
+            /** Last Login */
+            last_login: string | null;
+            /** Created At */
+            created_at: string;
+        };
+        /** TeamInviteOut */
+        TeamInviteOut: {
+            /** Id */
+            id: string;
+            /** Email */
+            email: string;
+            /** Role */
+            role: string;
+            /** Invited By */
+            invited_by: string | null;
+            /** Created At */
+            created_at: string;
+            /** Expires At */
+            expires_at: string;
+        };
+        /** TeamInviteCreate */
+        TeamInviteCreate: {
+            /** Email */
+            email: string;
+            /**
+             * Role
+             * @default viewer
+             */
+            role: string;
+        };
+        /** TeamRoleUpdate */
+        TeamRoleUpdate: {
+            /** Role */
+            role: string;
+        };
+        /** APIKeyOut */
+        APIKeyOut: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Prefix */
+            prefix: string;
+            /** Scopes */
+            scopes: string[];
+            /** Is Active */
+            is_active: boolean;
+            /** Last Used At */
+            last_used_at: string | null;
+            /** Created At */
+            created_at: string;
+        };
+        /** APIKeyCreateOut */
+        APIKeyCreateOut: {
+            /** Id */
+            id: string;
+            /** Name */
+            name: string;
+            /** Prefix */
+            prefix: string;
+            /** Scopes */
+            scopes: string[];
+            /** Is Active */
+            is_active: boolean;
+            /** Last Used At */
+            last_used_at: string | null;
+            /** Created At */
+            created_at: string;
+            /** Raw Key */
+            raw_key: string;
+        };
+        /** APIKeyCreate */
+        APIKeyCreate: {
+            /** Name */
+            name: string;
+            /** Scopes */
+            scopes: string[];
+        };
         /**
          * BulkAssessmentResponse
          * @description Response from bulk assessment operation.
@@ -2369,6 +3093,550 @@ export interface components {
             /** Assessment Snapshot Hash */
             assessment_snapshot_hash?: string | null;
         };
+        /** KconfigSubsystemSchema */
+        KconfigSubsystemSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Name */
+            name: string;
+            /** Description */
+            description: string;
+            /** Primary Symbol */
+            primary_symbol: string;
+            /** Category */
+            category: string;
+            /** Estimated Cve Count */
+            estimated_cve_count: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** PaginatedSubsystems */
+        PaginatedSubsystems: {
+            /** Items */
+            items: components["schemas"]["KconfigSubsystemSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** KconfigCVERuleSchema */
+        KconfigCVERuleSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /**
+             * Subsystem Id
+             * Format: uuid
+             */
+            subsystem_id: string;
+            /** Cve Match Type */
+            cve_match_type: string;
+            /** Cve Match Value */
+            cve_match_value: string;
+            /** Symbol */
+            symbol: string;
+            /** Required State */
+            required_state: string;
+            /** Required Value */
+            required_value: string;
+            /** Confidence */
+            confidence: string;
+            /** Lifecycle */
+            lifecycle: string;
+            /** Justification Template */
+            justification_template: string;
+            /** Source */
+            source: string;
+            /** Source Notes */
+            source_notes: string;
+            /** Created By Id */
+            created_by_id?: string | null;
+            /** Reviewed By */
+            reviewed_by: string;
+            /** Verified Against */
+            verified_against: string;
+            /** Times Applied */
+            times_applied: number;
+            /** Times Disputed */
+            times_disputed: number;
+            /** Last Applied At */
+            last_applied_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** PaginatedKconfigRules */
+        PaginatedKconfigRules: {
+            /** Items */
+            items: components["schemas"]["KconfigCVERuleSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** PackageConfigRuleSchema */
+        PackageConfigRuleSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Component Name */
+            component_name: string;
+            /** Config Option */
+            config_option: string;
+            /** Build System */
+            build_system: string;
+            /** Cve Match Type */
+            cve_match_type: string;
+            /** Cve Match Value */
+            cve_match_value: string;
+            /** Justification Template */
+            justification_template: string;
+            /** Confidence */
+            confidence: string;
+            /** Lifecycle */
+            lifecycle: string;
+            /** Source */
+            source: string;
+            /** Source Notes */
+            source_notes: string;
+            /** Created By Id */
+            created_by_id?: string | null;
+            /** Times Applied */
+            times_applied: number;
+            /** Times Disputed */
+            times_disputed: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** PaginatedPackageConfigRules */
+        PaginatedPackageConfigRules: {
+            /** Items */
+            items: components["schemas"]["PackageConfigRuleSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** DTBCVERuleSchema */
+        DTBCVERuleSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Peripheral Type */
+            peripheral_type: string;
+            /** Required Compatible */
+            required_compatible: string;
+            /** Cve Match Type */
+            cve_match_type: string;
+            /** Cve Match Value */
+            cve_match_value: string;
+            /** Justification Template */
+            justification_template: string;
+            /** Confidence */
+            confidence: string;
+            /** Lifecycle */
+            lifecycle: string;
+            /** Source */
+            source: string;
+            /** Source Notes */
+            source_notes: string;
+            /** Created By Id */
+            created_by_id?: string | null;
+            /** Times Applied */
+            times_applied: number;
+            /** Times Disputed */
+            times_disputed: number;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** PaginatedDTBRules */
+        PaginatedDTBRules: {
+            /** Items */
+            items: components["schemas"]["DTBCVERuleSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** PaginatedPatchMappings */
+        PaginatedPatchMappings: {
+            /** Items */
+            items: components["schemas"]["PatchCVEMappingSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** PatchCVEMappingSchema */
+        PatchCVEMappingSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Cve Id */
+            cve_id: string;
+            /** Component Name */
+            component_name: string;
+            /** Detection Method */
+            detection_method: string;
+            /** Detection Pattern */
+            detection_pattern: string;
+            /** Justification Template */
+            justification_template: string;
+            /** Confidence */
+            confidence: string;
+            /** Lifecycle */
+            lifecycle: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** CPEAliasSchema */
+        CPEAliasSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Canonical Cpe Prefix */
+            canonical_cpe_prefix: string;
+            /** Alias Cpe Prefix */
+            alias_cpe_prefix: string;
+            /** Source */
+            source: string;
+            /** Verified */
+            verified: boolean;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** PaginatedCPEAliases */
+        PaginatedCPEAliases: {
+            /** Items */
+            items: components["schemas"]["CPEAliasSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** ComponentNameMappingSchema */
+        ComponentNameMappingSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Canonical Name */
+            canonical_name: string;
+            /** Alias Name */
+            alias_name: string;
+            /** Source */
+            source: string;
+            /** Canonical Cpe Prefix */
+            canonical_cpe_prefix: string;
+            /** Canonical Purl Prefix */
+            canonical_purl_prefix: string;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** PaginatedNameMappings */
+        PaginatedNameMappings: {
+            /** Items */
+            items: components["schemas"]["ComponentNameMappingSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** DTBCompatibleMappingSchema */
+        DTBCompatibleMappingSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Compatible Pattern */
+            compatible_pattern: string;
+            /** Peripheral Type */
+            peripheral_type: string;
+            /** Vendor */
+            vendor: string;
+            /** Soc Family */
+            soc_family: string;
+            /** Description */
+            description: string;
+            /** Verified */
+            verified: boolean;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
+        /** PaginatedCompatibleMappings */
+        PaginatedCompatibleMappings: {
+            /** Items */
+            items: components["schemas"]["DTBCompatibleMappingSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** ExploitabilityPolicySchema */
+        ExploitabilityPolicySchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Cve Match Value */
+            cve_match_value: string;
+            /** Source */
+            source: string;
+            /** Oscal Policy Json */
+            oscal_policy_json: {
+                [key: string]: unknown;
+            };
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+            /**
+             * Updated At
+             * Format: date-time
+             */
+            updated_at: string;
+        };
+        /** PaginatedPolicies */
+        PaginatedPolicies: {
+            /** Items */
+            items: components["schemas"]["ExploitabilityPolicySchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** EnrichedCVESchema */
+        EnrichedCVESchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Cve Id */
+            cve_id: string;
+            /** Euvd Id */
+            euvd_id: string;
+            /** Description */
+            description: string;
+            /** Cvss Score */
+            cvss_score?: number | null;
+            /** Cvss Vector */
+            cvss_vector: string;
+            /** Epss Score */
+            epss_score?: number | null;
+            /** Is Exploited */
+            is_exploited: boolean;
+            /** Exploited Since */
+            exploited_since?: string | null;
+            /** Euvd Published */
+            euvd_published?: string | null;
+            /** Euvd Updated */
+            euvd_updated?: string | null;
+            /** Nvd Published */
+            nvd_published?: string | null;
+            /** Nvd Updated */
+            nvd_updated?: string | null;
+            /** Cpe List */
+            cpe_list: string[];
+            /** Cwe List */
+            cwe_list: string[];
+            /** Affected Versions */
+            affected_versions: {
+                [key: string]: unknown;
+            }[];
+            /** Subsystem Tags */
+            subsystem_tags: string[];
+            /** Sources */
+            sources: string[];
+            /**
+             * First Seen
+             * Format: date-time
+             */
+            first_seen: string;
+            /**
+             * Last Enriched
+             * Format: date-time
+             */
+            last_enriched: string;
+        };
+        /** PaginatedEnrichedCVEs */
+        PaginatedEnrichedCVEs: {
+            /** Items */
+            items: components["schemas"]["EnrichedCVESchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** DataSourceSyncSchema */
+        DataSourceSyncSchema: {
+            /** Source */
+            source: string;
+            /** Last Sync At */
+            last_sync_at?: string | null;
+            /** Last Sync Status */
+            last_sync_status: string;
+            /** Last Sync Count */
+            last_sync_count: number;
+            /** Last Error */
+            last_error: string;
+            /** Is Enabled */
+            is_enabled: boolean;
+            /** Last Cursor */
+            last_cursor: string;
+        };
+        /** PaginatedDataSources */
+        PaginatedDataSources: {
+            /** Items */
+            items: components["schemas"]["DataSourceSyncSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** PaginatedKeywords */
+        PaginatedKeywords: {
+            /** Items */
+            items: components["schemas"]["SubsystemKeywordSchema"][];
+            /** Total */
+            total: number;
+            /** Limit */
+            limit: number;
+            /** Offset */
+            offset: number;
+            /** Has More */
+            has_more: boolean;
+        };
+        /** SubsystemKeywordSchema */
+        SubsystemKeywordSchema: {
+            /**
+             * Id
+             * Format: uuid
+             */
+            id: string;
+            /** Keyword */
+            keyword: string;
+            /**
+             * Subsystem Id
+             * Format: uuid
+             */
+            subsystem_id: string;
+            /** Is Phrase */
+            is_phrase: boolean;
+            /** Times Matched */
+            times_matched: number;
+            /** Last Matched At */
+            last_matched_at?: string | null;
+            /**
+             * Created At
+             * Format: date-time
+             */
+            created_at: string;
+        };
         /** DeviceCodeResponse */
         DeviceCodeResponse: {
             /** Device Code */
@@ -2392,6 +3660,32 @@ export interface components {
         RefreshRequest: {
             /** Refresh Token */
             refresh_token: string;
+        };
+        /** SyncStatusOut */
+        SyncStatusOut: {
+            /** Source */
+            source: string;
+            /** Last Sync At */
+            last_sync_at: string | null;
+            /** Last Sync Status */
+            last_sync_status: string;
+            /** Last Sync Count */
+            last_sync_count: number;
+            /** Last Error */
+            last_error: string;
+            /** Is Enabled */
+            is_enabled: boolean;
+        };
+        /** SyncStatsOut */
+        SyncStatsOut: {
+            /** Total */
+            total: number;
+            /** Exploited */
+            exploited: number;
+            /** With Cvss */
+            with_cvss: number;
+            /** With Cpe */
+            with_cpe: number;
         };
         /**
          * AnalyseResponse
@@ -3368,6 +4662,218 @@ export interface operations {
             };
         };
     };
+    api_routers_users_get_current_user: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["UserProfileResponse"];
+                };
+            };
+        };
+    };
+    api_routers_team_list_members: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamMemberOut"][];
+                };
+            };
+        };
+    };
+    api_routers_team_list_invites: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamInviteOut"][];
+                };
+            };
+        };
+    };
+    api_routers_team_create_invite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TeamInviteCreate"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["TeamInviteOut"];
+                };
+            };
+        };
+    };
+    api_routers_team_revoke_invite: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                invite_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    api_routers_team_change_role: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                member_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["TeamRoleUpdate"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    api_routers_team_deactivate_member: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                member_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
+    api_routers_api_keys_list_api_keys: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIKeyOut"][];
+                };
+            };
+        };
+    };
+    api_routers_api_keys_generate_api_key: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody: {
+            content: {
+                "application/json": components["schemas"]["APIKeyCreate"];
+            };
+        };
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["APIKeyCreateOut"];
+                };
+            };
+        };
+    };
+    api_routers_api_keys_revoke_api_key: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                key_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content?: never;
+            };
+        };
+    };
     api_routers_assessments_bulk_assess: {
         parameters: {
             query?: never;
@@ -3677,6 +5183,566 @@ export interface operations {
             };
         };
     };
+    api_routers_intelligence_list_subsystems: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                category?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedSubsystems"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_subsystem: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                subsystem_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KconfigSubsystemSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_kconfig_rules: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                subsystem_id?: string | null;
+                lifecycle?: string | null;
+                confidence?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedKconfigRules"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_kconfig_rule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                rule_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["KconfigCVERuleSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_package_config_rules: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                component_name?: string | null;
+                lifecycle?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPackageConfigRules"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_package_config_rule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                rule_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PackageConfigRuleSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_dtb_rules: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                peripheral_type?: string | null;
+                lifecycle?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedDTBRules"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_dtb_rule: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                rule_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DTBCVERuleSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_patch_mappings: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                component_name?: string | null;
+                cve_id?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPatchMappings"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_patch_mapping: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mapping_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PatchCVEMappingSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_cpe_aliases: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                verified?: boolean | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedCPEAliases"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_cpe_alias: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                alias_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["CPEAliasSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_name_mappings: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                canonical_name?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedNameMappings"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_name_mapping: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mapping_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ComponentNameMappingSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_compatible_mappings: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                peripheral_type?: string | null;
+                vendor?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedCompatibleMappings"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_compatible_mapping: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                mapping_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DTBCompatibleMappingSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_policies: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                source?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedPolicies"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_policy: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                policy_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["ExploitabilityPolicySchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_enriched_cves: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                is_exploited?: boolean | null;
+                min_cvss?: number | null;
+                subsystem_tag?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedEnrichedCVEs"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_enriched_cve: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                cve_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["EnrichedCVESchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_data_sources: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                is_enabled?: boolean | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedDataSources"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_data_source: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                source: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["DataSourceSyncSchema"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_list_keywords: {
+        parameters: {
+            query?: {
+                limit?: number | null;
+                offset?: number;
+                subsystem_id?: string | null;
+            };
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["PaginatedKeywords"];
+                };
+            };
+        };
+    };
+    api_routers_intelligence_get_keyword: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path: {
+                keyword_id: string;
+            };
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SubsystemKeywordSchema"];
+                };
+            };
+        };
+    };
     api_routers_auth_request_device_code: {
         parameters: {
             query?: never;
@@ -3740,6 +5806,46 @@ export interface operations {
                     [name: string]: unknown;
                 };
                 content?: never;
+            };
+        };
+    };
+    api_routers_sync_sync_status: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SyncStatusOut"][];
+                };
+            };
+        };
+    };
+    api_routers_sync_sync_stats: {
+        parameters: {
+            query?: never;
+            header?: never;
+            path?: never;
+            cookie?: never;
+        };
+        requestBody?: never;
+        responses: {
+            /** @description OK */
+            200: {
+                headers: {
+                    [name: string]: unknown;
+                };
+                content: {
+                    "application/json": components["schemas"]["SyncStatsOut"];
+                };
             };
         };
     };

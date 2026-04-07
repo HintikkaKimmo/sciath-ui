@@ -1674,6 +1674,345 @@
         ]
       }
     },
+    "/api/core/v1/me/": {
+      "get": {
+        "operationId": "api_routers_users_get_current_user",
+        "summary": "Get Current User",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserProfileResponse"
+                }
+              }
+            }
+          }
+        },
+        "description": "Return the authenticated user's profile.\n\nNo scope required \u2014 any valid Bearer token can read its own profile.",
+        "tags": [
+          "Core v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/team/members/": {
+      "get": {
+        "operationId": "api_routers_team_list_members",
+        "summary": "List Members",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TeamMemberOut"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "List active team members for the current customer.",
+        "tags": [
+          "Core v1",
+          "Team"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/team/invites/": {
+      "get": {
+        "operationId": "api_routers_team_list_invites",
+        "summary": "List Invites",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/TeamInviteOut"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "List pending (non-expired, not accepted) invites.",
+        "tags": [
+          "Core v1",
+          "Team"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_team_create_invite",
+        "summary": "Create Invite",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TeamInviteOut"
+                }
+              }
+            }
+          }
+        },
+        "description": "Send an email invite to join the customer account.",
+        "tags": [
+          "Core v1",
+          "Team"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeamInviteCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/team/invites/{invite_id}/": {
+      "delete": {
+        "operationId": "api_routers_team_revoke_invite",
+        "summary": "Revoke Invite",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "invite_id",
+            "schema": {
+              "title": "Invite Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Revoke a pending invite.",
+        "tags": [
+          "Core v1",
+          "Team"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/team/members/{member_id}/role/": {
+      "put": {
+        "operationId": "api_routers_team_change_role",
+        "summary": "Change Role",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "member_id",
+            "schema": {
+              "title": "Member Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Change a team member's role.",
+        "tags": [
+          "Core v1",
+          "Team"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TeamRoleUpdate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/team/members/{member_id}/": {
+      "delete": {
+        "operationId": "api_routers_team_deactivate_member",
+        "summary": "Deactivate Member",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "member_id",
+            "schema": {
+              "title": "Member Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Deactivate a team member (soft-delete).",
+        "tags": [
+          "Core v1",
+          "Team"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/api-keys/": {
+      "get": {
+        "operationId": "api_routers_api_keys_list_api_keys",
+        "summary": "List Api Keys",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/APIKeyOut"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "List the current user's API keys (prefix only, never the raw key).",
+        "tags": [
+          "Core v1",
+          "API Keys"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      },
+      "post": {
+        "operationId": "api_routers_api_keys_generate_api_key",
+        "summary": "Generate Api Key",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/APIKeyCreateOut"
+                }
+              }
+            }
+          }
+        },
+        "description": "Generate a new API key. The raw key is returned ONCE in this response.",
+        "tags": [
+          "Core v1",
+          "API Keys"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/APIKeyCreate"
+              }
+            }
+          },
+          "required": true
+        },
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/core/v1/api-keys/{key_id}/": {
+      "delete": {
+        "operationId": "api_routers_api_keys_revoke_api_key",
+        "summary": "Revoke Api Key",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "key_id",
+            "schema": {
+              "title": "Key Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          }
+        },
+        "description": "Revoke an API key (soft-delete). User can only revoke their own keys.",
+        "tags": [
+          "Core v1",
+          "API Keys"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
     "/api/assessments/v1/assessments/bulk/": {
       "post": {
         "operationId": "api_routers_assessments_bulk_assess",
@@ -2373,6 +2712,1432 @@
         ]
       }
     },
+    "/api/intelligence/v1/subsystems/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_subsystems",
+        "summary": "List Subsystems",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "category",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Category"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedSubsystems"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/subsystems/{subsystem_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_subsystem",
+        "summary": "Get Subsystem",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "subsystem_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Subsystem Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KconfigSubsystemSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/kconfig-rules/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_kconfig_rules",
+        "summary": "List Kconfig Rules",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "subsystem_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subsystem Id"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "lifecycle",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lifecycle"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "confidence",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Confidence"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedKconfigRules"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/kconfig-rules/{rule_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_kconfig_rule",
+        "summary": "Get Kconfig Rule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rule_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Rule Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/KconfigCVERuleSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/package-config-rules/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_package_config_rules",
+        "summary": "List Package Config Rules",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "component_name",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Component Name"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "lifecycle",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lifecycle"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPackageConfigRules"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/package-config-rules/{rule_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_package_config_rule",
+        "summary": "Get Package Config Rule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rule_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Rule Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PackageConfigRuleSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/dtb-rules/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_dtb_rules",
+        "summary": "List Dtb Rules",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "peripheral_type",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Peripheral Type"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "lifecycle",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Lifecycle"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedDTBRules"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/dtb-rules/{rule_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_dtb_rule",
+        "summary": "Get Dtb Rule",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "rule_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Rule Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DTBCVERuleSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/patch-mappings/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_patch_mappings",
+        "summary": "List Patch Mappings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "component_name",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Component Name"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "cve_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Cve Id"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPatchMappings"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/patch-mappings/{mapping_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_patch_mapping",
+        "summary": "Get Patch Mapping",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mapping_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Mapping Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PatchCVEMappingSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/cpe-aliases/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_cpe_aliases",
+        "summary": "List Cpe Aliases",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "verified",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Verified"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedCPEAliases"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/cpe-aliases/{alias_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_cpe_alias",
+        "summary": "Get Cpe Alias",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "alias_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Alias Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CPEAliasSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/name-mappings/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_name_mappings",
+        "summary": "List Name Mappings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "canonical_name",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Canonical Name"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedNameMappings"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/name-mappings/{mapping_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_name_mapping",
+        "summary": "Get Name Mapping",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mapping_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Mapping Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ComponentNameMappingSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/compatible-mappings/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_compatible_mappings",
+        "summary": "List Compatible Mappings",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "peripheral_type",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Peripheral Type"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "vendor",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Vendor"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedCompatibleMappings"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/compatible-mappings/{mapping_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_compatible_mapping",
+        "summary": "Get Compatible Mapping",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "mapping_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Mapping Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DTBCompatibleMappingSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/policies/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_policies",
+        "summary": "List Policies",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "source",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedPolicies"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/policies/{policy_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_policy",
+        "summary": "Get Policy",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "policy_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Policy Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ExploitabilityPolicySchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/enriched-cves/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_enriched_cves",
+        "summary": "List Enriched Cves",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "is_exploited",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Exploited"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "min_cvss",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "number"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Min Cvss"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "subsystem_tag",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subsystem Tag"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedEnrichedCVEs"
+                }
+              }
+            }
+          }
+        },
+        "description": "List enriched CVEs with filtering for high-value queries.",
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/enriched-cves/{cve_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_enriched_cve",
+        "summary": "Get Enriched Cve",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "cve_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Cve Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/EnrichedCVESchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/data-sources/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_data_sources",
+        "summary": "List Data Sources",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "is_enabled",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Is Enabled"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedDataSources"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/data-sources/{source}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_data_source",
+        "summary": "Get Data Source",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "source",
+            "schema": {
+              "title": "Source",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/DataSourceSyncSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/keywords/": {
+      "get": {
+        "operationId": "api_routers_intelligence_list_keywords",
+        "summary": "List Keywords",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "limit",
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "integer"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Limit"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "offset",
+            "schema": {
+              "default": 0,
+              "title": "Offset",
+              "type": "integer"
+            },
+            "required": false
+          },
+          {
+            "in": "query",
+            "name": "subsystem_id",
+            "schema": {
+              "anyOf": [
+                {
+                  "format": "uuid",
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Subsystem Id"
+            },
+            "required": false
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PaginatedKeywords"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/intelligence/v1/keywords/{keyword_id}/": {
+      "get": {
+        "operationId": "api_routers_intelligence_get_keyword",
+        "summary": "Get Keyword",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "keyword_id",
+            "schema": {
+              "format": "uuid",
+              "title": "Keyword Id",
+              "type": "string"
+            },
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SubsystemKeywordSchema"
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Intelligence v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
     "/api/auth/v1/device/code": {
       "post": {
         "operationId": "api_routers_auth_request_device_code",
@@ -2456,6 +4221,66 @@
           },
           "required": true
         }
+      }
+    },
+    "/api/sync/v1/status/": {
+      "get": {
+        "operationId": "api_routers_sync_sync_status",
+        "summary": "Sync Status",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "items": {
+                    "$ref": "#/components/schemas/SyncStatusOut"
+                  },
+                  "title": "Response",
+                  "type": "array"
+                }
+              }
+            }
+          }
+        },
+        "description": "Last sync metadata for all configured data sources.",
+        "tags": [
+          "Sync v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
+      }
+    },
+    "/api/sync/v1/stats/": {
+      "get": {
+        "operationId": "api_routers_sync_sync_stats",
+        "summary": "Sync Stats",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SyncStatsOut"
+                }
+              }
+            }
+          }
+        },
+        "description": "Counts of EnrichedCVE records by category.",
+        "tags": [
+          "Sync v1"
+        ],
+        "security": [
+          {
+            "DualAuth": []
+          }
+        ]
       }
     },
     "/api/scans/v1/{scan_id}/analyse/": {
@@ -5257,6 +7082,297 @@
         "title": "PaginatedActivityLogs",
         "type": "object"
       },
+      "UserProfileResponse": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "customer_id": {
+            "title": "Customer Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "role",
+          "customer_id"
+        ],
+        "title": "UserProfileResponse",
+        "type": "object"
+      },
+      "TeamMemberOut": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "last_login": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Login"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "name",
+          "role",
+          "is_active",
+          "last_login",
+          "created_at"
+        ],
+        "title": "TeamMemberOut",
+        "type": "object"
+      },
+      "TeamInviteOut": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "role": {
+            "title": "Role",
+            "type": "string"
+          },
+          "invited_by": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Invited By"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "expires_at": {
+            "title": "Expires At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "email",
+          "role",
+          "invited_by",
+          "created_at",
+          "expires_at"
+        ],
+        "title": "TeamInviteOut",
+        "type": "object"
+      },
+      "TeamInviteCreate": {
+        "properties": {
+          "email": {
+            "title": "Email",
+            "type": "string"
+          },
+          "role": {
+            "default": "viewer",
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "email"
+        ],
+        "title": "TeamInviteCreate",
+        "type": "object"
+      },
+      "TeamRoleUpdate": {
+        "properties": {
+          "role": {
+            "title": "Role",
+            "type": "string"
+          }
+        },
+        "required": [
+          "role"
+        ],
+        "title": "TeamRoleUpdate",
+        "type": "object"
+      },
+      "APIKeyOut": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "prefix": {
+            "title": "Prefix",
+            "type": "string"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopes",
+            "type": "array"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Used At"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "prefix",
+          "scopes",
+          "is_active",
+          "last_used_at",
+          "created_at"
+        ],
+        "title": "APIKeyOut",
+        "type": "object"
+      },
+      "APIKeyCreateOut": {
+        "properties": {
+          "id": {
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "prefix": {
+            "title": "Prefix",
+            "type": "string"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopes",
+            "type": "array"
+          },
+          "is_active": {
+            "title": "Is Active",
+            "type": "boolean"
+          },
+          "last_used_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Used At"
+          },
+          "created_at": {
+            "title": "Created At",
+            "type": "string"
+          },
+          "raw_key": {
+            "title": "Raw Key",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "prefix",
+          "scopes",
+          "is_active",
+          "last_used_at",
+          "created_at",
+          "raw_key"
+        ],
+        "title": "APIKeyCreateOut",
+        "type": "object"
+      },
+      "APIKeyCreate": {
+        "properties": {
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "scopes": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Scopes",
+            "type": "array"
+          }
+        },
+        "required": [
+          "name",
+          "scopes"
+        ],
+        "title": "APIKeyCreate",
+        "type": "object"
+      },
       "BulkAssessmentResponse": {
         "description": "Response from bulk assessment operation.",
         "properties": {
@@ -6613,6 +8729,1315 @@
         "title": "ReportUpdateSchema",
         "type": "object"
       },
+      "KconfigSubsystemSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "name": {
+            "title": "Name",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "primary_symbol": {
+            "title": "Primary Symbol",
+            "type": "string"
+          },
+          "category": {
+            "title": "Category",
+            "type": "string"
+          },
+          "estimated_cve_count": {
+            "title": "Estimated Cve Count",
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "description",
+          "primary_symbol",
+          "category",
+          "estimated_cve_count",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "KconfigSubsystemSchema",
+        "type": "object"
+      },
+      "PaginatedSubsystems": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/KconfigSubsystemSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedSubsystems",
+        "type": "object"
+      },
+      "KconfigCVERuleSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "subsystem_id": {
+            "format": "uuid",
+            "title": "Subsystem Id",
+            "type": "string"
+          },
+          "cve_match_type": {
+            "title": "Cve Match Type",
+            "type": "string"
+          },
+          "cve_match_value": {
+            "title": "Cve Match Value",
+            "type": "string"
+          },
+          "symbol": {
+            "title": "Symbol",
+            "type": "string"
+          },
+          "required_state": {
+            "title": "Required State",
+            "type": "string"
+          },
+          "required_value": {
+            "title": "Required Value",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "string"
+          },
+          "lifecycle": {
+            "title": "Lifecycle",
+            "type": "string"
+          },
+          "justification_template": {
+            "title": "Justification Template",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "source_notes": {
+            "title": "Source Notes",
+            "type": "string"
+          },
+          "created_by_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By Id"
+          },
+          "reviewed_by": {
+            "title": "Reviewed By",
+            "type": "string"
+          },
+          "verified_against": {
+            "title": "Verified Against",
+            "type": "string"
+          },
+          "times_applied": {
+            "title": "Times Applied",
+            "type": "integer"
+          },
+          "times_disputed": {
+            "title": "Times Disputed",
+            "type": "integer"
+          },
+          "last_applied_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Applied At"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "subsystem_id",
+          "cve_match_type",
+          "cve_match_value",
+          "symbol",
+          "required_state",
+          "required_value",
+          "confidence",
+          "lifecycle",
+          "justification_template",
+          "source",
+          "source_notes",
+          "reviewed_by",
+          "verified_against",
+          "times_applied",
+          "times_disputed",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "KconfigCVERuleSchema",
+        "type": "object"
+      },
+      "PaginatedKconfigRules": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/KconfigCVERuleSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedKconfigRules",
+        "type": "object"
+      },
+      "PackageConfigRuleSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "component_name": {
+            "title": "Component Name",
+            "type": "string"
+          },
+          "config_option": {
+            "title": "Config Option",
+            "type": "string"
+          },
+          "build_system": {
+            "title": "Build System",
+            "type": "string"
+          },
+          "cve_match_type": {
+            "title": "Cve Match Type",
+            "type": "string"
+          },
+          "cve_match_value": {
+            "title": "Cve Match Value",
+            "type": "string"
+          },
+          "justification_template": {
+            "title": "Justification Template",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "string"
+          },
+          "lifecycle": {
+            "title": "Lifecycle",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "source_notes": {
+            "title": "Source Notes",
+            "type": "string"
+          },
+          "created_by_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By Id"
+          },
+          "times_applied": {
+            "title": "Times Applied",
+            "type": "integer"
+          },
+          "times_disputed": {
+            "title": "Times Disputed",
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "component_name",
+          "config_option",
+          "build_system",
+          "cve_match_type",
+          "cve_match_value",
+          "justification_template",
+          "confidence",
+          "lifecycle",
+          "source",
+          "source_notes",
+          "times_applied",
+          "times_disputed",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "PackageConfigRuleSchema",
+        "type": "object"
+      },
+      "PaginatedPackageConfigRules": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PackageConfigRuleSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedPackageConfigRules",
+        "type": "object"
+      },
+      "DTBCVERuleSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "peripheral_type": {
+            "title": "Peripheral Type",
+            "type": "string"
+          },
+          "required_compatible": {
+            "title": "Required Compatible",
+            "type": "string"
+          },
+          "cve_match_type": {
+            "title": "Cve Match Type",
+            "type": "string"
+          },
+          "cve_match_value": {
+            "title": "Cve Match Value",
+            "type": "string"
+          },
+          "justification_template": {
+            "title": "Justification Template",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "string"
+          },
+          "lifecycle": {
+            "title": "Lifecycle",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "source_notes": {
+            "title": "Source Notes",
+            "type": "string"
+          },
+          "created_by_id": {
+            "anyOf": [
+              {
+                "format": "uuid",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Created By Id"
+          },
+          "times_applied": {
+            "title": "Times Applied",
+            "type": "integer"
+          },
+          "times_disputed": {
+            "title": "Times Disputed",
+            "type": "integer"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "peripheral_type",
+          "required_compatible",
+          "cve_match_type",
+          "cve_match_value",
+          "justification_template",
+          "confidence",
+          "lifecycle",
+          "source",
+          "source_notes",
+          "times_applied",
+          "times_disputed",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "DTBCVERuleSchema",
+        "type": "object"
+      },
+      "PaginatedDTBRules": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DTBCVERuleSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedDTBRules",
+        "type": "object"
+      },
+      "PaginatedPatchMappings": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/PatchCVEMappingSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedPatchMappings",
+        "type": "object"
+      },
+      "PatchCVEMappingSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "cve_id": {
+            "title": "Cve Id",
+            "type": "string"
+          },
+          "component_name": {
+            "title": "Component Name",
+            "type": "string"
+          },
+          "detection_method": {
+            "title": "Detection Method",
+            "type": "string"
+          },
+          "detection_pattern": {
+            "title": "Detection Pattern",
+            "type": "string"
+          },
+          "justification_template": {
+            "title": "Justification Template",
+            "type": "string"
+          },
+          "confidence": {
+            "title": "Confidence",
+            "type": "string"
+          },
+          "lifecycle": {
+            "title": "Lifecycle",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "cve_id",
+          "component_name",
+          "detection_method",
+          "detection_pattern",
+          "justification_template",
+          "confidence",
+          "lifecycle",
+          "created_at"
+        ],
+        "title": "PatchCVEMappingSchema",
+        "type": "object"
+      },
+      "CPEAliasSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "canonical_cpe_prefix": {
+            "title": "Canonical Cpe Prefix",
+            "type": "string"
+          },
+          "alias_cpe_prefix": {
+            "title": "Alias Cpe Prefix",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "verified": {
+            "title": "Verified",
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "canonical_cpe_prefix",
+          "alias_cpe_prefix",
+          "source",
+          "verified",
+          "created_at"
+        ],
+        "title": "CPEAliasSchema",
+        "type": "object"
+      },
+      "PaginatedCPEAliases": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/CPEAliasSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedCPEAliases",
+        "type": "object"
+      },
+      "ComponentNameMappingSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "canonical_name": {
+            "title": "Canonical Name",
+            "type": "string"
+          },
+          "alias_name": {
+            "title": "Alias Name",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "canonical_cpe_prefix": {
+            "title": "Canonical Cpe Prefix",
+            "type": "string"
+          },
+          "canonical_purl_prefix": {
+            "title": "Canonical Purl Prefix",
+            "type": "string"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "canonical_name",
+          "alias_name",
+          "source",
+          "canonical_cpe_prefix",
+          "canonical_purl_prefix",
+          "created_at"
+        ],
+        "title": "ComponentNameMappingSchema",
+        "type": "object"
+      },
+      "PaginatedNameMappings": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ComponentNameMappingSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedNameMappings",
+        "type": "object"
+      },
+      "DTBCompatibleMappingSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "compatible_pattern": {
+            "title": "Compatible Pattern",
+            "type": "string"
+          },
+          "peripheral_type": {
+            "title": "Peripheral Type",
+            "type": "string"
+          },
+          "vendor": {
+            "title": "Vendor",
+            "type": "string"
+          },
+          "soc_family": {
+            "title": "Soc Family",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "verified": {
+            "title": "Verified",
+            "type": "boolean"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "compatible_pattern",
+          "peripheral_type",
+          "vendor",
+          "soc_family",
+          "description",
+          "verified",
+          "created_at"
+        ],
+        "title": "DTBCompatibleMappingSchema",
+        "type": "object"
+      },
+      "PaginatedCompatibleMappings": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DTBCompatibleMappingSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedCompatibleMappings",
+        "type": "object"
+      },
+      "ExploitabilityPolicySchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "cve_match_value": {
+            "title": "Cve Match Value",
+            "type": "string"
+          },
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "oscal_policy_json": {
+            "additionalProperties": true,
+            "title": "Oscal Policy Json",
+            "type": "object"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "title": "Updated At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "cve_match_value",
+          "source",
+          "oscal_policy_json",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "ExploitabilityPolicySchema",
+        "type": "object"
+      },
+      "PaginatedPolicies": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/ExploitabilityPolicySchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedPolicies",
+        "type": "object"
+      },
+      "EnrichedCVESchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "cve_id": {
+            "title": "Cve Id",
+            "type": "string"
+          },
+          "euvd_id": {
+            "title": "Euvd Id",
+            "type": "string"
+          },
+          "description": {
+            "title": "Description",
+            "type": "string"
+          },
+          "cvss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Cvss Score"
+          },
+          "cvss_vector": {
+            "title": "Cvss Vector",
+            "type": "string"
+          },
+          "epss_score": {
+            "anyOf": [
+              {
+                "type": "number"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Epss Score"
+          },
+          "is_exploited": {
+            "title": "Is Exploited",
+            "type": "boolean"
+          },
+          "exploited_since": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Exploited Since"
+          },
+          "euvd_published": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Euvd Published"
+          },
+          "euvd_updated": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Euvd Updated"
+          },
+          "nvd_published": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nvd Published"
+          },
+          "nvd_updated": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Nvd Updated"
+          },
+          "cpe_list": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Cpe List",
+            "type": "array"
+          },
+          "cwe_list": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Cwe List",
+            "type": "array"
+          },
+          "affected_versions": {
+            "items": {
+              "additionalProperties": true,
+              "type": "object"
+            },
+            "title": "Affected Versions",
+            "type": "array"
+          },
+          "subsystem_tags": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Subsystem Tags",
+            "type": "array"
+          },
+          "sources": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Sources",
+            "type": "array"
+          },
+          "first_seen": {
+            "format": "date-time",
+            "title": "First Seen",
+            "type": "string"
+          },
+          "last_enriched": {
+            "format": "date-time",
+            "title": "Last Enriched",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "cve_id",
+          "euvd_id",
+          "description",
+          "cvss_vector",
+          "is_exploited",
+          "cpe_list",
+          "cwe_list",
+          "affected_versions",
+          "subsystem_tags",
+          "sources",
+          "first_seen",
+          "last_enriched"
+        ],
+        "title": "EnrichedCVESchema",
+        "type": "object"
+      },
+      "PaginatedEnrichedCVEs": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/EnrichedCVESchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedEnrichedCVEs",
+        "type": "object"
+      },
+      "DataSourceSyncSchema": {
+        "properties": {
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "last_sync_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Sync At"
+          },
+          "last_sync_status": {
+            "title": "Last Sync Status",
+            "type": "string"
+          },
+          "last_sync_count": {
+            "title": "Last Sync Count",
+            "type": "integer"
+          },
+          "last_error": {
+            "title": "Last Error",
+            "type": "string"
+          },
+          "is_enabled": {
+            "title": "Is Enabled",
+            "type": "boolean"
+          },
+          "last_cursor": {
+            "title": "Last Cursor",
+            "type": "string"
+          }
+        },
+        "required": [
+          "source",
+          "last_sync_status",
+          "last_sync_count",
+          "last_error",
+          "is_enabled",
+          "last_cursor"
+        ],
+        "title": "DataSourceSyncSchema",
+        "type": "object"
+      },
+      "PaginatedDataSources": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/DataSourceSyncSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedDataSources",
+        "type": "object"
+      },
+      "PaginatedKeywords": {
+        "properties": {
+          "items": {
+            "items": {
+              "$ref": "#/components/schemas/SubsystemKeywordSchema"
+            },
+            "title": "Items",
+            "type": "array"
+          },
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "limit": {
+            "title": "Limit",
+            "type": "integer"
+          },
+          "offset": {
+            "title": "Offset",
+            "type": "integer"
+          },
+          "has_more": {
+            "title": "Has More",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "items",
+          "total",
+          "limit",
+          "offset",
+          "has_more"
+        ],
+        "title": "PaginatedKeywords",
+        "type": "object"
+      },
+      "SubsystemKeywordSchema": {
+        "properties": {
+          "id": {
+            "format": "uuid",
+            "title": "Id",
+            "type": "string"
+          },
+          "keyword": {
+            "title": "Keyword",
+            "type": "string"
+          },
+          "subsystem_id": {
+            "format": "uuid",
+            "title": "Subsystem Id",
+            "type": "string"
+          },
+          "is_phrase": {
+            "title": "Is Phrase",
+            "type": "boolean"
+          },
+          "times_matched": {
+            "title": "Times Matched",
+            "type": "integer"
+          },
+          "last_matched_at": {
+            "anyOf": [
+              {
+                "format": "date-time",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Matched At"
+          },
+          "created_at": {
+            "format": "date-time",
+            "title": "Created At",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "keyword",
+          "subsystem_id",
+          "is_phrase",
+          "times_matched",
+          "created_at"
+        ],
+        "title": "SubsystemKeywordSchema",
+        "type": "object"
+      },
       "DeviceCodeResponse": {
         "properties": {
           "device_code": {
@@ -6663,6 +10088,79 @@
           "refresh_token"
         ],
         "title": "RefreshRequest",
+        "type": "object"
+      },
+      "SyncStatusOut": {
+        "properties": {
+          "source": {
+            "title": "Source",
+            "type": "string"
+          },
+          "last_sync_at": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "title": "Last Sync At"
+          },
+          "last_sync_status": {
+            "title": "Last Sync Status",
+            "type": "string"
+          },
+          "last_sync_count": {
+            "title": "Last Sync Count",
+            "type": "integer"
+          },
+          "last_error": {
+            "title": "Last Error",
+            "type": "string"
+          },
+          "is_enabled": {
+            "title": "Is Enabled",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "source",
+          "last_sync_at",
+          "last_sync_status",
+          "last_sync_count",
+          "last_error",
+          "is_enabled"
+        ],
+        "title": "SyncStatusOut",
+        "type": "object"
+      },
+      "SyncStatsOut": {
+        "properties": {
+          "total": {
+            "title": "Total",
+            "type": "integer"
+          },
+          "exploited": {
+            "title": "Exploited",
+            "type": "integer"
+          },
+          "with_cvss": {
+            "title": "With Cvss",
+            "type": "integer"
+          },
+          "with_cpe": {
+            "title": "With Cpe",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "total",
+          "exploited",
+          "with_cvss",
+          "with_cpe"
+        ],
+        "title": "SyncStatsOut",
         "type": "object"
       },
       "AnalyseResponse": {
