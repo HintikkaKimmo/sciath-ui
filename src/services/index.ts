@@ -4,3 +4,6 @@ export * from "./assessments";
 export * from "./reports";
 export * from "./activity";
 export * from "./policies";
+export * from "./intelligence";
+export * from "./team";
+export * from "./api-keys";

@@ -123,6 +123,17 @@ export const queryKeys = {
   },
   intelligence: {
     all: ["intelligence"] as const,
+    syncStatus: () => [...queryKeys.intelligence.all, "sync-status"] as const,
+    syncStats: () => [...queryKeys.intelligence.all, "sync-stats"] as const,
+  },
+  team: {
+    all: ["team"] as const,
+    members: () => [...queryKeys.team.all, "members"] as const,
+    invites: () => [...queryKeys.team.all, "invites"] as const,
+  },
+  apiKeys: {
+    all: ["apiKeys"] as const,
+    list: () => [...queryKeys.apiKeys.all, "list"] as const,
   },
   me: {
     all: ["me"] as const,
