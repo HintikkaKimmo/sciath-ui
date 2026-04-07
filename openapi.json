@@ -8478,6 +8478,10 @@
             "title": "Format",
             "type": "string"
           },
+          "status": {
+            "title": "Status",
+            "type": "string"
+          },
           "content_json": {
             "anyOf": [
               {
@@ -8556,6 +8560,7 @@
           "id",
           "scan_id",
           "format",
+          "status",
           "storage_key",
           "total_vulnerabilities",
           "suppressed_count",

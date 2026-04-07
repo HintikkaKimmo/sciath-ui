@@ -2994,6 +2994,8 @@ export interface components {
             scan_id: string;
             /** Format */
             format: string;
+            /** Status */
+            status: string;
             /** Content Json */
             content_json?: {
                 [key: string]: unknown;
