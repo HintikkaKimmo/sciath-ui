@@ -1,7 +1,8 @@
 "use client"
 
-import Link from "next/link"
-import { usePathname } from "next/navigation"
+import { useTranslations } from "next-intl"
+import { Link } from "@/i18n/navigation"
+import { usePathname } from "@/i18n/navigation"
 import {
   LayoutDashboard,
   Package,
@@ -30,20 +31,22 @@ import {
 import { Avatar, AvatarFallback } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 
-const navItems = [
-  { title: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { title: "Products", href: "/products", icon: Package },
-  { title: "Findings", href: "/findings", icon: Search },
-  { title: "Intelligence", href: "/intelligence", icon: Radio },
-  { title: "Reports", href: "/reports", icon: FileText },
-  { title: "Settings", href: "/settings", icon: Settings },
-]
+const navKeys = [
+  { key: "dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { key: "products", href: "/products", icon: Package },
+  { key: "findings", href: "/findings", icon: Search },
+  { key: "intelligence", href: "/intelligence", icon: Radio },
+  { key: "reports", href: "/reports", icon: FileText },
+  { key: "settings", href: "/settings", icon: Settings },
+] as const
 
 export function AppSidebar() {
   const pathname = usePathname()
   const { state } = useSidebar()
   const isCollapsed = state === "collapsed"
   const { user, logout } = useAuth()
+  const t = useTranslations("nav")
+  const tc = useTranslations("common")
   const initials = user?.name
     ? user.name.split(" ").map(w => w[0]).join("").slice(0, 2).toUpperCase()
     : user?.email?.[0]?.toUpperCase() ?? "?"
@@ -56,7 +59,7 @@ export function AppSidebar() {
             S
           </div>
           {!isCollapsed && (
-            <span className="font-semibold text-lg tracking-tight">Sciath</span>
+            <span className="font-semibold text-lg tracking-tight">{tc("sciath")}</span>
           )}
         </Link>
       </SidebarHeader>
@@ -65,21 +68,22 @@ export function AppSidebar() {
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => {
+              {navKeys.map((item) => {
                 const isActive = pathname === item.href || pathname.startsWith(`${item.href}/`)
+                const title = t(item.key)
                 return (
-                  <SidebarMenuItem key={item.title}>
+                  <SidebarMenuItem key={item.key}>
                     <SidebarMenuButton
                       render={<Link href={item.href} />}
                       isActive={isActive}
-                      tooltip={item.title}
+                      tooltip={title}
                       className={cn(
                         "transition-colors",
                         isActive && "bg-secondary text-foreground font-medium"
                       )}
                     >
                       <item.icon className="h-4 w-4" />
-                      <span>{item.title}</span>
+                      <span>{title}</span>
                     </SidebarMenuButton>
                   </SidebarMenuItem>
                 )
@@ -91,7 +95,6 @@ export function AppSidebar() {
 
       <SidebarFooter className="p-3 mt-auto">
         <Separator className="mb-3" />
-        {/* User profile row */}
         <div className={cn(
           "flex items-center gap-3 px-2 py-2 rounded-md hover:bg-secondary/50 cursor-pointer transition-colors",
           isCollapsed && "justify-center px-0"
@@ -108,8 +111,7 @@ export function AppSidebar() {
             </div>
           )}
         </div>
-        
-        {/* Actions row */}
+
         <div className={cn(
           "flex items-center gap-1 mt-2",
           isCollapsed ? "flex-col" : "px-2"
@@ -124,9 +126,9 @@ export function AppSidebar() {
             )}
           >
             <LogOut className="h-4 w-4" />
-            {!isCollapsed && <span className="text-xs">Sign out</span>}
+            {!isCollapsed && <span className="text-xs">{tc("signOut")}</span>}
           </Button>
-          <SidebarTrigger 
+          <SidebarTrigger
             className={cn(
               "h-8 text-muted-foreground hover:text-foreground hover:bg-secondary/50",
               isCollapsed ? "w-8 p-0" : "w-8 p-0 ml-auto"

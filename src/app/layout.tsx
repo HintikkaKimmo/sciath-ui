@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Instrument_Serif } from "next/font/google";
 import { Geist_Mono } from "next/font/google";
-import { ThemeProvider } from "next-themes";
-import { QueryProvider } from "@/lib/query-provider";
 import "./globals.css";
 
 const instrumentSans = Instrument_Sans({
@@ -34,19 +32,10 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
       suppressHydrationWarning
       className={`${instrumentSans.variable} ${instrumentSerif.variable} ${geistMono.variable}`}
     >
-      <body className="font-sans antialiased">
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem={false}
-        >
-          <QueryProvider>{children}</QueryProvider>
-        </ThemeProvider>
-      </body>
+      <body className="font-sans antialiased">{children}</body>
     </html>
   );
 }
