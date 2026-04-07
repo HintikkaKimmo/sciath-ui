@@ -24,7 +24,7 @@ export default function FiltersSettingsPage() {
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Filter Policies</h1>
+        <h1 className="text-2xl font-semibold font-serif">Filter Policies</h1>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5">
             <Upload className="h-3 w-3" /> Import VEX

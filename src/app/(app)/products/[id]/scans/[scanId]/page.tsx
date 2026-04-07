@@ -111,7 +111,7 @@ export default function ScanDetailPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-lg font-semibold">
+          <h1 className="text-2xl font-semibold font-serif">
             Scan — {new Date(scan.created_at).toLocaleDateString()}
           </h1>
           <p className="text-xs text-muted-foreground mt-0.5">

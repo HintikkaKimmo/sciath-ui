@@ -52,7 +52,7 @@ export default function DashboardPage() {
     <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Dashboard</h1>
+        <h1 className="text-2xl font-semibold font-serif">Dashboard</h1>
       </div>
 
       {/* Stats row */}
@@ -87,7 +87,7 @@ export default function DashboardPage() {
             <span className="text-sm font-medium">Products</span>
             <Link
               href="/products"
-              className="text-xs text-primary hover:underline"
+              className="text-xs text-primary hover:underline px-2 py-1 -mr-2"
             >
               View all
             </Link>

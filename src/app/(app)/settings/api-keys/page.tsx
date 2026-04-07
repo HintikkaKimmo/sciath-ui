@@ -64,7 +64,7 @@ export default function ApiKeysPage() {
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-lg font-semibold">API Keys</h1>
+          <h1 className="text-2xl font-semibold font-serif">API Keys</h1>
           <p className="text-xs text-muted-foreground mt-0.5">
             Keys for CLI and CI/CD integrations. Keep them secret.
           </p>

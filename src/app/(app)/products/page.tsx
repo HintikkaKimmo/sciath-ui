@@ -27,7 +27,7 @@ export default function ProductsPage() {
     <div className="p-4 space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Products</h1>
+        <h1 className="text-2xl font-semibold font-serif">Products</h1>
         <Button size="sm" className="h-7 text-xs gap-1.5">
           <Plus className="h-3 w-3" />
           Add Product

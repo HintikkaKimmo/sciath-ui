@@ -55,7 +55,7 @@ export default function TeamPage() {
       </Link>
 
       <div className="flex items-center justify-between">
-        <h1 className="text-lg font-semibold">Team Members</h1>
+        <h1 className="text-2xl font-semibold font-serif">Team Members</h1>
         <Button
           size="sm"
           className="h-7 text-xs gap-1.5"

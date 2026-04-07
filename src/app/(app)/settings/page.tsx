@@ -32,7 +32,7 @@ export default function SettingsPage() {
 
   return (
     <div className="p-4 space-y-6">
-      <h1 className="text-lg font-semibold">Settings</h1>
+      <h1 className="text-2xl font-semibold font-serif">Settings</h1>
 
       {/* Profile */}
       <div className="bg-card border rounded-md p-4 space-y-4">

@@ -63,7 +63,7 @@ export default function ProductDetailPage() {
       {/* Header */}
       <div className="flex items-start justify-between">
         <div>
-          <h1 className="text-lg font-semibold">{project.name}</h1>
+          <h1 className="text-2xl font-semibold font-serif">{project.name}</h1>
           <p className="text-xs text-muted-foreground mt-0.5">
             {project.description}
             {project.build_system && ` · ${project.build_system}`}
