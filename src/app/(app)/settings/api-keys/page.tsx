@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Plus, Trash2, Loader2, Check, Copy } from "lucide-react";
+import { ArrowLeft, Plus, Trash2, Loader2, Check, Copy, Inbox } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useApiKeys, useGenerateApiKey, useRevokeApiKey } from "@/hooks/use-api-keys";
@@ -177,8 +177,9 @@ export default function ApiKeysPage() {
             <Loader2 className="h-5 w-5 animate-spin text-muted-foreground" />
           </div>
         ) : keys?.length === 0 ? (
-          <div className="py-8 text-center text-sm text-muted-foreground">
-            No API keys yet. Generate one to get started.
+          <div className="flex flex-col items-center justify-center gap-3 py-12 text-sm text-muted-foreground">
+            <Inbox className="size-8 text-primary/30" />
+            <p>No API keys yet. Generate one to get started.</p>
           </div>
         ) : (
           <table className="w-full text-sm">
