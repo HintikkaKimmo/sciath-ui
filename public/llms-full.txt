@@ -1,0 +1,61 @@
+# Sciath — Full Product Context
+
+> Hardware-aware CVE intelligence for embedded Linux. CRA compliance automation.
+
+## What is Sciath?
+
+Sciath is a B2B SaaS platform that helps embedded Linux teams achieve EU Cyber Resilience Act (CRA) compliance. The CRA requires manufacturers of products with digital elements to demonstrate ongoing vulnerability management. For embedded Linux firmware (IoT devices, industrial controllers, automotive ECUs, medical devices), this means tracking thousands of CVEs across the Linux kernel, system libraries, and application packages.
+
+The problem: standard vulnerability scanners produce massive false positive rates on embedded Linux because they don't understand hardware configuration. A CVE in the kernel's Bluetooth stack doesn't affect a device with Bluetooth disabled at build time. Sciath's 6-layer filter pipeline uses hardware-aware intelligence to suppress false positives automatically.
+
+## How It Works
+
+1. **Scan**: Upload an SBOM (CycloneDX or SPDX) from your build system (Yocto, Buildroot, OpenWrt)
+2. **Filter**: 6-layer pipeline suppresses false positives:
+   - Kconfig rules: kernel features disabled at build time
+   - Device tree rules: peripherals not present on the board
+   - Package config rules: optional features disabled (e.g., OpenSSL without SSL3)
+   - Patch detection: upstream fixes already backported
+   - CPE/PURL matching: precise component version correlation
+   - Intelligence rules: shared knowledge base from NVD, EUVD, CISA KEV
+3. **Triage**: Keyboard-driven assessment of remaining CVEs (affected/not affected/investigating/fixed)
+4. **Report**: Generate CRA-compliant VEX/CSAF documents for submission to authorities
+
+## Technical Architecture
+
+- **Frontend**: Next.js (App Router, TypeScript, Tailwind CSS, shadcn/ui)
+- **Backend**: Django REST API (Django Ninja)
+- **CLI**: Python CLI for CI/CD integration
+- **Intelligence**: NVD, EUVD, CISA KEV feeds synced continuously
+- **Auth**: OAuth2 (Google, GitHub, GitLab) via BFF proxy pattern
+
+## Target Users
+
+- Security analysts at embedded Linux product companies
+- Firmware engineers building IoT, automotive, industrial, or medical devices
+- Compliance officers responsible for CRA documentation
+- DevSecOps teams integrating vulnerability scanning into CI/CD
+
+## CRA Compliance Context
+
+The EU Cyber Resilience Act (Regulation 2024/2847) entered into force on 10 December 2024. Key deadlines:
+- September 2026: Manufacturer reporting obligations begin
+- December 2027: Full compliance required for all products with digital elements
+
+Manufacturers must demonstrate:
+- Ongoing vulnerability monitoring and management
+- Timely security updates
+- Machine-readable vulnerability disclosure (VEX/CSAF format)
+- Coordinated vulnerability disclosure process
+
+Sciath automates the vulnerability monitoring, assessment, and disclosure documentation requirements.
+
+## Related Terms
+
+CRA, Cyber Resilience Act, embedded Linux, firmware security, vulnerability management, SBOM, VEX, CSAF, CycloneDX, SPDX, Yocto, Buildroot, OpenWrt, CVE, NVD, EUVD, CISA KEV, kernel config, device tree, false positive filtering, compliance automation
+
+## Contact
+
+- Website: https://sciath.io
+- Support: support@sciath.co
+- Blog: https://sciath.io/blog
