@@ -100,7 +100,7 @@ export default function FindingsPage() {
             onChange={(e) => setSearch(e.target.value)}
           />
         </div>
-        <Select value={statusFilter} onValueChange={setStatusFilter}>
+        <Select value={statusFilter} onValueChange={(v) => setStatusFilter(v ?? "all")}>
           <SelectTrigger className="w-[110px] h-7 text-xs">
             <SelectValue />
           </SelectTrigger>
