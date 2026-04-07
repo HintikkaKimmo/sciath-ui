@@ -2,6 +2,7 @@
 
 import { Suspense, useState } from "react";
 import { useSearchParams } from "next/navigation";
+import { Shield, Layers, Filter, FileCheck } from "lucide-react";
 
 const DJANGO_URL = process.env.NEXT_PUBLIC_DJANGO_URL ?? "http://localhost:8000";
 
@@ -68,17 +69,6 @@ const providers = [
   },
 ];
 
-/**
- * Build the OAuth login URL.
- *
- * Flow:
- * 1. POST /api/auth/pkce → get code_challenge, store code_verifier in session
- * 2. Redirect to allauth with next=/auth/ui-bridge/?next=...&code_challenge=...
- * 3. allauth handles OAuth, redirects to ui-bridge
- * 4. ui-bridge redirects to DOT /o/authorize/ with code_challenge
- * 5. DOT redirects to /auth/callback with code
- * 6. Callback reads code_verifier from session, exchanges code for tokens
- */
 function buildLoginUrl(
   providerId: string,
   next: string,
@@ -138,36 +128,107 @@ function LoginForm() {
   );
 }
 
+const highlights = [
+  { icon: Shield, text: "CRA compliance automation" },
+  { icon: Layers, text: "Hardware-aware CVE filtering" },
+  { icon: Filter, text: "6-layer false positive reduction" },
+  { icon: FileCheck, text: "One-click VEX/CSAF reports" },
+];
+
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="w-full max-w-sm space-y-8 p-8">
-        <div className="text-center">
-          <h1 className="text-3xl font-normal tracking-tight font-serif">Sciath</h1>
-          <p className="mt-2 text-sm text-muted-foreground">
-            CRA compliance automation for embedded Linux
-          </p>
+    <div className="flex min-h-screen">
+      {/* Left: brand panel */}
+      <div className="hidden lg:flex lg:w-1/2 relative bg-primary overflow-hidden">
+        {/* Subtle geometric pattern */}
+        <div className="absolute inset-0 opacity-10">
+          <div className="absolute top-1/4 -left-20 w-80 h-80 rounded-full border border-primary-foreground/30" />
+          <div className="absolute bottom-1/3 right-10 w-60 h-60 rounded-full border border-primary-foreground/20" />
+          <div className="absolute top-2/3 left-1/3 w-40 h-40 rounded-full border border-primary-foreground/20" />
         </div>
 
-        <Suspense
-          fallback={
-            <div className="space-y-3">
-              {[1, 2, 3].map((i) => (
-                <div
-                  key={i}
-                  className="h-12 animate-pulse rounded-lg bg-card"
-                />
+        <div className="relative z-10 flex flex-col justify-between p-12 text-primary-foreground">
+          {/* Top: brand */}
+          <div>
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-foreground/20 font-semibold text-lg">
+                S
+              </div>
+              <span className="font-serif text-2xl">Sciath</span>
+            </div>
+          </div>
+
+          {/* Center: value prop */}
+          <div className="space-y-6">
+            <h2 className="font-serif text-4xl leading-tight">
+              Know which CVEs<br />
+              actually matter.
+            </h2>
+            <p className="text-primary-foreground/70 text-lg max-w-md leading-relaxed">
+              Hardware-aware vulnerability intelligence for embedded Linux.
+              Filter the noise. Ship with confidence.
+            </p>
+            <div className="space-y-3 pt-4">
+              {highlights.map((h) => (
+                <div key={h.text} className="flex items-center gap-3">
+                  <h.icon className="h-4 w-4 text-primary-foreground/50 shrink-0" />
+                  <span className="text-sm text-primary-foreground/80">{h.text}</span>
+                </div>
               ))}
             </div>
-          }
-        >
-          <LoginForm />
-        </Suspense>
+          </div>
 
-        <p className="text-center text-xs text-muted-foreground">
-          By continuing, you agree to Sciath&apos;s Terms of Service and
-          Privacy Policy.
-        </p>
+          {/* Bottom: social proof placeholder */}
+          <p className="text-xs text-primary-foreground/40">
+            EU Cyber Resilience Act compliant
+          </p>
+        </div>
+      </div>
+
+      {/* Right: login form */}
+      <div className="flex flex-1 items-center justify-center bg-background p-8">
+        <div className="w-full max-w-sm space-y-8">
+          {/* Mobile-only brand (hidden on desktop where left panel shows) */}
+          <div className="text-center lg:hidden">
+            <div className="flex items-center justify-center gap-3 mb-4">
+              <div className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground font-semibold">
+                S
+              </div>
+            </div>
+            <h1 className="text-3xl font-normal tracking-tight font-serif">Sciath</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              CRA compliance automation for embedded Linux
+            </p>
+          </div>
+
+          {/* Desktop: simpler header since left panel has the brand story */}
+          <div className="hidden lg:block text-center">
+            <h1 className="text-2xl font-normal tracking-tight font-serif">Sign in</h1>
+            <p className="mt-2 text-sm text-muted-foreground">
+              Choose your identity provider
+            </p>
+          </div>
+
+          <Suspense
+            fallback={
+              <div className="space-y-3">
+                {[1, 2, 3].map((i) => (
+                  <div
+                    key={i}
+                    className="h-12 animate-pulse rounded-lg bg-card"
+                  />
+                ))}
+              </div>
+            }
+          >
+            <LoginForm />
+          </Suspense>
+
+          <p className="text-center text-xs text-muted-foreground">
+            By continuing, you agree to Sciath&apos;s Terms of Service and
+            Privacy Policy.
+          </p>
+        </div>
       </div>
     </div>
   );
