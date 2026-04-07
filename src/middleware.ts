@@ -29,7 +29,12 @@ export function middleware(req: NextRequest) {
   }
 
   // Check for session cookie (existence only — validation happens server-side)
-  const sessionCookie = req.cookies.get("__Secure-sciath-session");
+  // In dev, iron-session uses "sciath-session" (no __Secure- prefix, which requires HTTPS)
+  const cookieName =
+    process.env.NODE_ENV === "production"
+      ? "__Secure-sciath-session"
+      : "sciath-session";
+  const sessionCookie = req.cookies.get(cookieName);
   if (!sessionCookie) {
     const loginUrl = new URL("/login", req.url);
     loginUrl.searchParams.set("next", pathname);

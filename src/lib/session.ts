@@ -26,7 +26,10 @@ export function getSessionSecret(): string {
 }
 
 export const sessionOptions: SessionOptions = {
-  cookieName: "__Secure-sciath-session",
+  cookieName:
+    process.env.NODE_ENV === "production"
+      ? "__Secure-sciath-session"
+      : "sciath-session",
   // Evaluated at module load. In dev, uses fallback. In prod, SESSION_SECRET
   // must be set as an env var before the server starts.
   password: process.env.SESSION_SECRET ?? "DEVELOPMENT-ONLY-SECRET-MUST-BE-32-CHARS-LONG!",
