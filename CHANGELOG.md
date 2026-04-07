@@ -35,7 +35,8 @@ All notable changes to the Sciath UI will be documented in this file.
 
 ### Changed
 
-- **All pages wired to real API** — products list, product detail, scan triage, dashboard, findings, reports, settings profile, and filter policies now use TanStack Query hooks instead of mock data. Intelligence and team/API keys remain placeholder (no backend endpoints in OpenAPI spec).
+- **All 11 pages wired to real API** — all app pages now use TanStack Query hooks with real API data via the BFF proxy. Intelligence page shows sync feed status and CVE database stats. Team page supports invite, revoke, role change, and member deactivation. API keys page supports generate, revoke, and scope selection with escalation prevention.
+- **OpenAPI spec expanded** — regenerated from Django with 71 endpoints (sync status/stats, 24 intelligence LIST/GET, 6 team management, 3 API key management endpoints newly public)
 - **Session secret hardening** — `getSessionSecret()` throws in production if `SESSION_SECRET` not set
 - **Proxy token refresh** — saves rotated refresh token (fixes forced-logout bug), proactive refresh 30s before expiry, single refresh gate with failure broadcast, try/catch for network errors
 - **Auth route cleanup** — removed dead `handleCallback()`, logout now revokes tokens on backend via DOT
