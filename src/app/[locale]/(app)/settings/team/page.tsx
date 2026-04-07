@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { ArrowLeft, Plus, MoreHorizontal, Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -28,6 +29,9 @@ export default function TeamPage() {
   const changeRole = useChangeRole();
   const deactivateMember = useDeactivateMember();
 
+  const t = useTranslations("settings.team");
+  const tc = useTranslations("common");
+
   const [showInviteForm, setShowInviteForm] = useState(false);
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviteRole, setInviteRole] = useState("analyst");
@@ -51,34 +55,34 @@ export default function TeamPage() {
         href="/settings"
         className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="h-3 w-3" /> Settings
+        <ArrowLeft className="h-3 w-3" /> {tc("settings")}
       </Link>
 
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold font-serif">Team Members</h1>
+        <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
         <Button
           size="sm"
           className="h-7 text-xs gap-1.5"
           onClick={() => setShowInviteForm(!showInviteForm)}
         >
-          <Plus className="h-3 w-3" /> Invite
+          <Plus className="h-3 w-3" /> {t("invite")}
         </Button>
       </div>
 
       {showInviteForm && (
         <div className="bg-card border rounded-md p-3 flex gap-2 items-end">
           <div className="flex-1">
-            <label className="text-xs text-muted-foreground">Email</label>
+            <label className="text-xs text-muted-foreground">{t("email")}</label>
             <input
               type="email"
               value={inviteEmail}
               onChange={(e) => setInviteEmail(e.target.value)}
-              placeholder="colleague@company.com"
+              placeholder={t("emailPlaceholder")}
               className="w-full mt-0.5 px-2 py-1 text-sm border rounded bg-background"
             />
           </div>
           <div>
-            <label className="text-xs text-muted-foreground">Role</label>
+            <label className="text-xs text-muted-foreground">{t("role")}</label>
             <select
               value={inviteRole}
               onChange={(e) => setInviteRole(e.target.value)}
@@ -98,7 +102,7 @@ export default function TeamPage() {
             {inviteMember.isPending ? (
               <Loader2 className="h-3 w-3 animate-spin" />
             ) : (
-              "Send"
+              tc("send")
             )}
           </Button>
         </div>
@@ -120,10 +124,10 @@ export default function TeamPage() {
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-xs text-muted-foreground bg-secondary/30">
-                <th className="text-left font-medium px-3 py-2">Member</th>
-                <th className="text-left font-medium px-3 py-2">Role</th>
-                <th className="text-left font-medium px-3 py-2">Status</th>
-                <th className="text-left font-medium px-3 py-2">Last login</th>
+                <th className="text-left font-medium px-3 py-2">{t("member")}</th>
+                <th className="text-left font-medium px-3 py-2">{t("role")}</th>
+                <th className="text-left font-medium px-3 py-2">{t("status")}</th>
+                <th className="text-left font-medium px-3 py-2">{t("lastLogin")}</th>
                 <th className="w-8"></th>
               </tr>
             </thead>
@@ -150,13 +154,13 @@ export default function TeamPage() {
                   <td className="px-3 py-2">
                     <span className="flex items-center gap-1.5 text-xs">
                       <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" />
-                      Active
+                      {tc("active")}
                     </span>
                   </td>
                   <td className="px-3 py-2 text-xs text-muted-foreground">
                     {m.last_login
                       ? new Date(m.last_login).toLocaleDateString()
-                      : "Never"}
+                      : tc("never")}
                   </td>
                   <td className="px-3 py-2">
                     <button className="text-muted-foreground hover:text-foreground">
@@ -174,7 +178,7 @@ export default function TeamPage() {
       {!invitesLoading && invites && invites.length > 0 && (
         <>
           <h2 className="text-sm font-medium text-muted-foreground">
-            Pending Invitations
+            {t("pendingInvitations")}
           </h2>
           <div className="bg-card border rounded-md">
             <table className="w-full text-sm">
@@ -196,8 +200,9 @@ export default function TeamPage() {
                       </Badge>
                     </td>
                     <td className="px-3 py-2 text-xs text-muted-foreground">
-                      Expires{" "}
-                      {new Date(inv.expires_at).toLocaleDateString()}
+                      {t("expires", {
+                        date: new Date(inv.expires_at).toLocaleDateString(),
+                      })}
                     </td>
                     <td className="px-3 py-2 text-right">
                       <Button
@@ -207,7 +212,7 @@ export default function TeamPage() {
                         onClick={() => revokeInvite.mutate(inv.id)}
                         disabled={revokeInvite.isPending}
                       >
-                        Revoke
+                        {tc("revoke")}
                       </Button>
                     </td>
                   </tr>

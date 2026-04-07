@@ -7,8 +7,10 @@ import { useReports, useDownloadReport } from "@/hooks/use-reports";
 import { TableSkeleton } from "@/components/ui/data-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
+import { useTranslations } from "next-intl";
 
 export default function ReportsPage() {
+  const t = useTranslations("reports");
   const { data, isLoading, error, refetch } = useReports();
   const downloadReport = useDownloadReport();
 
@@ -17,22 +19,22 @@ export default function ReportsPage() {
   if (isLoading) return <TableSkeleton rows={4} cols={5} />;
   if (error)
     return (
-      <ErrorState message="Failed to load reports" onRetry={() => refetch()} />
+      <ErrorState message={t("failedToLoad")} onRetry={() => refetch()} />
     );
 
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold font-serif">Reports</h1>
+        <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
         <Button size="sm" className="h-7 text-xs gap-1.5">
-          <FileText className="h-3 w-3" /> Generate Report
+          <FileText className="h-3 w-3" /> {t("generateReport")}
         </Button>
       </div>
 
       {reports.length === 0 ? (
         <EmptyState
-          title="No reports yet"
-          message="Generate a report from a scan to see it here."
+          title={t("noReports")}
+          message={t("noReportsMessage")}
         />
       ) : (
         <div className="bg-card border rounded-md overflow-x-auto">
@@ -100,11 +102,11 @@ export default function ReportsPage() {
                         onClick={() => downloadReport.mutate(r.id)}
                         disabled={downloadReport.isPending}
                       >
-                        <Download className="h-3 w-3" /> Download
+                        <Download className="h-3 w-3" /> {t("download")}
                       </Button>
                     ) : r.status === "generating" ? (
                       <span className="inline-flex items-center gap-1 text-xs text-muted-foreground">
-                        <Loader2 className="h-3 w-3 animate-spin" /> Generating
+                        <Loader2 className="h-3 w-3 animate-spin" /> {t("generating")}
                       </span>
                     ) : null}
                   </td>

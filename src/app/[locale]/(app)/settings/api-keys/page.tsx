@@ -1,7 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { ArrowLeft, Plus, Trash2, Loader2, Check, Copy, Inbox } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
@@ -19,6 +20,9 @@ export default function ApiKeysPage() {
   const { data: keys, isLoading } = useApiKeys();
   const generateKey = useGenerateApiKey();
   const revokeKey = useRevokeApiKey();
+
+  const t = useTranslations("settings.apiKeys");
+  const tc = useTranslations("common");
 
   const [showForm, setShowForm] = useState(false);
   const [keyName, setKeyName] = useState("");
@@ -59,14 +63,14 @@ export default function ApiKeysPage() {
         href="/settings"
         className="inline-flex items-center gap-1.5 text-xs text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="h-3 w-3" /> Settings
+        <ArrowLeft className="h-3 w-3" /> {tc("settings")}
       </Link>
 
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-semibold font-serif">API Keys</h1>
+          <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
           <p className="text-xs text-muted-foreground mt-0.5">
-            Keys for CLI and CI/CD integrations. Keep them secret.
+            {t("description")}
           </p>
         </div>
         <Button
@@ -77,7 +81,7 @@ export default function ApiKeysPage() {
             setNewRawKey(null);
           }}
         >
-          <Plus className="h-3 w-3" /> Generate Key
+          <Plus className="h-3 w-3" /> {t("generateKey")}
         </Button>
       </div>
 
@@ -85,7 +89,7 @@ export default function ApiKeysPage() {
       {newRawKey && (
         <div className="bg-emerald-50 border border-emerald-200 rounded-md p-3 space-y-2">
           <p className="text-xs font-medium text-emerald-800">
-            Key created. Copy it now — you won&apos;t see it again.
+            {t("keyCreated")}
           </p>
           <div className="flex items-center gap-2">
             <code className="flex-1 text-xs font-mono bg-white px-2 py-1 rounded border">
@@ -102,7 +106,7 @@ export default function ApiKeysPage() {
               ) : (
                 <Copy className="h-3 w-3" />
               )}
-              {copied ? "Copied" : "Copy"}
+              {copied ? tc("copied") : tc("copy")}
             </Button>
           </div>
         </div>
@@ -112,18 +116,18 @@ export default function ApiKeysPage() {
       {showForm && (
         <div className="bg-card border rounded-md p-3 space-y-3">
           <div>
-            <label className="text-xs text-muted-foreground">Key Name</label>
+            <label className="text-xs text-muted-foreground">{t("keyName")}</label>
             <input
               type="text"
               value={keyName}
               onChange={(e) => setKeyName(e.target.value)}
-              placeholder="e.g. CI Pipeline"
+              placeholder={t("keyNamePlaceholder")}
               className="w-full mt-0.5 px-2 py-1 text-sm border rounded bg-background"
               maxLength={100}
             />
           </div>
           <div>
-            <label className="text-xs text-muted-foreground">Scopes</label>
+            <label className="text-xs text-muted-foreground">{t("scopes")}</label>
             <div className="mt-1 flex flex-wrap gap-1.5">
               {AVAILABLE_SCOPES.map((scope) => (
                 <button
@@ -150,7 +154,7 @@ export default function ApiKeysPage() {
               {generateKey.isPending ? (
                 <Loader2 className="h-3 w-3 animate-spin" />
               ) : (
-                "Generate"
+                tc("generate")
               )}
             </Button>
             <Button
@@ -159,7 +163,7 @@ export default function ApiKeysPage() {
               className="h-7 text-xs"
               onClick={() => setShowForm(false)}
             >
-              Cancel
+              {tc("cancel")}
             </Button>
           </div>
           {generateKey.isError && (
@@ -179,17 +183,17 @@ export default function ApiKeysPage() {
         ) : keys?.length === 0 ? (
           <div className="flex flex-col items-center justify-center gap-3 py-12 text-sm text-muted-foreground">
             <Inbox className="size-8 text-primary/30" />
-            <p>No API keys yet. Generate one to get started.</p>
+            <p>{t("noKeys")}</p>
           </div>
         ) : (
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-xs text-muted-foreground bg-secondary/30">
-                <th className="text-left font-medium px-3 py-2">Name</th>
-                <th className="text-left font-medium px-3 py-2">Key</th>
-                <th className="text-left font-medium px-3 py-2">Scopes</th>
-                <th className="text-left font-medium px-3 py-2">Created</th>
-                <th className="text-left font-medium px-3 py-2">Last Used</th>
+                <th className="text-left font-medium px-3 py-2">{t("name")}</th>
+                <th className="text-left font-medium px-3 py-2">{t("key")}</th>
+                <th className="text-left font-medium px-3 py-2">{t("scopes")}</th>
+                <th className="text-left font-medium px-3 py-2">{t("created")}</th>
+                <th className="text-left font-medium px-3 py-2">{t("lastUsed")}</th>
                 <th className="w-10"></th>
               </tr>
             </thead>
@@ -224,13 +228,13 @@ export default function ApiKeysPage() {
                   <td className="px-3 py-2 text-xs text-muted-foreground">
                     {k.last_used_at
                       ? new Date(k.last_used_at).toLocaleDateString()
-                      : "Never"}
+                      : tc("never")}
                   </td>
                   <td className="px-3 py-2">
                     <button
                       className="p-1 text-muted-foreground hover:text-red-600"
                       onClick={() => revokeKey.mutate(k.id)}
-                      title="Revoke key"
+                      title={t("revokeKey")}
                     >
                       <Trash2 className="h-3.5 w-3.5" />
                     </button>

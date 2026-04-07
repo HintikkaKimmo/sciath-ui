@@ -1,7 +1,8 @@
 "use client";
 
 import { ChevronRight } from "lucide-react";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import { useProjects } from "@/hooks/use-projects";
 import { useActivity } from "@/hooks/use-activity";
 import { TableSkeleton } from "@/components/ui/data-skeleton";
@@ -26,6 +27,8 @@ function getActionDotColor(action: string) {
 }
 
 export default function DashboardPage() {
+  const t = useTranslations("dashboard");
+  const tc = useTranslations("common");
   const {
     data: projectsData,
     isLoading: projectsLoading,
@@ -43,7 +46,7 @@ export default function DashboardPage() {
   if (projectsError)
     return (
       <ErrorState
-        message="Failed to load dashboard"
+        message={t("failedToLoad")}
         onRetry={() => refetchProjects()}
       />
     );
@@ -52,27 +55,27 @@ export default function DashboardPage() {
     <div className="p-4 space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold font-serif">Dashboard</h1>
+        <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
       </div>
 
       {/* Stats row */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
         <div className="bg-card border rounded-md p-3">
-          <div className="text-xs text-muted-foreground">Products</div>
+          <div className="text-xs text-muted-foreground">{t("products")}</div>
           <div className="text-xl font-semibold mt-0.5">{projects.length}</div>
         </div>
         <div className="bg-card border rounded-md p-3">
-          <div className="text-xs text-muted-foreground">Recent Activity</div>
+          <div className="text-xs text-muted-foreground">{t("recentActivity")}</div>
           <div className="text-xl font-semibold mt-0.5">
             {activityData?.total ?? 0}
           </div>
           <div className="text-[11px] text-muted-foreground mt-0.5">
-            total events
+            {t("totalEvents")}
           </div>
         </div>
         <div className="bg-card border rounded-md p-3">
           <div className="text-xs text-muted-foreground">
-            Build Systems
+            {t("buildSystems")}
           </div>
           <div className="text-xl font-semibold mt-0.5">
             {new Set(projects.map((p) => p.build_system).filter(Boolean)).size}
@@ -84,17 +87,17 @@ export default function DashboardPage() {
         {/* Products table */}
         <div className="col-span-2 bg-card border rounded-md">
           <div className="flex items-center justify-between px-3 py-2 border-b">
-            <span className="text-sm font-medium">Products</span>
+            <span className="text-sm font-medium">{t("products")}</span>
             <Link
               href="/products"
               className="text-xs text-primary hover:underline px-2 py-1 -mr-2"
             >
-              View all
+              {tc("viewAll")}
             </Link>
           </div>
           {projects.length === 0 ? (
             <div className="p-4 text-xs text-muted-foreground">
-              No products yet. Add your first product to get started.
+              {t("noProducts")}
             </div>
           ) : (
             <table className="w-full text-sm">
@@ -147,13 +150,13 @@ export default function DashboardPage() {
         {/* Activity feed */}
         <div className="bg-card border rounded-md">
           <div className="px-3 py-2 border-b">
-            <span className="text-sm font-medium">Recent Activity</span>
+            <span className="text-sm font-medium">{t("recentActivity")}</span>
           </div>
           {activityLoading ? (
             <div className="p-4 text-xs text-muted-foreground">Loading...</div>
           ) : activities.length === 0 ? (
             <div className="p-4 text-xs text-muted-foreground">
-              No activity yet
+              {t("noActivity")}
             </div>
           ) : (
             <div className="divide-y">

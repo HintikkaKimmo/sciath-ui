@@ -1,6 +1,7 @@
 "use client";
 
 import { Plus, Upload } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { usePolicies } from "@/hooks/use-policies";
 import { TableSkeleton } from "@/components/ui/data-skeleton";
@@ -9,6 +10,7 @@ import { EmptyState } from "@/components/ui/empty-state";
 
 export default function FiltersSettingsPage() {
   const { data, isLoading, error, refetch } = usePolicies();
+  const t = useTranslations("settings.filters");
 
   const policies = data?.items ?? [];
 
@@ -16,7 +18,7 @@ export default function FiltersSettingsPage() {
   if (error)
     return (
       <ErrorState
-        message="Failed to load filter policies"
+        message={t("failedToLoad")}
         onRetry={() => refetch()}
       />
     );
@@ -24,34 +26,34 @@ export default function FiltersSettingsPage() {
   return (
     <div className="p-4 space-y-4">
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold font-serif">Filter Policies</h1>
+        <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
         <div className="flex gap-2">
           <Button variant="outline" size="sm" className="h-7 text-xs gap-1.5">
-            <Upload className="h-3 w-3" /> Import VEX
+            <Upload className="h-3 w-3" /> {t("importVex")}
           </Button>
           <Button size="sm" className="h-7 text-xs gap-1.5">
-            <Plus className="h-3 w-3" /> New Policy
+            <Plus className="h-3 w-3" /> {t("newPolicy")}
           </Button>
         </div>
       </div>
 
       {policies.length === 0 ? (
         <EmptyState
-          title="No filter policies"
-          message="Create a filter policy or import a VEX document to get started."
+          title={t("noFilters")}
+          message={t("noFiltersMessage")}
         />
       ) : (
         <div className="bg-card border rounded-md overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="border-b text-xs text-muted-foreground bg-secondary/30">
-                <th className="text-left font-medium px-3 py-2">Name</th>
+                <th className="text-left font-medium px-3 py-2">{t("name")}</th>
                 <th className="text-left font-medium px-3 py-2">
-                  Description
+                  {t("descriptionColumn")}
                 </th>
-                <th className="text-right font-medium px-3 py-2">Rules</th>
-                <th className="text-right font-medium px-3 py-2">Version</th>
-                <th className="text-right font-medium px-3 py-2">Updated</th>
+                <th className="text-right font-medium px-3 py-2">{t("rules")}</th>
+                <th className="text-right font-medium px-3 py-2">{t("version")}</th>
+                <th className="text-right font-medium px-3 py-2">{t("updated")}</th>
               </tr>
             </thead>
             <tbody>

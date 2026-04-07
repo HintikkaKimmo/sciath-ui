@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { ChevronRight, Plus, Search } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,8 +9,10 @@ import { TableSkeleton } from "@/components/ui/data-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 
 export default function ProductsPage() {
+  const t = useTranslations("products");
   const [search, setSearch] = useState("");
   const { data, isLoading, error, refetch } = useProjects();
 
@@ -27,10 +29,10 @@ export default function ProductsPage() {
     <div className="p-4 space-y-3">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-semibold font-serif">Products</h1>
+        <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
         <Button size="sm" className="h-7 text-xs gap-1.5">
           <Plus className="h-3 w-3" />
-          Add Product
+          {t("addProduct")}
         </Button>
       </div>
 
@@ -38,7 +40,7 @@ export default function ProductsPage() {
       <div className="relative max-w-xs">
         <Search className="absolute left-2.5 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-muted-foreground" />
         <Input
-          placeholder="Search products..."
+          placeholder={t("searchPlaceholder")}
           className="h-8 pl-8 text-sm"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
@@ -51,7 +53,7 @@ export default function ProductsPage() {
       {/* Error */}
       {error && (
         <ErrorState
-          message="Failed to load products"
+          message={t("failedToLoad")}
           onRetry={() => refetch()}
         />
       )}
@@ -59,8 +61,8 @@ export default function ProductsPage() {
       {/* Empty */}
       {!isLoading && !error && projects.length === 0 && (
         <EmptyState
-          title="No products yet"
-          message="Add your first product to start tracking CRA compliance."
+          title={t("noProducts")}
+          message={t("noProductsMessage")}
         />
       )}
 
