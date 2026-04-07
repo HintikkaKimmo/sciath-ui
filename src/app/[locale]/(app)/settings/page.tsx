@@ -1,38 +1,43 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
+import { useTranslations } from "next-intl";
 import { User, Key, Users, Filter, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
 
-const sections = [
-  {
-    title: "Team Members",
-    desc: "Manage who has access to your organization",
-    href: "/settings/team",
-    icon: Users,
-  },
-  {
-    title: "API Keys",
-    desc: "Manage API keys for CLI and CI/CD integrations",
-    href: "/settings/api-keys",
-    icon: Key,
-  },
-  {
-    title: "Filter Policies",
-    desc: "Configure custom VEX filter rules",
-    href: "/settings/filters",
-    icon: Filter,
-  },
-];
-
 export default function SettingsPage() {
   const { user, isLoading } = useAuth();
+  const t = useTranslations("settings");
+  const tTeam = useTranslations("settings.team");
+  const tApiKeys = useTranslations("settings.apiKeys");
+  const tFilters = useTranslations("settings.filters");
+
+  const sections = [
+    {
+      title: tTeam("title"),
+      desc: t("teamDescription"),
+      href: "/settings/team" as const,
+      icon: Users,
+    },
+    {
+      title: tApiKeys("title"),
+      desc: t("apiKeysDescription"),
+      href: "/settings/api-keys" as const,
+      icon: Key,
+    },
+    {
+      title: tFilters("title"),
+      desc: t("filterPoliciesDescription"),
+      href: "/settings/filters" as const,
+      icon: Filter,
+    },
+  ];
 
   return (
     <div className="p-4 space-y-6">
-      <h1 className="text-2xl font-semibold font-serif">Settings</h1>
+      <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
 
       {/* Profile */}
       <div className="bg-card border rounded-md p-4 space-y-4">
@@ -47,7 +52,7 @@ export default function SettingsPage() {
             </div>
           ) : (
             <div>
-              <p className="text-sm font-medium">{user?.name ?? "User"}</p>
+              <p className="text-sm font-medium">{user?.name ?? t("user")}</p>
               <p className="text-xs text-muted-foreground">
                 {user?.email ?? ""} · {user?.role ?? ""}
               </p>
@@ -58,7 +63,7 @@ export default function SettingsPage() {
         <div className="grid gap-4 sm:grid-cols-2 max-w-lg">
           <div className="space-y-1.5">
             <label className="text-xs text-muted-foreground">
-              Display name
+              {t("displayName")}
             </label>
             <Input
               defaultValue={user?.name ?? ""}
@@ -66,7 +71,7 @@ export default function SettingsPage() {
             />
           </div>
           <div className="space-y-1.5">
-            <label className="text-xs text-muted-foreground">Email</label>
+            <label className="text-xs text-muted-foreground">{t("email")}</label>
             <Input
               defaultValue={user?.email ?? ""}
               className="h-8 text-sm"
@@ -76,7 +81,7 @@ export default function SettingsPage() {
         </div>
 
         <Button size="sm" className="h-7 text-xs">
-          Save Changes
+          {t("saveChanges")}
         </Button>
       </div>
 

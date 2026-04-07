@@ -185,6 +185,26 @@ npm run lint
 
 ---
 
+## Internationalization (i18n) — MANDATORY
+
+**All user-facing strings must use `next-intl` translation functions.**
+
+- Server components: `const t = await getTranslations("namespace")`
+- Client components: `const t = useTranslations("namespace")`
+- Never hardcode user-visible text in JSX. Use `t("key")` instead.
+- Add new strings to `messages/en.json` under the appropriate namespace.
+- Navigation links: use `import { Link } from "@/i18n/navigation"` instead of `next/link`.
+- Path hooks: use `import { usePathname } from "@/i18n/navigation"` instead of `next/navigation`.
+
+**Message file structure:** `messages/en.json` is organized by page/feature namespace
+(e.g., `dashboard`, `products`, `settings.team`). Keep namespaces flat within a
+feature. Shared strings go in the `common` namespace.
+
+**Adding a new language:** Create `messages/<locale>.json` (e.g., `messages/de.json`),
+translate all keys, and add the locale to `src/i18n/routing.ts`. No code changes needed.
+
+---
+
 ## CHANGELOG and VERSION — update on every commit
 
 **Every commit that changes functionality must update `CHANGELOG.md`.**
