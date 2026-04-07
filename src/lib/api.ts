@@ -126,6 +126,15 @@ export const queryKeys = {
     syncStatus: () => [...queryKeys.intelligence.all, "sync-status"] as const,
     syncStats: () => [...queryKeys.intelligence.all, "sync-stats"] as const,
   },
+  incidents: {
+    all: ["incidents"] as const,
+    stats: () => [...queryKeys.incidents.all, "stats"] as const,
+    list: (params?: Record<string, string>) =>
+      [...queryKeys.incidents.all, "list", params] as const,
+    detail: (id: string) => [...queryKeys.incidents.all, id] as const,
+    alerts: (params?: Record<string, string>) =>
+      [...queryKeys.incidents.all, "alerts", params] as const,
+  },
   team: {
     all: ["team"] as const,
     members: () => [...queryKeys.team.all, "members"] as const,

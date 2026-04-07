@@ -26,6 +26,7 @@
     "dashboard": "Dashboard",
     "products": "Products",
     "findings": "Findings",
+    "incidents": "Incidents",
     "intelligence": "Intelligence",
     "reports": "Reports",
     "settings": "Settings"
@@ -90,6 +91,40 @@
       "not_affected": "Not Affected",
       "fixed": "Fixed",
       "under_investigation": "Investigating"
+    }
+  },
+  "incidents": {
+    "title": "Incidents",
+    "description": "CRA Article 14 incident notifications for actively exploited vulnerabilities.",
+    "active": "Active",
+    "approachingDeadline": "Approaching",
+    "awaitingApproval": "Awaiting Approval",
+    "closedThisMonth": "Closed (Month)",
+    "overdue": "Overdue",
+    "noIncidents": "No active incidents",
+    "monitoringActive": "Your products are being monitored for actively exploited vulnerabilities.",
+    "lastCheck": "Last check: {time}",
+    "failedToLoad": "Failed to load incidents",
+    "deadline": "Deadline",
+    "remaining": "remaining",
+    "stage": "Stage",
+    "product": "Product",
+    "severity": "Severity",
+    "approve": "Approve & File",
+    "withdraw": "Withdraw",
+    "withdrawReason": "Withdrawal reason",
+    "viewReport": "View Report",
+    "generateReport": "Generate Report",
+    "createIncident": "Create Incident",
+    "confirmAdvance": "You are about to file a CRA Article 14 notification. This action is logged for regulatory audit.",
+    "confirmWithdraw": "Withdraw this incident notification? This must be justified under CRA Article 14(8).",
+    "stages": {
+      "early_warning_24h": "24h Early Warning",
+      "detailed_72h": "72h Detailed",
+      "final_14d": "14d Final Report",
+      "closed": "Closed",
+      "withdrawn": "Withdrawn",
+      "failed": "Failed"
     }
   },
   "intelligence": {
