@@ -11,9 +11,11 @@ type UploadState = "idle" | "dragging" | "uploading" | "success" | "error"
 
 interface FileUploadProps {
   onUpload?: (files: File[]) => void
+  multiple?: boolean
+  onFileContent?: (content: string, filename: string) => void
 }
 
-export function FileUpload({ onUpload }: FileUploadProps) {
+export function FileUpload({ onUpload, multiple = true, onFileContent }: FileUploadProps) {
   const [state, setState] = useState<UploadState>("idle")
   const [files, setFiles] = useState<File[]>([])
   const [progress, setProgress] = useState(0)
@@ -31,7 +33,7 @@ export function FileUpload({ onUpload }: FileUploadProps) {
   }
 
   const handleFiles = useCallback((incoming: FileList | File[]) => {
-    const arr = Array.from(incoming)
+    const arr = multiple ? Array.from(incoming) : [Array.from(incoming)[0]]
     const oversized = arr.find((f) => f.size > MAX_SIZE_MB * 1024 * 1024)
     if (oversized) {
       setError(`${oversized.name} exceeds ${MAX_SIZE_MB}MB limit`)
@@ -42,19 +44,38 @@ export function FileUpload({ onUpload }: FileUploadProps) {
     setState("uploading")
     setError("")
 
-    // Simulate upload progress
-    let p = 0
-    const interval = setInterval(() => {
-      p += Math.random() * 30
-      if (p >= 100) {
-        p = 100
-        clearInterval(interval)
+    if (onFileContent) {
+      const file = arr[0]
+      const reader = new FileReader()
+      reader.onload = () => {
+        setProgress(100)
         setState("success")
+        onFileContent(reader.result as string, file.name)
         onUpload?.(arr)
       }
-      setProgress(Math.min(p, 100))
-    }, 200)
-  }, [onUpload])
+      reader.onerror = () => {
+        setError(`Failed to read ${file.name}`)
+        setState("error")
+      }
+      reader.onprogress = (e) => {
+        if (e.lengthComputable) setProgress((e.loaded / e.total) * 100)
+      }
+      reader.readAsText(file)
+    } else {
+      // Simulate upload progress
+      let p = 0
+      const interval = setInterval(() => {
+        p += Math.random() * 30
+        if (p >= 100) {
+          p = 100
+          clearInterval(interval)
+          setState("success")
+          onUpload?.(arr)
+        }
+        setProgress(Math.min(p, 100))
+      }, 200)
+    }
+  }, [onUpload, onFileContent, multiple])
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault()
@@ -96,7 +117,7 @@ export function FileUpload({ onUpload }: FileUploadProps) {
             <label className="mt-3 inline-block">
               <input
                 type="file"
-                multiple
+                multiple={multiple}
                 accept={ACCEPTED_FORMATS.join(",")}
                 className="sr-only"
                 onChange={(e) => e.target.files && handleFiles(e.target.files)}

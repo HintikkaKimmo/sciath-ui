@@ -2,9 +2,12 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Search } from "lucide-react";
+import { Search, Download, Loader2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { downloadBlob } from "@/lib/utils";
+import { toast } from "sonner";
 import {
   Select,
   SelectContent,
@@ -16,32 +19,13 @@ import { useAssessments } from "@/hooks/use-assessments";
 import { TableSkeleton } from "@/components/ui/data-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
 import { EmptyState } from "@/components/ui/empty-state";
-
-const statusStyle: Record<string, string> = {
-  affected: "bg-red-100 text-red-700 border-red-200",
-  not_affected: "bg-emerald-100 text-emerald-700 border-emerald-200",
-  fixed: "bg-blue-100 text-blue-700 border-blue-200",
-  under_investigation: "bg-amber-100 text-amber-700 border-amber-200",
-};
-
-function getCvssColor(cvss: number) {
-  if (cvss >= 9) return "text-red-600";
-  if (cvss >= 7) return "text-orange-600";
-  if (cvss >= 4) return "text-amber-600";
-  return "text-blue-600";
-}
-
-function getSeverityBar(cvss: number) {
-  if (cvss >= 9) return "bg-red-500";
-  if (cvss >= 7) return "bg-orange-500";
-  if (cvss >= 4) return "bg-amber-400";
-  return "bg-blue-500";
-}
+import { statusStyle, getCvssColor, getSeverityBar } from "@/lib/severity";
 
 export default function FindingsPage() {
   const t = useTranslations("findings");
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
+  const [exporting, setExporting] = useState(false);
   const {
     data,
     isLoading,
@@ -72,6 +56,45 @@ export default function FindingsPage() {
     return true;
   });
 
+  const totalCount = data?.total ?? filtered.length;
+  const showLimitWarning = totalCount > filtered.length;
+
+  function exportToCsv() {
+    // D7: Confirmation when total exceeds loaded
+    if (showLimitWarning) {
+      const confirmed = window.confirm(
+        t("exportCsvLimitWarning", { loaded: filtered.length })
+      );
+      if (!confirmed) return;
+    }
+
+    setExporting(true);
+    try {
+      const headers = ["CVE ID", "CVSS", "Component", "Status", "Filter Layer"];
+      const rows = filtered.map((f) => [
+        f.id,
+        f.cvss?.toString() ?? "",
+        f.pkg,
+        f.status,
+        f.layer ?? "",
+      ]);
+      const csv = [headers, ...rows]
+        .map((r) => r.map((c) => `"${c.replace(/"/g, '""')}"`).join(","))
+        .join("\n");
+      const blob = new Blob(["\ufeff" + csv], {
+        type: "text/csv;charset=utf-8;",
+      });
+      downloadBlob(
+        blob,
+        `sciath-findings-${new Date().toISOString().split("T")[0]}.csv`
+      );
+    } catch {
+      toast.error("Export failed");
+    } finally {
+      setExporting(false);
+    }
+  }
+
   if (isLoading) return <TableSkeleton rows={8} cols={5} />;
   if (error)
     return (
@@ -80,10 +103,34 @@ export default function FindingsPage() {
 
   return (
     <div className="p-4 space-y-3">
-      <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
-      <p className="text-xs text-muted-foreground">
-        {t("description")}
-      </p>
+      <div className="flex items-start justify-between">
+        <div>
+          <h1 className="text-2xl font-semibold font-serif">{t("title")}</h1>
+          <p className="text-xs text-muted-foreground">
+            {t("description")}
+          </p>
+        </div>
+        <Button
+          variant="outline"
+          size="sm"
+          className="h-7 text-xs gap-1.5"
+          onClick={exportToCsv}
+          disabled={exporting || filtered.length === 0}
+          title={filtered.length === 0 ? t("noFindingsToExport") : undefined}
+        >
+          {exporting ? (
+            <Loader2 className="h-3 w-3 animate-spin" />
+          ) : (
+            <Download className="h-3 w-3" />
+          )}
+          {showLimitWarning
+            ? t("exportCsvCount", {
+                loaded: filtered.length,
+                total: totalCount,
+              })
+            : t("exportCsv")}
+        </Button>
+      </div>
 
       <div className="flex items-center gap-2">
         <div className="relative flex-1 max-w-xs">

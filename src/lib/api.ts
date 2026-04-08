@@ -95,6 +95,11 @@ export const queryKeys = {
     craReadiness: (id: string) =>
       [...queryKeys.scans.all, id, "cra-readiness"] as const,
   },
+  components: {
+    all: ["components"] as const,
+    list: (params?: Record<string, string>) =>
+      [...queryKeys.components.all, "list", params] as const,
+  },
   assessments: {
     all: ["assessments"] as const,
     list: (params?: Record<string, string>) =>
