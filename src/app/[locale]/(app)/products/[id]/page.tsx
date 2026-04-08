@@ -1,8 +1,8 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
-import { ArrowLeft, ChevronRight, Download, Play } from "lucide-react";
+import { ArrowLeft, ChevronRight, Download, GitCompareArrows, Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useProject } from "@/hooks/use-projects";
 import { useScans, useCraReadiness } from "@/hooks/use-scans";
@@ -71,6 +71,16 @@ export default function ProductDetailPage() {
           </p>
         </div>
         <div className="flex gap-2">
+          <Link href={`/products/${id}/compare`}>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-7 text-xs gap-1.5"
+            >
+              <GitCompareArrows className="h-3 w-3" />
+              Compare
+            </Button>
+          </Link>
           <Button
             variant="outline"
             size="sm"

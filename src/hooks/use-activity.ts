@@ -3,9 +3,9 @@
 import { useQuery } from "@tanstack/react-query";
 import { queryKeys } from "@/lib/api";
 import { listActivity } from "@/services/activity";
-import type { PaginationParams } from "@/lib/api";
+import type { ActivityFilterParams } from "@/services/activity";
 
-export function useActivity(params?: PaginationParams) {
+export function useActivity(params?: ActivityFilterParams) {
   return useQuery({
     queryKey: queryKeys.activity.list(
       params as Record<string, string> | undefined

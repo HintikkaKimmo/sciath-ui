@@ -4,7 +4,8 @@ import { useCallback, useRef, useEffect, useState } from "react"
 import { useKeyboardTriage } from "@/hooks/use-keyboard-triage"
 import { Badge } from "@/components/ui/badge"
 import { Input } from "@/components/ui/input"
-import { Search } from "lucide-react"
+import { Search, History } from "lucide-react"
+import { AssessmentAuditModal } from "@/components/assessment-audit-modal"
 import {
   Select,
   SelectContent,
@@ -17,6 +18,7 @@ type Status = "affected" | "not_affected" | "under_investigation" | "fixed"
 
 interface CVE {
   id: string
+  assessmentId: string
   pkg: string
   cvss: number
   status: Status
@@ -66,6 +68,7 @@ interface TriageTableProps {
 
 export function TriageTable({ cves: initialCves, onStatusChange, onSelect }: TriageTableProps) {
   const [cves, setCves] = useState(initialCves)
+  const [auditCve, setAuditCve] = useState<CVE | null>(null)
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState("all")
   const [severityFilter, setSeverityFilter] = useState("all")
@@ -188,6 +191,7 @@ export function TriageTable({ cves: initialCves, onStatusChange, onSelect }: Tri
               <th className="text-left font-medium px-3 py-1.5">Layer</th>
               <th className="text-left font-medium px-3 py-1.5 w-28">Status</th>
               <th className="text-left font-medium px-3 py-1.5">Rationale</th>
+              <th className="w-8"></th>
             </tr>
           </thead>
           <tbody>
@@ -239,11 +243,30 @@ export function TriageTable({ cves: initialCves, onStatusChange, onSelect }: Tri
                     <span className="text-muted-foreground text-xs">—</span>
                   )}
                 </td>
+                <td className="px-2 py-1.5">
+                  <button
+                    onClick={(e) => { e.stopPropagation(); setAuditCve(cve); }}
+                    className="text-muted-foreground hover:text-foreground"
+                    title="Audit trail"
+                  >
+                    <History className="h-3.5 w-3.5" />
+                  </button>
+                </td>
               </tr>
             ))}
           </tbody>
         </table>
       </div>
+
+      {/* Audit trail modal */}
+      {auditCve && (
+        <AssessmentAuditModal
+          assessmentId={auditCve.assessmentId}
+          cveId={auditCve.id}
+          open={!!auditCve}
+          onOpenChange={(open) => { if (!open) setAuditCve(null); }}
+        />
+      )}
 
       {/* Footer with shortcuts */}
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 text-[11px] text-muted-foreground">

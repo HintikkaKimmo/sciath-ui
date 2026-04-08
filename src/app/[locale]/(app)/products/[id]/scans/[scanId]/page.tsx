@@ -42,6 +42,7 @@ export default function ScanDetailPage() {
   // Map assessments to TriageTable CVE format
   const cves = assessments.map((a) => ({
     id: a.vulnerability?.vuln_id ?? a.vulnerability_id,
+    assessmentId: a.id,
     pkg: a.vulnerability?.component?.name ?? "unknown",
     cvss: a.vulnerability?.cvss_score ?? 0,
     status: a.status as Status,

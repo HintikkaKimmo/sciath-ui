@@ -2,7 +2,7 @@
 
 import { Link } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
-import { User, Key, Users, Filter, ChevronRight } from "lucide-react";
+import { User, Key, Users, Filter, ClipboardList, ChevronRight } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/use-auth";
@@ -13,6 +13,7 @@ export default function SettingsPage() {
   const tTeam = useTranslations("settings.team");
   const tApiKeys = useTranslations("settings.apiKeys");
   const tFilters = useTranslations("settings.filters");
+  const tAudit = useTranslations("settings.audit");
 
   const sections = [
     {
@@ -32,6 +33,12 @@ export default function SettingsPage() {
       desc: t("filterPoliciesDescription"),
       href: "/settings/filters" as const,
       icon: Filter,
+    },
+    {
+      title: tAudit("title"),
+      desc: t("auditDescription"),
+      href: "/settings/audit" as const,
+      icon: ClipboardList,
     },
   ];
 

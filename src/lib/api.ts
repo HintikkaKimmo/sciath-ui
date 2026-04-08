@@ -140,6 +140,11 @@ export const queryKeys = {
     members: () => [...queryKeys.team.all, "members"] as const,
     invites: () => [...queryKeys.team.all, "invites"] as const,
   },
+  compare: {
+    all: ["compare"] as const,
+    detail: (projectId: string, fromId: string, toId: string) =>
+      [...queryKeys.compare.all, projectId, fromId, toId] as const,
+  },
   apiKeys: {
     all: ["apiKeys"] as const,
     list: () => [...queryKeys.apiKeys.all, "list"] as const,
@@ -147,5 +152,9 @@ export const queryKeys = {
   me: {
     all: ["me"] as const,
     profile: () => [...queryKeys.me.all, "profile"] as const,
+  },
+  trustCenter: {
+    all: ["trustCenter"] as const,
+    detail: (slug: string) => [...queryKeys.trustCenter.all, slug] as const,
   },
 } as const;

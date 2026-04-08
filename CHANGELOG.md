@@ -32,6 +32,11 @@ All notable changes to the Sciath UI will be documented in this file.
 - **PKCE helper** — `generateCodeVerifier()` and `generateCodeChallenge()` for OAuth2 PKCE S256
 - **Vitest test suite** — session secret validation, PKCE generation, test infrastructure
 - **PKCE API route** — `POST /api/auth/pkce` generates code_verifier (stored in iron-session) and returns code_challenge for frontend-initiated PKCE
+- **Audit log page** — settings sub-page with user/action/resource filters, paginated table with relative timestamps, and CSV export
+- **Build comparison page** — side-by-side scan diff showing new/resolved CVEs, status changes, and component additions/removals/upgrades with format mismatch warnings
+- **Public trust center page** — unauthenticated page showing CRA readiness grades per product with VEX and SBOM download buttons
+- **Assessment audit trail modal** — sheet panel on triage table rows showing immutable history of status/confidence changes per assessment
+- **Invite acceptance page** — email-linked page for team invite onboarding with token validation and accept flow
 
 ### Changed
 
