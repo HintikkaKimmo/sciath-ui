@@ -1,6 +1,7 @@
 import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar"
 import { AppSidebar } from "@/components/app-sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { Toaster } from "@/components/ui/sonner"
 
 export default function AppLayout({
   children,
@@ -19,6 +20,7 @@ export default function AppLayout({
           </SidebarInset>
         </div>
       </SidebarProvider>
+      <Toaster />
     </TooltipProvider>
   )
 }
