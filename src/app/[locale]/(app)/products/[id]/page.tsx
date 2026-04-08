@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Link } from "@/i18n/navigation";
 import { useParams } from "next/navigation";
 import { ArrowLeft, ChevronRight, Download, GitCompareArrows, Play } from "lucide-react";
@@ -8,6 +9,7 @@ import { useProject } from "@/hooks/use-projects";
 import { useScans, useCraReadiness } from "@/hooks/use-scans";
 import { DetailSkeleton } from "@/components/ui/data-skeleton";
 import { ErrorState } from "@/components/ui/error-state";
+import { NewScanDialog } from "@/components/new-scan-dialog";
 
 function getBarColor(v: number) {
   if (v >= 80) return "bg-emerald-500";
@@ -33,6 +35,7 @@ export default function ProductDetailPage() {
     project_id: id,
   });
 
+  const [showNewScan, setShowNewScan] = useState(false);
   const scans = scansData?.items ?? [];
   const latestScan = scans[0];
 
@@ -89,7 +92,7 @@ export default function ProductDetailPage() {
             <Download className="h-3 w-3" />
             Export
           </Button>
-          <Button size="sm" className="h-7 text-xs gap-1.5">
+          <Button size="sm" className="h-7 text-xs gap-1.5" onClick={() => setShowNewScan(true)}>
             <Play className="h-3 w-3" />
             New Scan
           </Button>
@@ -258,6 +261,12 @@ export default function ProductDetailPage() {
           )}
         </div>
       </div>
+
+      <NewScanDialog
+        projectId={id}
+        open={showNewScan}
+        onOpenChange={setShowNewScan}
+      />
     </div>
   );
 }
