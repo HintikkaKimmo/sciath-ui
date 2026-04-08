@@ -203,8 +203,8 @@ export default function AuditPage() {
                   >
                     {relativeTime(item.created_at)}
                   </td>
-                  <td className="px-3 py-2 text-xs font-mono">
-                    {item.user_id ?? "-"}
+                  <td className="px-3 py-2 text-xs">
+                    {(item as Record<string, unknown>).user_email as string ?? item.user_id ?? "-"}
                   </td>
                   <td className="px-3 py-2">
                     <span className="inline-block rounded bg-secondary px-1.5 py-0.5 text-xs">
