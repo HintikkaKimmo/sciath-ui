@@ -270,7 +270,8 @@
     "expired": "Diese Einladung ist abgelaufen",
     "invalid": "Ungültiger Einladungslink",
     "accepted": "Einladung angenommen! Weiterleitung zur Anmeldung...",
-    "loading": "Einladung wird überprüft..."
+    "loading": "Einladung wird überprüft...",
+    "errorGeneric": "Einladung konnte nicht überprüft werden. Bitte versuchen Sie es erneut oder wenden Sie sich an Ihren Administrator."
   },
   "landing": {
     "howItWorks": "How it works",

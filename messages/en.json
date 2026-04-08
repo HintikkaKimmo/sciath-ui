@@ -304,7 +304,8 @@
     "expired": "This invitation has expired",
     "invalid": "Invalid invitation link",
     "accepted": "Invitation accepted! Redirecting to login...",
-    "loading": "Validating invitation..."
+    "loading": "Validating invitation...",
+    "errorGeneric": "Could not validate invitation. Please try again or contact your administrator."
   },
   "landing": {
     "howItWorks": "How it works",

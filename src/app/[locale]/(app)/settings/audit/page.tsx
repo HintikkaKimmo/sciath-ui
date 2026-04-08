@@ -12,6 +12,13 @@ import type { ActivityFilterParams } from "@/services/activity";
 
 const PAGE_SIZE = 50;
 
+function formatAction(action: string): string {
+  return action
+    .toLowerCase()
+    .replace(/_/g, " ")
+    .replace(/\b\w/g, (c) => c.toUpperCase());
+}
+
 function relativeTime(dateStr: string): string {
   const now = Date.now();
   const then = new Date(dateStr).getTime();
@@ -124,11 +131,16 @@ export default function AuditPage() {
           className="px-2 py-1 text-sm border rounded bg-background"
         >
           <option value="">{t("allActions")}</option>
-          <option value="create">create</option>
-          <option value="update">update</option>
-          <option value="delete">delete</option>
-          <option value="login">login</option>
-          <option value="export">export</option>
+          <option value="PROJECT_CREATED">Project Created</option>
+          <option value="SCAN_CREATED">Scan Created</option>
+          <option value="SCAN_ANALYSIS_TRIGGERED">Scan Analysed</option>
+          <option value="ASSESSMENT_REVIEWED">Assessment Reviewed</option>
+          <option value="ASSESSMENT_APPROVED">Assessment Approved</option>
+          <option value="REPORT_GENERATED">Report Generated</option>
+          <option value="REPORT_DOWNLOADED">Report Downloaded</option>
+          <option value="LOGIN">Login</option>
+          <option value="API_KEY_CREATED">API Key Created</option>
+          <option value="TEAM_MEMBER_INVITED">Member Invited</option>
         </select>
         <select
           value={resourceType}
@@ -196,7 +208,7 @@ export default function AuditPage() {
                   </td>
                   <td className="px-3 py-2">
                     <span className="inline-block rounded bg-secondary px-1.5 py-0.5 text-xs">
-                      {item.action}
+                      {formatAction(item.action)}
                     </span>
                   </td>
                   <td className="px-3 py-2 text-xs">{item.resource_type}</td>

@@ -29,6 +29,7 @@ function InviteAcceptContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const t = useTranslations("invite");
+  const tc = useTranslations("common");
   const token = searchParams.get("token");
 
   const [state, setState] = useState<InviteState>(
@@ -161,13 +162,13 @@ function InviteAcceptContent() {
       {state.status === "error" && (
         <div className="text-center space-y-4">
           <AlertCircle className="mx-auto h-12 w-12 text-red-600" />
-          <p className="text-sm text-muted-foreground">{state.message}</p>
+          <p className="text-sm text-muted-foreground">{t("errorGeneric")}</p>
           <Button
             variant="outline"
             className="w-full"
             onClick={() => window.location.reload()}
           >
-            {t("accept")}
+            {tc("retry")}
           </Button>
         </div>
       )}
