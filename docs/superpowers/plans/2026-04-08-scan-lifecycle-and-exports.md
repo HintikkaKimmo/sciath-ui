@@ -661,3 +661,217 @@ git commit -m "chore(i18n): add German translations for scan lifecycle features"
 
 Tasks 1, 3, 4, 5, 7, 8 are independent and can be parallelized.
 Tasks 2 depends on 1. Task 6 depends on 4 and 5. Task 9 is final.
+
+---
+
+## Design Review Decisions (2026-04-08)
+
+The following design decisions were made during /plan-design-review and MUST be followed during implementation.
+
+### D1. SBOM Upload Dialog — Reorder fields + reuse file-upload.tsx
+
+Reorder the dialog fields to match the analyst's mental model:
+
+1. **SBOM drop zone first** (large, prominent) — reuse `src/components/upload/file-upload.tsx` which already has drag-and-drop, progress bar, format detection, error states. Extend it to support single-file mode and provide file content as text via callback.
+2. **Version label second** (required metadata input)
+3. **Optional files collapsed** under "Advanced Options" disclosure (Kconfig, DTB, filter policy)
+4. **Analysis Settings in a callout box** — carry-forward checkbox is compliance-critical (controls whether prior analyst triage is preserved or silently lost). Elevate it visually, not a buried checkbox at the bottom.
+
+On SBOM format auto-detect failure: highlight the format dropdown and prompt "Could not detect format. Please select manually." Don't require re-upload.
+
+### D2. Status-aware tab defaults on scan detail
+
+The default tab/view depends on scan status:
+- `draft/failed` → Status banner is primary content, tabs hidden or dimmed
+- `analysing` → Phased progress view (see D4), tabs visible but secondary
+- `triage/complete` → Assessments tab active by default. Reports tab gets a notification badge when reports are ready.
+
+### D3. Full interaction state coverage
+
+Every new component must specify these states:
+
+| Feature | Loading | Empty | Error | Success | Partial |
+|---------|---------|-------|-------|---------|---------|
+| Upload dialog file read | Spinner inside drop zone with filename | N/A | Inline banner + retry | Filename shown in file list | — |
+| Upload dialog submit | "Creating..." button disabled | — | Inline error banner below form | Redirect to scan detail | — |
+| Analysis polling | Phased progress (D4) | — | Error message + "Retry" button + download raw SBOM option | Transition to triage view | Live counters during processing |
+| Components tab | `TableSkeleton` | "No components found. Run analysis to process the SBOM." + CTA button if draft | `ErrorState` with retry | Table renders | — |
+| Reports tab | `TableSkeleton` | "No reports yet. Generate your first compliance report." + Generate button as primary CTA | `ErrorState` with retry | Table renders | Mixed: 1 generating + 2 ready (show both in table) |
+| CSV export | Button shows spinner, disabled during export | Button disabled + tooltip "No findings match current filters" | Toast notification with retry action | File downloads, button resets to normal | — |
+| SBOM/VEX export | DropdownMenu item shows spinner for active format | — | Toast notification with retry | File downloads | — |
+
+### D4. Phased analysis progress
+
+Replace the single spinner with a phased progress indicator:
+
+- **Phases:** "Parsing SBOM" → "Matching CVEs" → "Scoring vulnerabilities" → "Complete"
+- **Progress bar** based on component/CVE counts from the polling endpoint (`useScanStatus`)
+- **Live counter:** "847 components, 341 CVEs processed so far"
+- **`aria-live="polite"`** on the progress region for screen reader updates
+- **On completion:** brief success state (1-2s) with checkmark before transitioning to triage view with assessments
+
+### D5. Use shadcn Tabs + DropdownMenu
+
+- **Tabs:** Replace hand-rolled `<button>` tab bar with shadcn `Tabs` component. Gets keyboard nav (arrow keys) and ARIA (`role="tablist"`, `role="tab"`, `role="tabpanel"`) for free.
+- **Export dropdown:** Replace vague "div with relative positioning or select" with shadcn `DropdownMenu`. The export button in the scan detail header triggers a proper dropdown.
+- **Tab state in URL:** Use `useSearchParams` (not `useState`) for the active tab. This makes tabs bookmarkable and shareable per DESIGN.md rule 5. Example URL: `/products/abc/scans/xyz?tab=reports`
+
+### D6. DESIGN.md compliance
+
+All new tables and components MUST include:
+
+- **`font-mono`** (Geist Mono) on CPE strings, CVE-IDs, version strings in Components tab
+- **`tabular-nums`** on CVSS score columns and any numeric data
+- **`border-l-4`** severity left-border on component/assessment table rows (color-coded per DESIGN.md severity palette)
+- **Status badges with icon prefix** — use CheckCircle2/AlertCircle/Clock icons alongside color for color-blind accessibility (DESIGN.md rule 4)
+- **`overflow-x-auto`** wrapper on ALL data tables (DESIGN.md rule 7)
+- **Dialog radius:** `rounded-xl` (12px, `--radius-xl` token)
+
+### D7. CSV export shows visible limitation
+
+The "Export CSV" button must show the count: **"Export CSV (500 of 3,241)"** when total exceeds loaded count. If total > loaded, show a confirmation before exporting: "This exports the current view only (500 items). For a complete export, use the scan-level VEX/SBOM export on the scan detail page."
+
+### D8. Report generation throttle
+
+- Disable the specific format option in the DropdownMenu while that format is generating
+- Other formats remain available for concurrent generation
+- Reports table shows "Generating..." status with `Loader2` spinner for in-progress items
+- Failed reports show error status with "Retry" action
+
+### D9. Fix existing i18n bug in scan detail
+
+The scan detail page (`src/app/[locale]/(app)/products/[id]/scans/[scanId]/page.tsx` line 2) imports `Link` from `"next/link"` instead of `"@/i18n/navigation"`. Fix this in the first task that touches this file (Task 3).
+
+### D10. Responsive + Accessibility
+
+- **Dialog:** Full viewport on mobile (`max-h-[90vh]` with internal scroll), touch-friendly drop zone (44px min touch targets)
+- **Tables:** `overflow-x-auto` wrapper. On narrow viewports, consider hiding low-priority columns (License, Identity Review) behind a "more" expansion
+- **Tab bar:** `overflow-x-auto` on the tab list for long translated labels (German tends 30% longer)
+- **Drop zone:** `role="button"` with `tabIndex={0}`, keyboard activation via Enter/Space
+- **Progress region:** `aria-live="polite"` region wrapping the analysis progress
+- **Form fields:** `aria-required="true"` on required inputs, `aria-invalid="true"` + `aria-describedby` on fields with validation errors
+- **Export DropdownMenu:** Handled by shadcn (keyboard + ARIA included)
+
+---
+
+## NOT in design scope (explicitly deferred)
+
+1. **Backend CSV endpoint for full findings export** — Client-side CSV with visible limitation warning for now
+2. **Tab-specific keyboard shortcuts** — shadcn Tabs arrow keys are sufficient; existing j/k/a/n/f/u work in Assessments tab
+3. **Report format previews** — No thumbnail of what each format produces
+4. **Scan comparison from tab view** — Separate compare page exists at `/products/[id]/compare`
+
+## Existing components to reuse
+
+| Component | Path | Use for |
+|-----------|------|---------|
+| FileUpload | `src/components/upload/file-upload.tsx` | SBOM drop zone (extend for single-file + text content callback) |
+| TableSkeleton | `src/components/ui/data-skeleton.tsx` | Loading state for Components + Reports tabs |
+| DetailSkeleton | `src/components/ui/data-skeleton.tsx` | Loading state for scan detail page |
+| ErrorState | `src/components/ui/error-state.tsx` | Error state for all tab data fetches |
+| EmptyState | `src/components/ui/empty-state.tsx` | Empty state for Components + Reports tabs |
+| Status badges | `src/app/[locale]/(app)/findings/page.tsx` | Reuse `statusStyle` pattern for report status badges |
+| Severity colors | `src/app/[locale]/(app)/findings/page.tsx` | Reuse `getCvssColor`/`getSeverityBar` (consider extracting to shared util) |
+
+## Eng Review Decisions (2026-04-08)
+
+The following decisions were made during /plan-eng-review and MUST be followed during implementation.
+
+### E1. Prerequisite: Install shadcn Tabs + DropdownMenu
+
+Before any implementation, run:
+```bash
+npx shadcn@latest add tabs dropdown-menu
+```
+These are required for Task 6 (tab switching) and Task 8 (export dropdown).
+
+### E2. ScanCreateSchema — pass empty strings for defaults
+
+All fields in `ScanCreateSchema` are required in TypeScript (Django sets defaults server-side as `""`). The `createScan()` call must explicitly pass:
+```tsx
+status: "draft",
+sbom_format: sbomFormat || "",
+kconfig_raw: kconfigContent || "",
+dtb_raw: dtbContent || "",
+depgraph_raw: "",
+custom_filter_raw: filterContent || "",
+yocto_machine: "",
+yocto_distro: "",
+kernel_version: "",
+```
+Verified against Django schema at `api/routers/scans_crud.py:37-50`. Empty strings ARE the server defaults.
+
+### E3. Extend FileUpload component (not create new)
+
+Add two new optional props to `src/components/upload/file-upload.tsx`:
+- `multiple?: boolean` (default `true`, set `false` for SBOM upload)
+- `onFileContent?: (content: string, filename: string) => void` (reads file as text and passes content)
+
+Existing callers are unaffected (both props are optional with backwards-compatible defaults).
+
+### E4. Extract downloadBlob() utility
+
+Add to `src/lib/utils.ts`:
+```tsx
+export function downloadBlob(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = filename;
+  a.click();
+  URL.revokeObjectURL(url);
+}
+```
+Used by: reports-tab.tsx (Task 5), scan detail export (Task 8), findings CSV (Task 7).
+
+### E5. Extract severity/status styling to shared util
+
+Move from `src/app/[locale]/(app)/findings/page.tsx` to `src/lib/severity.ts`:
+- `statusStyle` record
+- `getCvssColor(cvss: number): string`
+- `getSeverityBar(cvss: number): string`
+
+Update findings/page.tsx to import from the new location. New components (components-tab, reports-tab) import from there too.
+
+### E6. Toast notifications for download/export failures
+
+All download/export calls (downloadReport, exportEvidence, CSV export, SBOM/VEX export) must be wrapped in try-catch with user-visible error feedback. Use `window.alert()` or install shadcn Toast (`npx shadcn@latest add toast`) for a polished experience.
+
+### E7. Report polling timeout (5 minutes)
+
+In reports-tab.tsx, track polling start time. After 5 minutes of polling with no status change from "generating", stop polling and show: "Report is taking longer than expected. Check back later or retry."
+
+### E8. German translations deferred
+
+Task 9 adds keys to `messages/en.json` only. German translations (`messages/de.json`) are deferred to a follow-up with a human translator. next-intl falls back to English for missing keys.
+
+### E9. Add Playwright E2E test
+
+Add `tests/e2e/scan-lifecycle.spec.ts` covering:
+- Create scan via SBOM upload dialog
+- Trigger analysis and see progress
+- Switch between tabs (assessments, components, reports)
+- Generate and download a report
+- Export VEX/SBOM from dropdown
+
+Follow the pattern in `tests/e2e/incidents.spec.ts`.
+
+### E10. Task dependency order note
+
+Task 6 (tab shell) can be built early since it's just the Tabs container with empty panes. Tasks 4 and 5 (components/reports tabs) are standalone components that slot in. Either order works. The plan's dependency (6 after 4,5) is valid but not strictly necessary.
+
+---
+
+## GSTACK REVIEW REPORT
+
+| Review | Trigger | Why | Runs | Status | Findings |
+|--------|---------|-----|------|--------|----------|
+| CEO Review | `/plan-ceo-review` | Scope & strategy | 0 | — | — |
+| Codex Review | `/codex review` | Independent 2nd opinion | 2 | issues_found | Outside voice from Claude subagent |
+| Eng Review | `/plan-eng-review` | Architecture & tests (required) | 2 | CLEAR (PLAN) | 8 issues, 1 critical gap |
+| Design Review | `/plan-design-review` | UI/UX gaps | 1 | CLEAR (FULL) | score: 5/10 → 9/10, 12 decisions |
+| DX Review | `/plan-devex-review` | Developer experience gaps | 0 | — | — |
+
+- **CROSS-MODEL:** Outside voice flagged 7 items. 4 resolved (empty strings verified against Django, file size limit exists, services verified by E2E). 2 accepted (polling timeout added, German deferred). 1 noted (client-side CSV is intentional short-term, in TODOS).
+- **UNRESOLVED:** 0 decisions across all reviews
+- **VERDICT:** ENG + DESIGN CLEARED — ready to implement
