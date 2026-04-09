@@ -6,6 +6,26 @@ All notable changes to the Sciath UI will be documented in this file.
 
 ### Added
 
+- **SBOM upload dialog** on product detail page — drag-and-drop file upload, SBOM format override, optional kconfig/DTB/custom filter under Advanced Options, analysis settings callout with carry-forward checkbox
+- **Analysis trigger + phased progress** — Run Analysis button for draft/failed scans, phased progress indicator (Parsing SBOM → Matching CVEs → Scoring → Complete) with live counters during analysis
+- **Scan detail tabs** — Assessments, Components, and Reports tabs using shadcn Tabs with URL-based state (`?tab=reports`) for bookmarkable tab selection
+- **Components tab** — table of scan components with type filter, identity review badges, CPE/version in monospace
+- **Reports tab** — report generation with format dropdown, polling with 5-minute timeout, download with toast error handling, retry for failed reports
+- **Export dropdown** on scan detail — VEX (CycloneDX), SBOM (CycloneDX/SPDX), SBOM+VEX, SARIF, and Evidence Pack (ZIP) downloads via shadcn DropdownMenu
+- **Findings CSV export** — client-side CSV generation with visible limitation warning ("Export CSV (500 of 3,241)") and confirmation when total exceeds loaded count
+- **Shared severity utilities** — extracted `statusStyle`, `getCvssColor`, `getSeverityBar` to `src/lib/severity.ts` for cross-component reuse
+- **Download blob utility** — extracted `downloadBlob()` to `src/lib/utils.ts` for DRY file download pattern
+- **Playwright E2E tests** for scan lifecycle — new scan dialog, tab switching, export dropdown, CSV export, status banner, API health checks
+- **TODOS.md** — tracking deferred items: backend OpenAPI schema fix, Vitest component tests, backend CSV endpoint
+
+### Changed
+
+- **Scan detail page rewrite** — fixed i18n Link import (`next/link` → `@/i18n/navigation`), added status-aware rendering (draft/failed → banner, analysing → progress, triage/complete → tabs)
+- **FileUpload component extended** — new `multiple` and `onFileContent` props for single-file text content mode, backwards compatible
+- **Findings page** — imports severity utilities from shared module instead of local definitions
+
+### Added (prior)
+
 - **Landing page** ported from v0 prototype — hero, CRA deadline banner, noise problem, how-it-works, filter pipeline, triage mockup, output formats, accuracy, contact form, footer
 - **Custom BFF auth** with iron-session — OAuth proxy, token refresh middleware, session management
 - **App shell** with shadcn sidebar — collapsible nav, user profile, sign out
