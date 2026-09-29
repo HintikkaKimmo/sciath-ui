@@ -15,8 +15,11 @@ describe("getSessionSecret", () => {
   it("throws in production if SESSION_SECRET is missing", async () => {
     process.env = { ...process.env, NODE_ENV: "production" };
     delete process.env.SESSION_SECRET;
-    const { getSessionSecret } = await import("@/lib/session");
+    const { getSessionSecret, sessionOptions } = await import("@/lib/session");
     expect(() => getSessionSecret()).toThrow(
+      "SESSION_SECRET environment variable is required"
+    );
+    expect(() => sessionOptions.password).toThrow(
       "SESSION_SECRET environment variable is required"
     );
   });
@@ -27,8 +30,9 @@ describe("getSessionSecret", () => {
       NODE_ENV: "production",
       SESSION_SECRET: "a".repeat(32),
     };
-    const { getSessionSecret } = await import("@/lib/session");
+    const { getSessionSecret, sessionOptions } = await import("@/lib/session");
     expect(getSessionSecret()).toBe("a".repeat(32));
+    expect(sessionOptions.password).toBe("a".repeat(32));
   });
 
   it("uses dev fallback when SESSION_SECRET is missing in development", async () => {
