@@ -60,7 +60,7 @@ export function FilterLayers() {
             <span className="text-primary">Zero false negatives.</span>
           </h2>
           <p className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-background/70">
-            Each layer removes CVEs that demonstrably cannot affect your device. 
+            Each layer removes CVEs that demonstrably cannot affect your device.
             When evidence is missing, the CVE stays. When in doubt, include.
           </p>
         </div>
@@ -78,7 +78,7 @@ export function FilterLayers() {
                 <span className="font-mono text-2xl font-bold text-background">{startingCVEs}</span>
               </div>
               <div className="mt-2 h-3 w-full overflow-hidden rounded-full bg-background/10">
-                <div 
+                <div
                   className="h-full rounded-full bg-primary transition-all duration-1000"
                   style={{ width: '100%' }}
                 />
@@ -93,7 +93,7 @@ export function FilterLayers() {
           {pipeline.map((stage, index) => {
             const percentRemaining = Math.round((stage.remaining / startingCVEs) * 100)
             const prevRemaining = index === 0 ? startingCVEs : pipeline[index - 1].remaining
-            
+
             return (
               <div key={stage.name}>
                 <div className="flex gap-4">
@@ -125,10 +125,10 @@ export function FilterLayers() {
                           </div>
                         </div>
                       </div>
-                      
+
                       {/* Progress bar */}
                       <div className="mt-4 h-2 w-full overflow-hidden rounded-full bg-background/10">
-                        <div 
+                        <div
                           className="h-full rounded-full bg-primary transition-all duration-700"
                           style={{ width: `${percentRemaining}%` }}
                         />
@@ -151,7 +151,7 @@ export function FilterLayers() {
 
           {/* Final output */}
           <div className="ml-7 h-6 w-px border-l-2 border-dashed border-background/30" />
-          
+
           <div className="flex items-center gap-4">
             <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full border-2 border-primary bg-primary">
               <span className="font-mono text-lg font-bold text-primary-foreground">OUT</span>

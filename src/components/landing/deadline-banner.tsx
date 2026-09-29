@@ -11,7 +11,7 @@ export function DeadlineBanner() {
             </div>
             <span className="text-xs font-medium uppercase tracking-widest text-muted-foreground">CRA Deadline</span>
           </div>
-          
+
           <p className="max-w-2xl text-sm leading-relaxed text-muted-foreground">
             <span className="font-medium text-foreground">Vulnerability reporting obligations begin September 2026.</span>{" "}
             Full Article 13 compliance required by December 2027. Filing requires a justified CVE assessment, not a raw scanner dump.

@@ -54,12 +54,12 @@ export function HowItWorks() {
               <span className="absolute -top-3 left-6 bg-card px-2 font-mono text-xs text-primary">
                 {step.number}
               </span>
-              
+
               {/* Icon */}
               <div className="mb-6 flex h-12 w-12 items-center justify-center rounded-xl bg-secondary transition-colors group-hover:bg-primary/10">
                 <step.icon className="h-6 w-6 text-foreground" />
               </div>
-              
+
               {/* Content */}
               <h3 className="mb-3 text-lg font-semibold text-foreground">
                 {step.title}

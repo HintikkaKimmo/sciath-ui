@@ -4,6 +4,10 @@ All notable changes to the Sciath UI will be documented in this file.
 
 ## [Unreleased]
 
+### Security
+
+- **Production session secret** — enforce the existing required-secret check in the cookie configuration, preventing use of the development fallback in production.
+
 ### Added
 
 - **SBOM upload dialog** on product detail page — drag-and-drop file upload, SBOM format override, optional kconfig/DTB/custom filter under Advanced Options, analysis settings callout with carry-forward checkbox
@@ -19,6 +23,8 @@ All notable changes to the Sciath UI will be documented in this file.
 - **TODOS.md** — tracking deferred items: backend OpenAPI schema fix, Vitest component tests, backend CSV endpoint
 
 ### Changed
+
+- **Responsive sidebar state** — subscribe to media-query changes with React's external-store API, preserving the desktop server-rendered default without synchronous state updates in an effect.
 
 - **Scan detail page rewrite** — fixed i18n Link import (`next/link` → `@/i18n/navigation`), added status-aware rendering (draft/failed → banner, analysing → progress, triage/complete → tabs)
 - **FileUpload component extended** — new `multiple` and `onFileContent` props for single-file text content mode, backwards compatible
